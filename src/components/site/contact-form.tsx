@@ -1,0 +1,145 @@
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Check } from "lucide-react";
+import { contact, site } from "@/lib/content";
+
+type Status = "idle" | "submitting" | "success";
+
+export function ContactForm() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  function update<K extends keyof typeof form>(key: K, value: string) {
+    setForm((f) => ({ ...f, [key]: value }));
+  }
+
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("submitting");
+    // No backend yet — open mail client with the message prefilled.
+    const subject = encodeURIComponent(`Ραντεβού — ${form.name}`);
+    const body = encodeURIComponent(
+      `Όνομα: ${form.name}\nEmail: ${form.email}\nΤηλέφωνο: ${form.phone}\n\n${form.message}`,
+    );
+    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+    setTimeout(() => setStatus("success"), 600);
+  }
+
+  if (status === "success") {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col items-start gap-6 py-12"
+      >
+        <span className="flex size-14 items-center justify-center rounded-full bg-cobalt/10">
+          <Check className="size-6 text-cobalt" strokeWidth={2} />
+        </span>
+        <h3 className="display text-3xl leading-[1.1] tracking-tight text-ink lg:text-4xl">
+          Ευχαριστούμε για την επικοινωνία.
+        </h3>
+        <p className="max-w-[44ch] text-base leading-relaxed text-ink-muted">
+          Ανοίξαμε τον email client σας με προσυμπληρωμένο μήνυμα. Θα
+          απαντήσουμε εντός λίγων ωρών — για άμεσο ραντεβού καλέστε{" "}
+          <a
+            href={`tel:${site.phone}`}
+            className="text-cobalt underline-offset-4 hover:underline"
+          >
+            {site.phoneDisplay}
+          </a>
+          .
+        </p>
+      </motion.div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="grid gap-6">
+      <Field label={contact.fields.name} name="name">
+        <input
+          required
+          type="text"
+          value={form.name}
+          onChange={(e) => update("name", e.target.value)}
+          className="w-full border-b border-stone-dark/50 bg-transparent py-3 text-lg text-ink outline-none transition-colors placeholder:text-ink-muted/50 focus:border-cobalt"
+          placeholder="Το όνομά σας"
+        />
+      </Field>
+      <Field label={contact.fields.email} name="email">
+        <input
+          required
+          type="email"
+          value={form.email}
+          onChange={(e) => update("email", e.target.value)}
+          className="w-full border-b border-stone-dark/50 bg-transparent py-3 text-lg text-ink outline-none transition-colors placeholder:text-ink-muted/50 focus:border-cobalt"
+          placeholder="email@example.com"
+        />
+      </Field>
+      <Field label={contact.fields.phone} name="phone">
+        <input
+          required
+          type="tel"
+          value={form.phone}
+          onChange={(e) => update("phone", e.target.value)}
+          className="w-full border-b border-stone-dark/50 bg-transparent py-3 text-lg text-ink outline-none transition-colors placeholder:text-ink-muted/50 focus:border-cobalt"
+          placeholder="69 ..."
+        />
+      </Field>
+      <Field label={contact.fields.message} name="message">
+        <textarea
+          required
+          rows={5}
+          value={form.message}
+          onChange={(e) => update("message", e.target.value)}
+          className="w-full resize-none border-b border-stone-dark/50 bg-transparent py-3 text-lg text-ink outline-none transition-colors placeholder:text-ink-muted/50 focus:border-cobalt"
+          placeholder="Περιγράψτε σύντομα την κατάστασή σας."
+        />
+      </Field>
+
+      <div className="mt-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+        <p className="text-xs text-ink-muted">
+          Απαντάμε εντός λίγων ωρών. Δωρεάν αξιολόγηση μέσω τηλεφώνου.
+        </p>
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-medium text-snow transition-all duration-500 hover:bg-cobalt disabled:opacity-60"
+        >
+          <span>
+            {status === "submitting" ? "Αποστολή..." : contact.fields.submit}
+          </span>
+          <ArrowRight
+            className="size-4 transition-transform duration-500 group-hover:translate-x-1"
+            strokeWidth={1.5}
+          />
+        </button>
+      </div>
+    </form>
+  );
+}
+
+function Field({
+  label,
+  name,
+  children,
+}: {
+  label: string;
+  name: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <label htmlFor={name} className="block">
+      <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
+        {label}
+      </span>
+      <div className="mt-2">{children}</div>
+    </label>
+  );
+}

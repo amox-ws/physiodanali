@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
+@theme {
+  /* Surfaces — warm white that reads expensive, not sterile */
+  --color-porcelain: #f7f8fa;
+  --color-mist: #eef1f4;
+  --color-snow: #ffffff;
+
+  /* Inks — deep navy that reads as authority, not coldness */
+  --color-ink: #0a1628;
+  --color-ink-soft: #182a44;
+  --color-ink-muted: #4a5a72;
+
+  /* Brand blues — restrained, premium medical */
+  --color-navy: #0f2540;
+  --color-cobalt: #1e4d8b;
+  --color-azure: #2563b0;
+  --color-sky: #7ea8dc;
+  --color-sky-soft: #cdddef;
+
+  /* Single warm accent */
+  --color-gold: #b89968;
+  --color-gold-soft: #e6d9bf;
+
+  /* Neutrals */
+  --color-stone: #dde3ea;
+  --color-stone-dark: #a8b0bb;
+
+  /* Typography */
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --tracking-tightest: -0.04em;
+  --tracking-display: -0.025em;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light only;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-porcelain);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-cobalt);
+  color: var(--color-snow);
+}
+
+/* Typography presets */
+.display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: var(--tracking-display);
+  line-height: 0.95;
+}
+
+.display-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: var(--tracking-display);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  color: var(--color-cobalt);
+}
+
+/* Grain overlay removed for performance — was causing scroll jank.
+   If we want texture later, we can apply it as a static PNG bg-image on
+   specific small surfaces rather than full-bleed live SVG filter. */
+
+/* Hairline rule used as section divider */
+.rule {
+  height: 1px;
+  background: var(--color-stone);
+  width: 100%;
+}
+
+/* CSS-driven marquee — runs on the compositor, not Framer's RAF.
+   Pause is controlled via `animation-play-state` based on viewport. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee {
+  animation: marquee 38s linear infinite;
+}
+
+/* Scroll cue — small CSS bob, runs on compositor without JS RAF. */
+@keyframes scroll-cue {
+  0%, 100% { transform: translate3d(-50%, 0, 0); }
+  50% { transform: translate3d(-50%, 6px, 0); }
+}
+.scroll-cue {
+  animation: scroll-cue 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* content-visibility removed — was causing extra layout work on
+   navigation as the browser revalidated each section's intersection
+   on every transition. Native scroll is fast enough without it. */
+
+/* Motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .marquee,
+  .scroll-cue {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

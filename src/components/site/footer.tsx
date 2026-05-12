@@ -1,0 +1,231 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { footer, nav, site } from "@/lib/content";
+import { Reveal } from "@/components/motion/reveal";
+
+function InstagramIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    </svg>
+  );
+}
+
+function YouTubeIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33Z" />
+      <polygon
+        points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer className="relative isolate overflow-hidden bg-ink text-snow">
+      <div className="mx-auto max-w-[1400px] px-6 pb-12 pt-24 lg:px-10 lg:pb-14 lg:pt-32">
+        <Reveal>
+          <div className="grid gap-14 lg:grid-cols-12">
+            <div className="lg:col-span-6">
+              <h2 className="display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.025em]">
+                Πόνος δεν περιμένει.
+                <br />
+                <span className="display-italic text-gold">Ούτε εμείς.</span>
+              </h2>
+              <p className="mt-8 max-w-[44ch] text-base leading-relaxed text-snow/65">
+                Φυσικοθεραπεία και χειροπρακτική κατ&apos; οίκον σε Βούλα,
+                Βουλιαγμένη, Βάρη και Γλυφάδα.
+              </p>
+              <div className="mt-10 flex gap-3">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
+                >
+                  Κλείστε ραντεβού
+                </Link>
+                <a
+                  href={`tel:${site.phone}`}
+                  className="inline-flex items-center rounded-full border border-snow/20 px-6 py-3 text-sm text-snow transition-all hover:border-snow/60"
+                >
+                  Καλέστε τώρα
+                </a>
+              </div>
+            </div>
+            <div className="grid gap-10 sm:grid-cols-3 lg:col-span-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
+                  Πλοήγηση
+                </p>
+                <ul className="mt-5 space-y-3 text-sm">
+                  {nav.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="transition-colors hover:text-gold"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
+                  Επικοινωνία
+                </p>
+                <ul className="mt-5 space-y-3 text-sm text-snow/85">
+                  <li>
+                    <a
+                      href={`tel:${site.phone}`}
+                      className="transition-colors hover:text-gold"
+                    >
+                      {site.phoneDisplay}
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={`mailto:${site.email}`}
+                      className="transition-colors hover:text-gold"
+                    >
+                      {site.email}
+                    </a>
+                  </li>
+                  <li className="text-snow/65">{site.address}</li>
+                  <li className="text-snow/65">{site.hoursShort}</li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
+                  Social
+                </p>
+                <ul className="mt-5 flex gap-3">
+                  <li>
+                    <SocialLink href={site.social.instagram} label="Instagram">
+                      <InstagramIcon />
+                    </SocialLink>
+                  </li>
+                  <li>
+                    <SocialLink href={site.social.facebook} label="Facebook">
+                      <FacebookIcon />
+                    </SocialLink>
+                  </li>
+                  <li>
+                    <SocialLink href={site.social.youtube} label="YouTube">
+                      <YouTubeIcon />
+                    </SocialLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+
+      {/* Massive wordmark */}
+      <Reveal>
+        <div className="overflow-hidden border-t border-snow/10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className="mx-auto max-w-[1400px] px-6 lg:px-10"
+          >
+            <p
+              className="display whitespace-nowrap py-10 text-[clamp(4rem,18vw,18rem)] leading-[0.85] tracking-[-0.04em] text-snow/85 lg:py-16"
+              aria-hidden="true"
+            >
+              PhysioDanali<span className="text-gold">.</span>
+            </p>
+          </motion.div>
+        </div>
+      </Reveal>
+
+      <div className="border-t border-snow/10">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-4 px-6 py-6 text-xs text-snow/50 lg:flex-row lg:items-center lg:px-10">
+          <span>{footer.legal}</span>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {footer.links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="transition-colors hover:text-snow"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function SocialLink({
+  href,
+  label,
+  children,
+}: {
+  href: string;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className="flex size-10 items-center justify-center rounded-full border border-snow/15 transition-all hover:border-gold hover:text-gold"
+    >
+      {children}
+    </a>
+  );
+}
