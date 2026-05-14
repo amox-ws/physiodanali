@@ -14,6 +14,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     { url: `${SITE_URL}/kyphosis`, priority: 0.9, changeFrequency: "monthly" },
     { url: `${SITE_URL}/lymphatic`, priority: 0.9, changeFrequency: "monthly" },
+    {
+      url: `${SITE_URL}/clinical-pilates`,
+      priority: 0.9,
+      changeFrequency: "monthly",
+    },
     { url: `${SITE_URL}/home-care`, priority: 0.95, changeFrequency: "monthly" },
     { url: `${SITE_URL}/about`, priority: 0.7, changeFrequency: "monthly" },
     { url: `${SITE_URL}/articles`, priority: 0.8, changeFrequency: "weekly" },
