@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { footer, nav, site } from "@/lib/content";
@@ -167,7 +168,7 @@ export function Footer() {
         </Reveal>
       </div>
 
-      {/* Massive wordmark */}
+      {/* Massive logo — transparent PNG over the dark footer bg, as-is */}
       <Reveal>
         <div className="overflow-hidden border-t border-snow/10">
           <motion.div
@@ -175,14 +176,16 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto max-w-[1400px] px-6 lg:px-10"
+            className="mx-auto flex max-w-[1400px] items-center px-6 py-14 lg:px-10 lg:py-20"
           >
-            <p
-              className="display whitespace-nowrap py-10 text-[clamp(4rem,18vw,18rem)] leading-[0.85] tracking-[-0.04em] text-snow/85 lg:py-16"
-              aria-hidden="true"
-            >
-              PhysioDanali<span className="text-gold">.</span>
-            </p>
+            <Image
+              src="/logo-v2.png"
+              alt="PhysioDanali — Orthopedic Physical Therapy"
+              width={1190}
+              height={190}
+              priority={false}
+              className="h-auto w-full select-none"
+            />
           </motion.div>
         </div>
       </Reveal>

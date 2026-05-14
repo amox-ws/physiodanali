@@ -49,7 +49,7 @@ export function Header() {
           className="group relative flex items-center"
         >
           <Image
-            src="/logo.png"
+            src="/logo-v2.png"
             alt="PhysioDanali"
             width={1190}
             height={190}
