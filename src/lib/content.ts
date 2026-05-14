@@ -27,14 +27,41 @@ export type NavItem = {
   href: string;
   label: string;
   shortLabel?: string;
+  /** When present, item renders as a dropdown trigger (desktop)
+   *  / expandable section (mobile). */
+  children?: NavItem[];
+  /** Optional one-line description shown in the dropdown panel. */
+  description?: string;
 };
 
 export const nav: NavItem[] = [
   { href: "/", label: "Αρχική" },
-  { href: "/chiropractic", label: "Χειροπρακτική" },
-  { href: "/kyphosis", label: "Κύφωση" },
-  { href: "/lymphatic", label: "Λεμφικό" },
-  { href: "/clinical-pilates", label: "Pilates" },
+  {
+    href: "/therapies",
+    label: "Θεραπείες",
+    children: [
+      {
+        href: "/chiropractic",
+        label: "Χειροπρακτική",
+        description: "Χειροπρακτική ανάταξη, manual therapy.",
+      },
+      {
+        href: "/kyphosis",
+        label: "Κύφωση",
+        description: "Διόρθωση κυφωτικής στάσης σε 20 συνεδρίες.",
+      },
+      {
+        href: "/lymphatic",
+        label: "Λεμφικό",
+        description: "Brazilian lymphatic drainage — αποτοξίνωση, σύσφιξη.",
+      },
+      {
+        href: "/clinical-pilates",
+        label: "Clinical Pilates",
+        description: "Θεραπευτική άσκηση εδάφους, εξατομικευμένη.",
+      },
+    ],
+  },
   { href: "/home-care", label: "Κατ' οίκον", shortLabel: "Κατ' οίκον" },
   { href: "/about", label: "Σχετικά" },
   { href: "/articles", label: "Άρθρα" },
@@ -646,6 +673,78 @@ export const lymphatic = {
       },
     ],
   },
+};
+
+// =====================================================================
+// THERAPIES OVERVIEW PAGE
+// =====================================================================
+
+export const therapies = {
+  meta: {
+    title: "Θεραπείες — Φυσικοθεραπεία & Χειροπρακτική στη Βούλα",
+    description:
+      "Όλες οι εξειδικευμένες θεραπείες του PhysioDanali: Χειροπρακτική, Κύφωση, Brazilian Lymphatic Drainage, Clinical Pilates. Στο ιατρείο ή κατ' οίκον.",
+  },
+  breadcrumb: "Θεραπείες",
+  hero: {
+    eyebrow: "Θεραπείες",
+    title: "Όλες οι εξειδικευμένες θεραπείες.",
+    titleAccent: "θεραπείες.",
+    lead: "Τέσσερις διακριτές προσεγγίσεις — χειροπρακτική, διόρθωση κύφωσης, λεμφικό μασάζ, clinical pilates. Επιλέγουμε μαζί ποια ή ποιες ταιριάζουν στη δική σας περίπτωση.",
+    primaryCta: { label: "Κλείστε αξιολόγηση", href: "/contact" },
+    secondaryCta: { label: "Καλέστε τώρα", href: "tel:+306944344342" },
+  },
+  intro: {
+    eyebrow: "Φιλοσοφία",
+    title: "Όχι μία τεχνική για όλους.",
+    body: "Κάθε σώμα είναι διαφορετικό — και κάθε ιστορικό απαιτεί συγκεκριμένη προσέγγιση. Στην πρώτη αξιολόγηση επιλέγουμε ποια θεραπεία ή συνδυασμός θεραπειών είναι ο πιο αποτελεσματικός για τη δική σας περίπτωση. Συχνά συνδυάζουμε δύο ή τρεις προσεγγίσεις στην ίδια συνεδρία.",
+  },
+  list: [
+    {
+      slug: "chiropractic",
+      href: "/chiropractic",
+      title: "Χειροπρακτική",
+      lead: "Αποκατάσταση πόνου και κινητικότητας μέσω χειροπρακτικής ανάταξης, manual therapy και νευροδυναμικής. Άμεση ανακούφιση σε αυχένα, μέση, ισχίο και ώμο.",
+      bullets: [
+        "Χειροπρακτική ανάταξη + manual therapy",
+        "Νευροδυναμική",
+        "Πρόγραμμα συντήρησης",
+      ],
+    },
+    {
+      slug: "kyphosis",
+      href: "/kyphosis",
+      title: "Κύφωση",
+      lead: "Διόρθωση κυφωτικής στάσης μέσω εξειδικευμένης ηλεκτροθεραπείας και στοχευμένης άσκησης. Ορατά αποτελέσματα σε 20 συνεδρίες — αισθητή διαφορά από τις πρώτες 4.",
+      bullets: [
+        "Διόρθωση στάσης",
+        "Στοχευμένη άσκηση",
+        "Ηλεκτροθεραπεία για κύφωση",
+      ],
+    },
+    {
+      slug: "lymphatic",
+      href: "/lymphatic",
+      title: "Brazilian Lymphatic Drainage",
+      lead: "Οι πιο εξελιγμένες τεχνικές λεμφικού μασάζ. Άμεσο αποτέλεσμα που κρατά έως 7 ημέρες — μετεγχειρητική αποκατάσταση, αποτοξίνωση, σύσφιξη, μείωση κατακράτησης.",
+      bullets: [
+        "20+ χρόνια εμπειρίας",
+        "Ανώδυνη — με σταθερή πίεση",
+        "Άμεσο αποτέλεσμα",
+      ],
+    },
+    {
+      slug: "clinical-pilates",
+      href: "/clinical-pilates",
+      title: "Clinical Pilates",
+      lead: "Εξατομικευμένη θεραπευτική άσκηση από Φυσικοθεραπευτή στο χώρο σας. Χωρίς reformer, χωρίς studio — για χρόνιους μυοσκελετικούς πόνους που δεν αντιμετωπίζονται με γενικές προσεγγίσεις.",
+      bullets: [
+        "Ασκήσεις εδάφους",
+        "Εξατομικευμένο πλάνο",
+        "Χωρίς εξοπλισμό",
+      ],
+    },
+  ],
 };
 
 // =====================================================================
@@ -1491,6 +1590,7 @@ export const footer = {
   legal: "© PhysioDanali. Όλα τα δικαιώματα διατηρούνται.",
   links: [
     { href: "/", label: "Αρχική" },
+    { href: "/therapies", label: "Θεραπείες" },
     { href: "/chiropractic", label: "Χειροπρακτική" },
     { href: "/kyphosis", label: "Κύφωση" },
     { href: "/lymphatic", label: "Λεμφικό" },
