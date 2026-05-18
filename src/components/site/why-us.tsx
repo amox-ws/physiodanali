@@ -1,18 +1,71 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { home } from "@/lib/content";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 
+// Floating crystalline shards — distinct from the Services orb scene.
+const WhyUsScene = dynamic(
+  () => import("@/components/three/why-us-scene").then((m) => m.WhyUsScene),
+  { ssr: false },
+);
+
 export function WhyUs() {
   const { whyUs } = home;
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mount3D, setMount3D] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setMount3D(true);
+            io.disconnect();
+            return;
+          }
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="why"
       aria-labelledby="why-heading"
-      className="relative bg-snow py-28 lg:py-40"
+      className="relative isolate overflow-hidden bg-snow py-28 lg:py-40"
     >
-      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+      {/* Subtle tonal wash so the 3D shards have some depth to play against */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-20"
+        style={{
+          background:
+            "radial-gradient(50% 60% at 80% 30%, rgba(30,77,139,0.06) 0%, transparent 60%), radial-gradient(40% 50% at 10% 80%, rgba(184,153,104,0.05) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* 3D shard field — masked to fade towards center where text lives */}
+      {mount3D && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 opacity-90 [mask-image:radial-gradient(80%_75%_at_50%_50%,transparent_0%,transparent_30%,black_85%)]"
+        >
+          <WhyUsScene />
+        </div>
+      )}
+
+      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10">
         <Reveal className="mb-20 grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <span className="eyebrow">{whyUs.eyebrow}</span>

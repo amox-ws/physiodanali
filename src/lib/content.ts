@@ -190,6 +190,12 @@ export type ServiceSummary = {
   tagline: string;
   bullets: string[];
   feature?: boolean;
+  /** Optional real image path. If absent, the card uses its gradient + watermark. */
+  image?: string;
+  /** Gradient used as image-placeholder background. */
+  gradient: string;
+  /** Initials watermark behind the gradient — usually 2-3 Greek letters. */
+  monogram: string;
 };
 
 export const serviceSummaries: ServiceSummary[] = [
@@ -205,7 +211,9 @@ export const serviceSummaries: ServiceSummary[] = [
       "Νευρολογική φυσικοθεραπεία",
       "Επανεκπαίδευση βάδισης",
     ],
-    feature: true,
+    gradient:
+      "linear-gradient(160deg, #1e4d8b 0%, #0f2540 60%, #0a1628 100%)",
+    monogram: "ΦΘ",
   },
   {
     slug: "chiropractic",
@@ -214,6 +222,9 @@ export const serviceSummaries: ServiceSummary[] = [
     tagline:
       "Αποκατάσταση πόνου και κινητικότητας με εξειδικευμένες χειροπρακτικές τεχνικές, στον δικό σας χώρο.",
     bullets: ["Χειροπρακτική ανάταξη", "Manual therapy", "Σπονδυλική στήλη"],
+    gradient:
+      "linear-gradient(150deg, #2563b0 0%, #1e4d8b 60%, #0f2540 100%)",
+    monogram: "ΧΡ",
   },
   {
     slug: "kyphosis",
@@ -221,11 +232,10 @@ export const serviceSummaries: ServiceSummary[] = [
     title: "Κύφωση",
     tagline:
       "Διόρθωση κυφωτικής στάσης μέσω εξειδικευμένης άσκησης και ηλεκτροθεραπείας. Ορατά αποτελέσματα σε 20 συνεδρίες.",
-    bullets: [
-      "Διόρθωση στάσης",
-      "Εξειδικευμένη άσκηση",
-      "Ηλεκτροθεραπεία",
-    ],
+    bullets: ["Διόρθωση στάσης", "Εξειδικευμένη άσκηση", "Ηλεκτροθεραπεία"],
+    gradient:
+      "linear-gradient(150deg, #c9a96e 0%, #b89968 50%, #6b5a3f 100%)",
+    monogram: "Κ",
   },
   {
     slug: "lymphatic",
@@ -239,6 +249,9 @@ export const serviceSummaries: ServiceSummary[] = [
       "Μετεγχειρητική αποκατάσταση",
       "Άμεσο αποτέλεσμα",
     ],
+    gradient:
+      "linear-gradient(155deg, #cdddef 0%, #7ea8dc 60%, #1e4d8b 100%)",
+    monogram: "Λ",
   },
   {
     slug: "clinical-pilates",
@@ -247,34 +260,42 @@ export const serviceSummaries: ServiceSummary[] = [
     tagline:
       "Εξατομικευμένο Clinical Pilates από Φυσικοθεραπευτή στο χώρο σας — για χρόνιους μυοσκελετικούς πόνους, χωρίς reformer.",
     bullets: ["Ασκήσεις εδάφους", "Εξατομικευμένο", "Κατ' οίκον"],
+    gradient:
+      "linear-gradient(150deg, #182a44 0%, #0f2540 50%, #b89968 130%)",
+    monogram: "CP",
   },
   {
     slug: "neck-pain",
-    href: "/chiropractic#neck",
+    href: "/neck-pain",
     title: "Αυχεναλγία",
     tagline:
       "Άμεση ανακούφιση πόνου στον αυχένα μέσω χειροπρακτικής, νευροδυναμικής και εξειδικευμένης άσκησης.",
-    bullets: [
-      "Χειροπρακτική",
-      "Νευροδυναμική",
-      "Άσκηση",
-    ],
+    bullets: ["Χειροπρακτική", "Νευροδυναμική", "Άσκηση"],
+    gradient:
+      "linear-gradient(150deg, #eef1f4 0%, #cdddef 50%, #7ea8dc 100%)",
+    monogram: "Α",
   },
   {
     slug: "low-back-pain",
-    href: "/chiropractic#lower-back",
+    href: "/low-back-pain",
     title: "Οσφυαλγία",
     tagline:
       "Αντιμετώπιση πόνου στη μέση με συνδυασμό τεχνικών για σταθερή και διαρκή ανακούφιση.",
     bullets: ["Χειροπρακτική", "Νευροδυναμική", "Άσκηση"],
+    gradient:
+      "linear-gradient(150deg, #e6d9bf 0%, #c9a96e 50%, #6b5a3f 100%)",
+    monogram: "Ο",
   },
   {
     slug: "hip-pain",
-    href: "/chiropractic#hip",
+    href: "/hip-pain",
     title: "Ισχιαλγία",
     tagline:
       "Στοχευμένη αντιμετώπιση πόνου στο ισχίο με εξειδικευμένα πρωτόκολλα κίνησης.",
     bullets: ["Χειροπρακτική", "Νευροδυναμική", "Άσκηση"],
+    gradient:
+      "linear-gradient(150deg, #7ea8dc 0%, #2563b0 60%, #0f2540 100%)",
+    monogram: "Ι",
   },
 ];
 
