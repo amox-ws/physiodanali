@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { areaPages, homeCare, homecareFaq, site } from "@/lib/content";
+import { homeCare, homecareFaq, site } from "@/lib/content";
 import {
   PageHero,
   SectionHeader,
@@ -22,7 +20,6 @@ export const metadata: Metadata = {
 };
 
 export default function HomeCarePage() {
-  const areas = Object.values(areaPages);
   return (
     <>
       <JsonLd
@@ -109,42 +106,6 @@ export default function HomeCarePage() {
                   ))}
                 </div>
               </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Service Areas — links to dynamic pages */}
-      <section className="bg-snow py-28 lg:py-36">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow="Περιοχές εξυπηρέτησης"
-            title="Σελίδες ανά περιοχή."
-            intro="Δείτε αναλυτικά τι ισχύει για τη δική σας περιοχή — διαθεσιμότητα, χρόνος μετάβασης, ραντεβού."
-          />
-          <Reveal>
-            <div className="grid gap-px overflow-hidden rounded-[24px] border border-stone bg-stone sm:grid-cols-2 lg:grid-cols-5">
-              {areas.map((a, idx) => (
-                <Link
-                  key={a.slug}
-                  href={`/home-care/${a.slug}`}
-                  className="group block bg-snow p-7 transition-colors hover:bg-mist"
-                >
-                  <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted/60">
-                    0{idx + 1}
-                  </span>
-                  <span className="display mt-4 block break-words text-[clamp(1.75rem,2.5vw,2.5rem)] leading-[0.95] tracking-[-0.02em] text-ink transition-colors group-hover:text-cobalt">
-                    {a.name}
-                  </span>
-                  <p className="mt-4 text-sm leading-relaxed text-ink-muted">
-                    {a.highlight}
-                  </p>
-                  <ArrowUpRight
-                    className="mt-6 size-4 text-ink-muted transition-all duration-500 group-hover:rotate-45 group-hover:text-cobalt"
-                    strokeWidth={1.5}
-                  />
-                </Link>
-              ))}
             </div>
           </Reveal>
         </div>

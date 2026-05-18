@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
-import { areaPages, articles, conditions } from "@/lib/content";
+import { articles, conditions } from "@/lib/content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -35,15 +35,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  const areaRoutes: MetadataRoute.Sitemap = Object.keys(areaPages).map(
-    (slug) => ({
-      url: `${SITE_URL}/home-care/${slug}`,
-      lastModified: now,
-      priority: 0.75,
-      changeFrequency: "monthly",
-    }),
-  );
-
   const articleRoutes: MetadataRoute.Sitemap = articles.posts.map((p) => ({
     url: `${SITE_URL}/articles/${p.slug}`,
     lastModified: now,
@@ -51,10 +42,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly",
   }));
 
-  return [
-    ...staticRoutes,
-    ...conditionRoutes,
-    ...areaRoutes,
-    ...articleRoutes,
-  ];
+  return [...staticRoutes, ...conditionRoutes, ...articleRoutes];
 }

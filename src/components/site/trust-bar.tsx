@@ -1,15 +1,26 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { home } from "@/lib/content";
+
+type Affiliation = {
+  src: string;
+  alt: string;
+};
+
+const affiliations: Affiliation[] = [
+  { src: "/psf-transparent.png", alt: "Πανελλήνιος Σύλλογος Φυσικοθεραπευτών" },
+  { src: "/pada.png", alt: "Πανεπιστήμιο Δυτικής Αττικής" },
+  { src: "/omtgr-transparent.png", alt: "OMT Greece" },
+  { src: "/ifompt.png", alt: "IFOMPT" },
+];
 
 export function TrustBar() {
-  const { trustBar } = home;
-  const items = [...trustBar.items, ...trustBar.items];
+  // Duplicate for an infinite seamless loop
+  const items = [...affiliations, ...affiliations];
 
-  // Pause the marquee CSS animation when the section is offscreen
-  // so it doesn't burn cycles below the fold.
-  const ref = useRef<HTMLDivElement>(null);
+  // Pause marquee when the section is offscreen (saves CPU)
+  const ref = useRef<HTMLElement>(null);
   const [running, setRunning] = useState(true);
 
   useEffect(() => {
@@ -28,33 +39,36 @@ export function TrustBar() {
   return (
     <section
       ref={ref}
-      aria-labelledby="trust-bar-label"
-      className="relative border-y border-stone bg-snow py-10"
+      aria-label="Πιστοποιήσεις & συμμετοχές"
+      className="relative border-y border-stone bg-snow py-14 lg:py-16"
     >
-      <h2 id="trust-bar-label" className="eyebrow mb-6 text-center">
-        {trustBar.eyebrow}
-      </h2>
       <div className="relative overflow-hidden">
+        {/* Edge fades */}
         <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-snow to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-snow to-transparent" />
-        <div
-          className="marquee flex w-max items-center gap-14 px-8"
+
+        <ul
+          className="marquee flex w-max items-center gap-16 px-8 lg:gap-24"
           style={{
             animationPlayState: running ? "running" : "paused",
             willChange: "transform",
           }}
         >
-          {items.map((item, i) => (
-            <span
-              key={`${item}-${i}`}
-              className="display whitespace-nowrap text-2xl text-ink/55"
-              style={{ letterSpacing: "-0.01em" }}
+          {items.map((a, i) => (
+            <li
+              key={`${a.src}-${i}`}
+              className="flex shrink-0 items-center"
             >
-              {item}
-              <span className="ml-14 text-cobalt/40">·</span>
-            </span>
+              <Image
+                src={a.src}
+                alt={a.alt}
+                width={300}
+                height={120}
+                className="h-20 w-auto object-contain opacity-80 transition-opacity duration-500 hover:opacity-100 lg:h-24"
+              />
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

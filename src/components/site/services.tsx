@@ -1,24 +1,69 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { home, serviceSummaries, type ServiceSummary } from "@/lib/content";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
+
+// Lazy-loaded 3D scene — only enters the bundle when actually mounted.
+const ServicesScene = dynamic(
+  () => import("@/components/three/services-scene").then((m) => m.ServicesScene),
+  { ssr: false },
+);
 
 export function Services() {
   const { services } = home;
   const featured = serviceSummaries.find((s) => s.feature)!;
   const rest = serviceSummaries.filter((s) => !s.feature).slice(0, 6);
 
+  // Mount the 3D background only when the section is in view (or near it),
+  // so we don't pay the WebGL cost on pages that never reach this section.
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mount3D, setMount3D] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    // Bail on reduced-motion users.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setMount3D(true);
+            io.disconnect();
+            return;
+          }
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       id="services"
       aria-labelledby="services-heading"
-      className="relative bg-porcelain py-28 lg:py-40"
+      className="relative isolate overflow-hidden bg-porcelain py-28 lg:py-40"
     >
-      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+      {/* 3D background — soft radial mask so it blends with bg */}
+      {mount3D && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 [mask-image:radial-gradient(60%_55%_at_75%_45%,black_0%,black_30%,transparent_85%)]"
+        >
+          <ServicesScene />
+        </div>
+      )}
+
+      <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10">
         <Reveal className="grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <span className="eyebrow">{services.eyebrow}</span>

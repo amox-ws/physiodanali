@@ -74,7 +74,9 @@ export function Hero() {
             <span className="display-italic text-cobalt">
               <TextReveal delay={0.15}>{"κατ' οίκον"}</TextReveal>
             </span>{" "}
-            <TextReveal delay={0.3}>{"στη Βούλα."}</TextReveal>
+            <TextReveal delay={0.3}>
+              {"στη Βούλα και τη Γλυφάδα."}
+            </TextReveal>
           </h1>
 
           <motion.p
