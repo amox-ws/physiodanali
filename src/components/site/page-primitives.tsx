@@ -198,7 +198,7 @@ export function CardGrid({ items, cols = 2 }: CardGridProps) {
           className="group relative overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)]"
         >
           <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
-            {String(idx + 1).padStart(2, "0")}
+            {idx + 1}
           </span>
           <h3 className="display mt-5 text-2xl leading-[1.1] tracking-tight text-ink lg:text-[1.75rem]">
             {item.title}

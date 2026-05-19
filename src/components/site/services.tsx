@@ -168,7 +168,7 @@ function ServiceCard({
                   : "border border-ink/15 bg-snow/60 text-ink/75")
               }
             >
-              {String(index + 1).padStart(2, "0")}
+              {index + 1}
             </span>
           </div>
 

@@ -78,9 +78,9 @@ export function Testimonials() {
 
         <div className="mt-14 flex items-center justify-between border-t border-stone pt-6">
           <span className="text-sm text-ink-muted">
-            <span className="text-ink">{String(i + 1).padStart(2, "0")}</span>
+            <span className="text-ink">{i + 1}</span>
             <span className="mx-2 text-ink-muted/60">/</span>
-            <span>{String(testimonials.length).padStart(2, "0")}</span>
+            <span>{testimonials.length}</span>
           </span>
           <div className="flex gap-2">
             <button

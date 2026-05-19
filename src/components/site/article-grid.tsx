@@ -75,7 +75,7 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
                   style={{ letterSpacing: "-0.04em" }}
                   aria-hidden="true"
                 >
-                  0{idx + 1}
+                  {idx + 1}
                 </span>
               </div>
             </div>
