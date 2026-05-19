@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock } from "lucide-react";
 import { stagger, staggerItem } from "@/components/motion/reveal";
@@ -28,10 +29,8 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
           variants={staggerItem}
           className="group flex flex-col gap-6"
         >
-          <a
+          <Link
             href={post.href}
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={post.title}
             className="block"
           >
@@ -102,7 +101,7 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
                 />
               </span>
             </div>
-          </a>
+          </Link>
         </motion.article>
       ))}
     </motion.div>

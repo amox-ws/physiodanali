@@ -101,19 +101,12 @@ export default async function ArticlePage({
       </section>
 
       {/* Body */}
-      <section className="bg-snow py-20 lg:py-28">
-        <div className="mx-auto max-w-[760px] px-6 lg:px-10">
+      <section className="bg-snow py-14 lg:py-20">
+        <div className="mx-auto max-w-[780px] px-3 sm:px-5 lg:px-6">
           <Reveal>
-            <article className="space-y-10 text-lg leading-[1.7] text-ink lg:text-xl lg:leading-[1.65]">
+            <article>
               {body.sections.map((sec, i) => (
-                <div key={i}>
-                  {sec.heading && (
-                    <h2 className="display mt-12 mb-5 text-[clamp(1.75rem,3.5vw,2.5rem)] leading-[1.1] tracking-tight text-ink first:mt-0">
-                      {sec.heading}
-                    </h2>
-                  )}
-                  <p className="text-ink-muted">{sec.body}</p>
-                </div>
+                <ArticleSection key={i} section={sec} index={i} />
               ))}
             </article>
           </Reveal>
@@ -121,8 +114,8 @@ export default async function ArticlePage({
       </section>
 
       {/* Inline CTA */}
-      <section className="bg-snow pb-28">
-        <div className="mx-auto max-w-[760px] px-6 lg:px-10">
+      <section className="bg-snow pb-20">
+        <div className="mx-auto max-w-[780px] px-3 sm:px-5 lg:px-6">
           <Reveal>
             <div className="rounded-[24px] border border-cobalt/20 bg-cobalt/5 p-8 lg:p-10">
               <span className="eyebrow">Έχετε παρόμοιο πρόβλημα;</span>
@@ -195,5 +188,149 @@ export default async function ArticlePage({
         lead="Από αξιολόγηση μέχρι ολοκληρωμένο πρόγραμμα αποκατάστασης — στο σπίτι σας ή στο ιατρείο."
       />
     </>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+ *  Article section renderer — premium editorial styling.
+ *  - First section (no heading) is rendered as a lead paragraph.
+ *  - H2 headings get a small gold rule above + cobalt color.
+ *  - Body paragraphs are split on \n\n; lines starting with "• " inside
+ *    a paragraph are upgraded to a styled bullet list.
+ * ────────────────────────────────────────────────────────────────── */
+
+function ArticleSection({
+  section,
+  index,
+}: {
+  section: { heading?: string; body: string };
+  index: number;
+}) {
+  const isLead = index === 0 && !section.heading;
+  const paragraphs = section.body.split("\n\n").filter((p) => p.trim());
+
+  return (
+    <section className={index === 0 ? "" : "mt-14 lg:mt-20"}>
+      {section.heading && (
+        <div className="mt-2 mb-7">
+          <span
+            aria-hidden
+            className="mb-5 block h-px w-10 bg-gold/80"
+          />
+          <h2 className="display text-[clamp(1.75rem,3.5vw,2.5rem)] leading-[1.05] tracking-[-0.015em] text-cobalt">
+            {section.heading}
+          </h2>
+        </div>
+      )}
+
+      {paragraphs.map((para, i) => (
+        <Paragraph
+          key={i}
+          text={para}
+          isLead={isLead && i === 0}
+          isFirst={i === 0}
+        />
+      ))}
+    </section>
+  );
+}
+
+function Paragraph({
+  text,
+  isLead,
+  isFirst,
+}: {
+  text: string;
+  isLead: boolean;
+  isFirst: boolean;
+}) {
+  const lines = text.split("\n");
+
+  // Markdown table detection: pipe-delimited rows with a `---` separator.
+  const isMarkdownTable =
+    lines.length >= 2 &&
+    lines[0].trim().startsWith("|") &&
+    /^\|[\s\-:|]+\|$/.test(lines[1].trim());
+
+  if (isMarkdownTable) {
+    const parseRow = (line: string) =>
+      line
+        .trim()
+        .replace(/^\|/, "")
+        .replace(/\|$/, "")
+        .split("|")
+        .map((c) => c.trim());
+    const headers = parseRow(lines[0]);
+    const rows = lines.slice(2).map(parseRow);
+    return (
+      <div className={"my-7 overflow-x-auto " + (isFirst ? "first:mt-0" : "")}>
+        <table className="w-full border-collapse text-left text-[15px] lg:text-[16px]">
+          <thead>
+            <tr>
+              {headers.map((h, i) => (
+                <th
+                  key={i}
+                  className="border-b-2 border-cobalt/40 pb-3 pr-4 text-[11px] font-medium uppercase tracking-[0.18em] text-cobalt"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, ri) => (
+              <tr key={ri} className="border-b border-stone last:border-b-0">
+                {row.map((cell, ci) => (
+                  <td
+                    key={ci}
+                    className="py-3 pr-4 leading-[1.55] text-ink-muted align-top"
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // Bullet list (every line starts with "• ").
+  const isBulletBlock =
+    lines.length > 1 && lines.every((l) => l.trim().startsWith("• "));
+  if (isBulletBlock) {
+    return (
+      <ul className={"mt-5 space-y-3 " + (isFirst ? "first:mt-0" : "")}>
+        {lines.map((l, i) => (
+          <li
+            key={i}
+            className="flex items-start gap-3 text-base leading-[1.65] text-ink-muted lg:text-lg"
+          >
+            <span className="mt-2 inline-block size-1.5 shrink-0 rounded-full bg-cobalt" />
+            <span>{l.replace(/^•\s*/, "")}</span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  if (isLead) {
+    return (
+      <p className="display-italic mt-2 text-[clamp(1.25rem,2.2vw,1.6rem)] leading-[1.4] tracking-[-0.005em] text-ink first:mt-0">
+        {text}
+      </p>
+    );
+  }
+
+  return (
+    <p
+      className={
+        "text-[17px] leading-[1.75] text-ink-muted lg:text-[18px] " +
+        (isFirst ? "first:mt-0" : "mt-5")
+      }
+    >
+      {text}
+    </p>
   );
 }
