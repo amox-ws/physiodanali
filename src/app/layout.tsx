@@ -59,7 +59,9 @@ export default function RootLayout({
       <body className="antialiased">
         <JsonLd data={[localBusinessSchema, personSchema]} />
         <Header />
-        <main>{children}</main>
+        <div className="page-stack">
+          <main>{children}</main>
+        </div>
         <Footer />
       </body>
     </html>

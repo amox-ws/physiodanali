@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { footer, nav, site } from "@/lib/content";
 import { Reveal } from "@/components/motion/reveal";
 
@@ -68,14 +69,42 @@ function YouTubeIcon() {
 }
 
 export function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+
+  // Measure the footer height and publish it as a CSS variable, so the
+  // body can reserve enough scroll space for the fixed footer to be
+  // fully reachable as the user scrolls down.
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el) return;
+    const updateHeight = () => {
+      document.documentElement.style.setProperty(
+        "--footer-h",
+        `${el.offsetHeight}px`,
+      );
+    };
+    updateHeight();
+    if (typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(updateHeight);
+    ro.observe(el);
+    window.addEventListener("resize", updateHeight);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, []);
+
   return (
-    <footer className="relative isolate overflow-hidden bg-ink text-snow">
+    <footer
+      ref={footerRef}
+      className="peek-footer isolate overflow-hidden bg-ink text-snow"
+    >
       <div className="mx-auto max-w-[1400px] px-6 pb-12 pt-24 lg:px-10 lg:pb-14 lg:pt-32">
         <Reveal>
           <div className="grid gap-14 lg:grid-cols-12">
             <div className="lg:col-span-6">
               <h2 className="display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.025em]">
-                Πόνος δεν περιμένει.
+                Ο πόνος δεν περιμένει.
                 <br />
                 <span className="display-italic text-gold">Ούτε εμείς.</span>
               </h2>
