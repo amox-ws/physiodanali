@@ -4,6 +4,7 @@ import { Services } from "@/components/site/services";
 import { WhyUs } from "@/components/site/why-us";
 import { Testimonials } from "@/components/site/testimonials";
 import { Bio } from "@/components/site/bio";
+import { Process } from "@/components/site/process";
 import { BookingBand } from "@/components/site/booking-band";
 import { Coverage } from "@/components/site/coverage";
 
@@ -16,6 +17,7 @@ export default function Home() {
       <WhyUs />
       <Testimonials />
       <Bio />
+      <Process />
       <BookingBand />
       <Coverage />
     </>
