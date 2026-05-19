@@ -53,7 +53,7 @@ export function Testimonials() {
                 <p className="display text-[clamp(1.5rem,3vw,2.6rem)] leading-[1.25] tracking-[-0.01em] text-ink">
                   {t.quote}
                 </p>
-                <footer className="mt-10 flex items-center gap-4">
+                <footer className="mt-10 flex flex-wrap items-center gap-4">
                   <span className="flex size-12 items-center justify-center rounded-full bg-cobalt/10 font-medium text-cobalt">
                     {t.author.charAt(0)}
                   </span>
@@ -65,6 +65,11 @@ export function Testimonials() {
                       Ασθενής
                     </p>
                   </div>
+                  {"condition" in t && t.condition && (
+                    <span className="ml-2 inline-flex items-center rounded-full border border-stone bg-snow px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-ink-muted">
+                      {t.condition}
+                    </span>
+                  )}
                 </footer>
               </motion.blockquote>
             </AnimatePresence>
