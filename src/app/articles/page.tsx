@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { articles } from "@/lib/content";
-import { PageHero, FinalCTA } from "@/components/site/page-primitives";
+import { PageHero } from "@/components/site/page-primitives";
 import { ArticleGrid } from "@/components/site/article-grid";
 
 export const metadata: Metadata = {
@@ -26,12 +26,6 @@ export default function ArticlesPage() {
           <ArticleGrid posts={articles.posts} />
         </div>
       </section>
-
-      <FinalCTA
-        title="Έχετε ερωτήσεις; Μιλήστε μαζί μας."
-        titleAccent="Μιλήστε"
-        lead="Τα άρθρα δίνουν γενικές κατευθύνσεις. Για εξατομικευμένη αξιολόγηση και πλάνο, κλείστε ραντεβού — δωρεάν τηλεφωνική αξιολόγηση πριν τη συνεδρία."
-      />
     </>
   );
 }
