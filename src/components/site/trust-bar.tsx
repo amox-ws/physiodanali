@@ -13,6 +13,7 @@ const affiliations: Affiliation[] = [
   { src: "/pada.png", alt: "Πανεπιστήμιο Δυτικής Αττικής" },
   { src: "/omtgr-transparent.png", alt: "OMT Greece" },
   { src: "/ifompt.png", alt: "IFOMPT" },
+  { src: "/apta-transparent.svg", alt: "American Physical Therapy Association" },
 ];
 
 export function TrustBar() {

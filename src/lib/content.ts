@@ -1644,6 +1644,10 @@ export const areaPages: Record<string, AreaPage> = {
 // ARTICLE BODIES — for /articles/[slug]
 // =====================================================================
 
+export type ArticleBody = {
+  sections: { heading?: string; body: string }[];
+};
+
 export const articleBodies: Record<string, ArticleBody> = {
   "vestibular-rehab": {
     sections: [

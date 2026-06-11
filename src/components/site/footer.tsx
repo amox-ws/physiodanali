@@ -71,26 +71,41 @@ function YouTubeIcon() {
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
 
-  // Measure the footer's actual rendered height and publish it as a CSS
-  // variable, so the body can reserve enough scroll space for the fixed
-  // footer to be fully reachable as the user scrolls down.
+  // The stacked-footer reveal pins the footer to the bottom (position: fixed).
+  // That only works if the footer fits within the viewport — otherwise its
+  // top is clipped off-screen and unreachable. So we enable the reveal
+  // (`.peek-on`) only when the measured footer height fits; otherwise the
+  // footer stays in normal flow and is fully visible.
   useEffect(() => {
     const el = footerRef.current;
     if (!el) return;
-    const updateHeight = () => {
-      document.documentElement.style.setProperty(
-        "--footer-h",
-        `${el.offsetHeight}px`,
-      );
+    const root = document.documentElement;
+
+    const sync = () => {
+      // A fixed footer (left:0; right:0) keeps the same width — and thus the
+      // same height — as it has in normal flow, so we can measure directly
+      // without toggling the pin (which would risk a ResizeObserver loop).
+      const height = el.offsetHeight;
+      const fits = height <= window.innerHeight - 24;
+
+      if (fits) {
+        el.classList.add("peek-on");
+        root.style.setProperty("--footer-h", `${height}px`);
+      } else {
+        el.classList.remove("peek-on");
+        // Footer stays in normal flow — no reserved scroll space needed.
+        root.style.setProperty("--footer-h", "0px");
+      }
     };
-    updateHeight();
+
+    sync();
     if (typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(updateHeight);
+    const ro = new ResizeObserver(sync);
     ro.observe(el);
-    window.addEventListener("resize", updateHeight);
+    window.addEventListener("resize", sync);
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", updateHeight);
+      window.removeEventListener("resize", sync);
     };
   }, []);
 

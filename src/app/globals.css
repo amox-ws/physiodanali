@@ -36,9 +36,9 @@
 
 :root {
   color-scheme: light only;
-  /* Fallback footer height — overridden by JS measurement at runtime.
-     Used to reserve scroll space so the fixed footer is fully reachable. */
-  --footer-h: 600px;
+  /* Scroll space reserved for the fixed footer. Starts at 0 (footer in
+     normal flow) and is set by JS only when the footer fits the viewport. */
+  --footer-h: 0px;
 }
 
 html {
@@ -61,15 +61,20 @@ body {
    The footer is fixed at the bottom of the viewport, sitting behind the
    main content. As the user scrolls down, the main wrapper scrolls up
    off-screen and progressively reveals the footer beneath it.
-   NOTE: footer must fit in the viewport — keep its intrinsic height
-   under ~85% of typical viewport so the top stays visible when revealed. */
+
+   IMPORTANT: a fixed footer pinned to the bottom can only be shown in full
+   if its height fits within the viewport — otherwise its top is clipped
+   above the screen and is unreachable (fixed elements don't scroll). So the
+   reveal is opt-in via the `.peek-on` class, which JS adds ONLY when the
+   measured footer height fits. When it doesn't fit, the footer stays in
+   normal document flow and is fully scrollable/visible. */
 .page-stack {
   position: relative;
   z-index: 10;
   background: var(--color-porcelain);
 }
 
-.peek-footer {
+.peek-footer.peek-on {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -78,9 +83,9 @@ body {
   z-index: 0;
 }
 
-/* On reduced-motion, fall back to the classic layout (footer in flow). */
+/* On reduced-motion, never pin — keep the footer in normal flow. */
 @media (prefers-reduced-motion: reduce) {
-  .peek-footer {
+  .peek-footer.peek-on {
     position: relative;
     z-index: auto;
   }
