@@ -9,7 +9,6 @@ import {
   CardGrid,
   CheckList,
   NumberedSteps,
-  FinalCTA,
 } from "@/components/site/page-primitives";
 import { Reveal } from "@/components/motion/reveal";
 import { CountUp } from "@/components/motion/count-up";
@@ -192,12 +191,6 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
-
-      <FinalCTA
-        title="Δεκαετία εμπειρίας. Στο σπίτι σας."
-        titleAccent="Δεκαετία"
-        lead="Από αρχικές αξιολογήσεις μέχρι μακρόχρονη αποκατάσταση — η ίδια ποιότητα κλινικής σε κάθε συνεδρία."
-      />
     </>
   );
 }
