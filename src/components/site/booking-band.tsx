@@ -13,21 +13,20 @@ export function BookingBand() {
       aria-labelledby="contact-heading"
       className="relative isolate overflow-hidden bg-ink py-28 text-snow lg:py-36"
     >
+      {/* Fixed-attachment parallax photo — pinned to the viewport, the
+          section scrolls over it revealing different parts of the image. */}
+      <div
+        aria-hidden
+        className="parallax-fixed absolute inset-0 -z-20"
+        style={{ backgroundImage: "url(/physiotest2.jpg)" }}
+      />
+      {/* Dark scrim so the white text stays legible over the photo */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(60% 60% at 80% 0%, rgba(184,153,104,0.18) 0%, transparent 60%), radial-gradient(50% 50% at 0% 100%, rgba(30,77,139,0.55) 0%, transparent 65%), #0a1628",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)",
-          backgroundSize: "120px 120px",
+            "radial-gradient(60% 60% at 80% 0%, rgba(184,153,104,0.10) 0%, transparent 55%), linear-gradient(90deg, rgba(10,22,40,0.88) 0%, rgba(10,22,40,0.72) 45%, rgba(10,22,40,0.55) 100%)",
         }}
       />
 

@@ -127,6 +127,27 @@ body {
    If we want texture later, we can apply it as a static PNG bg-image on
    specific small surfaces rather than full-bleed live SVG filter. */
 
+/* Fixed-attachment parallax: the background image stays pinned to the
+   viewport while the section scrolls over it, so the section becomes a
+   "window" that reveals different parts of the image as you scroll.
+   The `background-image` itself is set inline per-section. */
+.parallax-fixed {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* iOS Safari mis-renders `background-attachment: fixed` (it sizes the
+   image to the whole document, breaking the effect and looking zoomed).
+   Touch / coarse pointers and reduced-motion fall back to a normal
+   scrolling cover image, which still looks good. */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .parallax-fixed {
+    background-attachment: scroll;
+  }
+}
+
 /* Hairline rule used as section divider */
 .rule {
   height: 1px;
