@@ -38,7 +38,7 @@
   color-scheme: light only;
   /* Fallback footer height — overridden by JS measurement at runtime.
      Used to reserve scroll space so the fixed footer is fully reachable. */
-  --footer-h: 720px;
+  --footer-h: 600px;
 }
 
 html {
@@ -53,13 +53,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  padding-bottom: var(--footer-h);
 }
 
 /* Stacked-footer reveal:
    The main content sits on a higher stacking layer with an opaque background.
    The footer is fixed at the bottom of the viewport, sitting behind the
    main content. As the user scrolls down, the main wrapper scrolls up
-   off-screen and progressively reveals the footer beneath it. */
+   off-screen and progressively reveals the footer beneath it.
+   NOTE: footer must fit in the viewport — keep its intrinsic height
+   under ~85% of typical viewport so the top stays visible when revealed. */
 .page-stack {
   position: relative;
   z-index: 10;
@@ -73,12 +76,6 @@ body {
   right: 0;
   width: 100%;
   z-index: 0;
-}
-
-/* Reserve scroll space at the bottom equal to the footer's measured height,
-   so the user can scroll the main wrapper completely past the footer. */
-body {
-  padding-bottom: var(--footer-h);
 }
 
 /* On reduced-motion, fall back to the classic layout (footer in flow). */

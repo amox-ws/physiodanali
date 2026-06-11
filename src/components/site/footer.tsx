@@ -71,9 +71,9 @@ function YouTubeIcon() {
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
 
-  // Measure the footer height and publish it as a CSS variable, so the
-  // body can reserve enough scroll space for the fixed footer to be
-  // fully reachable as the user scrolls down.
+  // Measure the footer's actual rendered height and publish it as a CSS
+  // variable, so the body can reserve enough scroll space for the fixed
+  // footer to be fully reachable as the user scrolls down.
   useEffect(() => {
     const el = footerRef.current;
     if (!el) return;
@@ -99,20 +99,20 @@ export function Footer() {
       ref={footerRef}
       className="peek-footer isolate overflow-hidden bg-ink text-snow"
     >
-      <div className="mx-auto max-w-[1400px] px-6 pb-12 pt-24 lg:px-10 lg:pb-14 lg:pt-32">
+      <div className="mx-auto max-w-[1400px] px-6 pb-8 pt-14 lg:px-10 lg:pb-10 lg:pt-20">
         <Reveal>
-          <div className="grid gap-14 lg:grid-cols-12">
+          <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-6">
-              <h2 className="display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.025em]">
+              <h2 className="display text-[clamp(2rem,4vw,3.5rem)] leading-[0.95] tracking-[-0.025em]">
                 Ο πόνος δεν περιμένει.
                 <br />
                 <span className="display-italic text-gold">Ούτε εμείς.</span>
               </h2>
-              <p className="mt-8 max-w-[44ch] text-base leading-relaxed text-snow/65">
+              <p className="mt-5 max-w-[44ch] text-sm leading-relaxed text-snow/65 lg:text-base">
                 Φυσικοθεραπεία και χειροπρακτική κατ&apos; οίκον σε Βούλα,
                 Βουλιαγμένη, Βάρη και Γλυφάδα.
               </p>
-              <div className="mt-10 flex gap-3">
+              <div className="mt-7 flex gap-3">
                 <Link
                   href="/contact"
                   className="inline-flex items-center rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
@@ -127,12 +127,12 @@ export function Footer() {
                 </a>
               </div>
             </div>
-            <div className="grid gap-10 sm:grid-cols-3 lg:col-span-6">
+            <div className="grid gap-8 sm:grid-cols-3 lg:col-span-6">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
                   Πλοήγηση
                 </p>
-                <ul className="mt-5 space-y-3 text-sm">
+                <ul className="mt-4 space-y-2.5 text-sm">
                   {nav.map((item) => (
                     <li key={item.href}>
                       <Link
@@ -149,7 +149,7 @@ export function Footer() {
                 <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
                   Επικοινωνία
                 </p>
-                <ul className="mt-5 space-y-3 text-sm text-snow/85">
+                <ul className="mt-4 space-y-2.5 text-sm text-snow/85">
                   <li>
                     <a
                       href={`tel:${site.phone}`}
@@ -174,7 +174,7 @@ export function Footer() {
                 <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
                   Social
                 </p>
-                <ul className="mt-5 flex gap-3">
+                <ul className="mt-4 flex gap-3">
                   <li>
                     <SocialLink href={site.social.instagram} label="Instagram">
                       <InstagramIcon />
@@ -205,7 +205,7 @@ export function Footer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto flex max-w-[1400px] items-center px-6 py-14 lg:px-10 lg:py-20"
+            className="mx-auto flex max-w-[1400px] items-center px-6 py-8 lg:px-10 lg:py-12"
           >
             <Image
               src="/logo-v2.png"
