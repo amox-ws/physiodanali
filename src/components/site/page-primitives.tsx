@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check, Phone } from "lucide-react";
@@ -284,21 +285,22 @@ export function NumberedSteps({ steps }: NumberedStepsProps) {
 export function PractitionerCard() {
   return (
     <Reveal className="overflow-hidden rounded-[28px] border border-stone bg-snow lg:grid lg:grid-cols-12">
-      <div
-        className="relative aspect-[4/5] lg:col-span-5 lg:aspect-auto"
-        style={{
-          background:
-            "linear-gradient(160deg, #1e4d8b 0%, #0f2540 60%, #0a1628 100%)",
-        }}
-      >
-        <div className="absolute inset-0 flex items-end justify-end p-8">
-          <span
-            className="display text-[clamp(6rem,12vw,10rem)] leading-[0.85] text-snow/15"
-            style={{ letterSpacing: "-0.04em" }}
-          >
-            ΚΔ
-          </span>
-        </div>
+      <div className="relative aspect-[4/5] bg-stone lg:col-span-5 lg:aspect-auto">
+        <Image
+          src="/doctor.webp"
+          alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
+          fill
+          sizes="(min-width: 1024px) 35vw, 100vw"
+          className="object-cover object-[center_20%]"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-1/3"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(10,22,40,0.25) 0%, transparent 100%)",
+          }}
+        />
       </div>
       <div className="p-10 lg:col-span-7 lg:p-14">
         <h3 className="display text-[clamp(2rem,3.5vw,3.25rem)] leading-[1] tracking-[-0.02em] text-ink">

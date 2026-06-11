@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -22,32 +23,23 @@ export function Bio() {
         <div className="relative grid gap-14 lg:grid-cols-12 lg:gap-16">
           <Reveal className="relative lg:col-span-5">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-stone">
+              <Image
+                src="/doctor.webp"
+                alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                priority={false}
+                className="object-cover object-[center_20%]"
+              />
+              {/* Soft bottom-to-top scrim for tonal cohesion with the rest of the page */}
               <div
-                className="absolute inset-0"
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-1/3"
                 style={{
                   background:
-                    "linear-gradient(160deg, #1e4d8b 0%, #0f2540 60%, #0a1628 100%)",
+                    "linear-gradient(to top, rgba(10,22,40,0.25) 0%, transparent 100%)",
                 }}
               />
-              <div
-                className="absolute inset-0 mix-blend-overlay opacity-50"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(60% 60% at 30% 25%, rgba(255,255,255,0.45) 0%, transparent 60%)",
-                }}
-              />
-              <div className="absolute inset-0 flex items-end justify-end p-10">
-                <span
-                  className="display text-[clamp(8rem,16vw,14rem)] leading-[0.85] text-snow/15"
-                  style={{ letterSpacing: "-0.04em" }}
-                >
-                  ΚΔ
-                </span>
-              </div>
-            </div>
-            <div className="mt-5 flex items-center gap-4 text-sm text-ink-muted">
-              <span className="block h-px w-10 bg-stone-dark/60" />
-              <span>Photography placeholder · drop in real portrait</span>
             </div>
           </Reveal>
 
