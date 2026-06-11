@@ -1,29 +1,22 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial, Sphere, Torus } from "@react-three/drei";
 import { useRef, Suspense } from "react";
 import * as THREE from "three";
 
 function Orbits() {
   const sphereRef = useRef<THREE.Mesh>(null);
-  const { mouse } = useThree();
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (!sphereRef.current) return;
     sphereRef.current.rotation.x += delta * 0.06;
     sphereRef.current.rotation.y += delta * 0.09;
-    // Gentle mouse-tracked parallax (clamped so it doesn't drift)
-    sphereRef.current.position.x = THREE.MathUtils.lerp(
-      sphereRef.current.position.x,
-      mouse.x * 0.4,
-      0.03,
-    );
-    sphereRef.current.position.y = THREE.MathUtils.lerp(
-      sphereRef.current.position.y,
-      mouse.y * 0.3,
-      0.03,
-    );
+    // Autonomous drift — no cursor needed. A slow time-based orbit so
+    // the sphere glides on its own.
+    const t = state.clock.elapsedTime;
+    sphereRef.current.position.x = Math.sin(t * 0.2) * 0.3;
+    sphereRef.current.position.y = Math.cos(t * 0.16) * 0.22;
   });
 
   return (

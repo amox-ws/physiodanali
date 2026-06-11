@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
 import { useMemo, useRef, Suspense } from "react";
 import * as THREE from "three";
@@ -130,21 +130,14 @@ function ShardMesh({ shard }: { shard: Shard }) {
 
 function Scene() {
   const groupRef = useRef<THREE.Group>(null);
-  const { mouse } = useThree();
 
-  useFrame(() => {
+  useFrame((state) => {
     if (!groupRef.current) return;
-    // Whole group gently parallax-tilts to follow the cursor.
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(
-      groupRef.current.rotation.y,
-      mouse.x * 0.18,
-      0.04,
-    );
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(
-      groupRef.current.rotation.x,
-      -mouse.y * 0.14,
-      0.04,
-    );
+    // Autonomous gentle sway — no cursor needed. Drives a slow tilt
+    // from elapsed time so the whole group breathes on its own.
+    const t = state.clock.elapsedTime;
+    groupRef.current.rotation.y = Math.sin(t * 0.12) * 0.16;
+    groupRef.current.rotation.x = Math.cos(t * 0.1) * 0.1;
   });
 
   const shards = useMemo(() => SHARDS, []);
