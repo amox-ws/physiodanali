@@ -65,12 +65,9 @@ export function Process() {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         {/* Header */}
         <Reveal className="mx-auto max-w-[760px] text-center">
-          <span className="inline-flex items-center rounded-full border border-cobalt/25 bg-snow/70 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.22em] text-cobalt">
-            Διαδικασία
-          </span>
           <h2
             id="process-heading"
-            className="display mt-6 text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[0.98] tracking-[-0.025em] text-ink"
+            className="display text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[0.98] tracking-[-0.025em] text-ink"
           >
             Πώς{" "}
             <span className="display-italic text-cobalt">λειτουργεί.</span>

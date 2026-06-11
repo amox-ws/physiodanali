@@ -62,13 +62,6 @@ export function Hero() {
           animate="visible"
           className="max-w-[68rem]"
         >
-          <motion.span
-            variants={staggerItem}
-            className="eyebrow inline-block mb-8"
-          >
-            {hero.eyebrow}
-          </motion.span>
-
           <h1 className="display text-ink text-[clamp(2.75rem,8vw,7.5rem)] tracking-[-0.025em] leading-[0.95] max-w-[18ch]">
             <TextReveal>{"Χειροπρακτική και Φυσικοθεραπεία"}</TextReveal>{" "}
             <span className="display-italic text-cobalt">

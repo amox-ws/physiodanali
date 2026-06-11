@@ -103,8 +103,7 @@ export default function ChiropracticPage() {
       <section className="bg-porcelain py-20">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mb-10">
-            <span className="eyebrow">Δείτε αναλυτικά</span>
-            <h3 className="display mt-5 text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.05] tracking-tight text-ink">
+            <h3 className="display text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.05] tracking-tight text-ink">
               Σελίδες ανά πάθηση.
             </h3>
           </Reveal>

@@ -34,10 +34,9 @@ export function BookingBand() {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <div className="grid gap-14 lg:grid-cols-12 lg:items-end">
           <Reveal className="lg:col-span-7">
-            <span className="eyebrow text-gold">Επικοινωνία</span>
             <h2
               id="contact-heading"
-              className="display mt-5 text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.025em] text-snow"
+              className="display text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.025em] text-snow"
             >
               Κλείστε ραντεβού. <br />
               <span className="display-italic text-gold">Άμεσα.</span>

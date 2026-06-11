@@ -20,8 +20,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <Reveal className="mb-12 flex items-end justify-between gap-6">
           <div>
-            <span className="eyebrow">Μαρτυρίες</span>
-            <h2 className="display mt-5 text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1] tracking-[-0.02em] text-ink">
+            <h2 className="display text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1] tracking-[-0.02em] text-ink">
               Τι λένε{" "}
               <span className="display-italic text-cobalt">
                 οι ασθενείς μας

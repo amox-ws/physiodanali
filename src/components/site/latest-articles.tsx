@@ -17,10 +17,9 @@ export function LatestArticles() {
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <Reveal className="mb-16 grid gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <span className="eyebrow">Blog</span>
             <h2
               id="latest-articles-heading"
-              className="display mt-5 text-[clamp(2.5rem,5.5vw,4.75rem)] leading-[0.98] tracking-[-0.02em] text-ink"
+              className="display text-[clamp(2.5rem,5.5vw,4.75rem)] leading-[0.98] tracking-[-0.02em] text-ink"
             >
               Οι{" "}
               <span className="display-italic text-cobalt">

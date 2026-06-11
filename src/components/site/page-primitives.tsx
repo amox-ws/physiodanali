@@ -66,32 +66,15 @@ export function PageHero({
       />
 
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-        <Reveal>
-          <nav
-            aria-label="Breadcrumb"
-            className="mb-10 flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-ink-muted"
-          >
-            <Link href="/" className="transition-colors hover:text-cobalt">
-              Αρχική
-            </Link>
-            <span aria-hidden>—</span>
-            <span className="text-ink">{breadcrumb}</span>
-          </nav>
-        </Reveal>
-
         <motion.div
           variants={stagger}
           initial="hidden"
           animate="visible"
           className="max-w-[68rem]"
         >
-          <motion.span variants={staggerItem} className="eyebrow">
-            {eyebrow}
-          </motion.span>
-
           <motion.h1
             variants={staggerItem}
-            className="display mt-6 text-[clamp(2.5rem,7vw,6.5rem)] tracking-[-0.025em] leading-[0.95] text-ink"
+            className="display text-[clamp(2.5rem,7vw,6.5rem)] tracking-[-0.025em] leading-[0.95] text-ink"
           >
             {renderTitle()}
           </motion.h1>
@@ -155,8 +138,7 @@ export function SectionHeader({
       )}
     >
       <div className="lg:col-span-7">
-        <span className="eyebrow">{eyebrow}</span>
-        <h2 className="display mt-5 text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
+        <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
           {title}
         </h2>
       </div>
@@ -200,7 +182,7 @@ export function CardGrid({ items, cols = 2 }: CardGridProps) {
           <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
             {idx + 1}
           </span>
-          <h3 className="display mt-5 text-2xl leading-[1.1] tracking-tight text-ink lg:text-[1.75rem]">
+          <h3 className="display text-2xl leading-[1.1] tracking-tight text-ink lg:text-[1.75rem]">
             {item.title}
           </h3>
           <p className="mt-4 text-base leading-relaxed text-ink-muted">
@@ -319,8 +301,7 @@ export function PractitionerCard() {
         </div>
       </div>
       <div className="p-10 lg:col-span-7 lg:p-14">
-        <span className="eyebrow">Ο Φυσικοθεραπευτής</span>
-        <h3 className="display mt-5 text-[clamp(2rem,3.5vw,3.25rem)] leading-[1] tracking-[-0.02em] text-ink">
+        <h3 className="display text-[clamp(2rem,3.5vw,3.25rem)] leading-[1] tracking-[-0.02em] text-ink">
           Κωνσταντίνος Δανάλης, PT
         </h3>
         <p className="mt-3 text-lg text-ink-muted">

@@ -53,10 +53,9 @@ export function Bio() {
 
           <div className="lg:col-span-7">
             <Reveal>
-              <span className="eyebrow">{bio.eyebrow}</span>
               <h2
                 id="bio-heading"
-                className="display mt-5 text-[clamp(2.5rem,5.5vw,4.75rem)] leading-[0.98] tracking-[-0.02em] text-ink"
+                className="display text-[clamp(2.5rem,5.5vw,4.75rem)] leading-[0.98] tracking-[-0.02em] text-ink"
               >
                 {bio.name}
               </h2>

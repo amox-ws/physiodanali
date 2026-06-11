@@ -68,8 +68,7 @@ export default function AboutPage() {
 
             <div className="lg:col-span-7">
               <Reveal>
-                <span className="eyebrow">{about.intro.eyebrow}</span>
-                <h2 className="display mt-5 text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
+                <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
                   {about.intro.title}
                 </h2>
               </Reveal>
@@ -140,8 +139,7 @@ export default function AboutPage() {
       <section className="bg-ink py-28 text-snow lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mb-16">
-            <span className="eyebrow text-gold">Μαρτυρίες</span>
-            <h2 className="display mt-5 text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
+            <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
               Τι λένε <span className="display-italic text-gold">οι ασθενείς</span>.
             </h2>
           </Reveal>
@@ -164,8 +162,7 @@ export default function AboutPage() {
           <Reveal>
             <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
-                <span className="eyebrow">Επικοινωνία</span>
-                <h2 className="display mt-5 text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
+                <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
                   Έτοιμος για το επόμενο βήμα.
                 </h2>
                 <p className="mt-8 max-w-[50ch] text-base leading-relaxed text-ink-muted lg:text-lg">

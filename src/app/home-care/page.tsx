@@ -79,10 +79,7 @@ export default function HomeCarePage() {
           <Reveal>
             <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
-                <span className="eyebrow text-gold">
-                  {homeCare.availability.eyebrow}
-                </span>
-                <h2 className="display mt-5 text-[clamp(2.5rem,5.5vw,4.75rem)] leading-[0.98] tracking-[-0.025em] text-snow">
+                <h2 className="display text-[clamp(2.5rem,5.5vw,4.75rem)] leading-[0.98] tracking-[-0.025em] text-snow">
                   {homeCare.availability.title}
                 </h2>
               </div>

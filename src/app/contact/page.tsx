@@ -26,8 +26,7 @@ export default function ContactPage() {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="grid gap-16 lg:grid-cols-12">
             <Reveal className="lg:col-span-5">
-              <span className="eyebrow">Στοιχεία</span>
-              <h2 className="display mt-5 text-[clamp(2.25rem,4vw,3.5rem)] leading-[1] tracking-[-0.02em] text-ink">
+              <h2 className="display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1] tracking-[-0.02em] text-ink">
                 {contact.formHeading}
               </h2>
               <p className="mt-6 max-w-[42ch] text-base leading-relaxed text-ink-muted lg:text-lg">

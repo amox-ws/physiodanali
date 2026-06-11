@@ -75,15 +75,14 @@ export default async function ArticlePage({
           <Reveal>
             <Link
               href="/articles"
-              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-ink-muted transition-colors hover:text-cobalt"
+              className="inline-flex items-center gap-2 text-base text-ink-muted transition-colors hover:text-cobalt"
             >
-              <ArrowLeft className="size-3.5" strokeWidth={1.5} />
+              <ArrowLeft className="size-4" strokeWidth={1.5} />
               Όλα τα άρθρα
             </Link>
           </Reveal>
           <Reveal delay={0.05}>
-            <span className="eyebrow mt-10 block">{post.category}</span>
-            <h1 className="display mt-6 text-[clamp(2.25rem,5.5vw,5rem)] tracking-[-0.025em] leading-[0.98] text-ink">
+            <h1 className="display mt-10 text-[clamp(2.25rem,5.5vw,5rem)] tracking-[-0.025em] leading-[0.98] text-ink">
               {post.title}
             </h1>
             <div className="mt-10 flex items-center gap-4 text-sm text-ink-muted">
@@ -118,8 +117,7 @@ export default async function ArticlePage({
         <div className="mx-auto max-w-[780px] px-3 sm:px-5 lg:px-6">
           <Reveal>
             <div className="rounded-[24px] border border-cobalt/20 bg-cobalt/5 p-8 lg:p-10">
-              <span className="eyebrow">Έχετε παρόμοιο πρόβλημα;</span>
-              <p className="display mt-4 text-2xl leading-[1.2] tracking-tight text-ink lg:text-3xl">
+              <p className="display text-2xl leading-[1.2] tracking-tight text-ink lg:text-3xl">
                 Κλείστε αξιολόγηση και βρείτε την προσέγγιση που ταιριάζει στη
                 δική σας περίπτωση.
               </p>
@@ -147,8 +145,7 @@ export default async function ArticlePage({
       <section className="bg-porcelain py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mb-12">
-            <span className="eyebrow">Περισσότερα άρθρα</span>
-            <h2 className="display mt-5 text-[clamp(2rem,4vw,3.5rem)] leading-[1] tracking-[-0.02em] text-ink">
+            <h2 className="display text-[clamp(2rem,4vw,3.5rem)] leading-[1] tracking-[-0.02em] text-ink">
               Συνεχίστε την ανάγνωση.
             </h2>
           </Reveal>
@@ -162,7 +159,7 @@ export default async function ArticlePage({
                   <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
                     {p.category} · {p.readTime}
                   </span>
-                  <h3 className="display mt-5 text-[clamp(1.5rem,2.5vw,2rem)] leading-[1.1] tracking-tight text-ink group-hover:text-cobalt">
+                  <h3 className="display text-[clamp(1.5rem,2.5vw,2rem)] leading-[1.1] tracking-tight text-ink group-hover:text-cobalt">
                     {p.title}
                   </h3>
                   <p className="mt-4 line-clamp-3 text-base leading-relaxed text-ink-muted">

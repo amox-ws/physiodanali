@@ -87,7 +87,7 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
                 <span className="text-stone-dark/60">·</span>
                 <span>{post.date}</span>
               </div>
-              <h3 className="display mt-5 text-[clamp(1.5rem,2.2vw,1.95rem)] leading-[1.1] tracking-tight text-ink transition-colors group-hover:text-cobalt">
+              <h3 className="display text-[clamp(1.5rem,2.2vw,1.95rem)] leading-[1.1] tracking-tight text-ink transition-colors group-hover:text-cobalt">
                 {post.title}
               </h3>
               <p className="mt-4 text-base leading-relaxed text-ink-muted">

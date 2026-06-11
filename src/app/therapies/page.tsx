@@ -59,8 +59,7 @@ export default function TherapiesPage() {
           <Reveal>
             <div className="grid gap-12 lg:grid-cols-12">
               <div className="lg:col-span-5">
-                <span className="eyebrow">{therapies.intro.eyebrow}</span>
-                <h2 className="display mt-5 text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1] tracking-[-0.02em] text-ink">
+                <h2 className="display text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1] tracking-[-0.02em] text-ink">
                   {therapies.intro.title}
                 </h2>
               </div>

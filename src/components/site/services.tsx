@@ -61,10 +61,9 @@ export function Services() {
       <div className="relative mx-auto max-w-[1400px] px-6 lg:px-10">
         <Reveal className="mb-16 grid gap-10 lg:grid-cols-12 lg:items-end lg:mb-20">
           <div className="lg:col-span-7">
-            <span className="eyebrow">{services.eyebrow}</span>
             <h2
               id="services-heading"
-              className="display mt-5 text-[clamp(2.5rem,5.5vw,4.75rem)] tracking-[-0.02em] leading-[0.98] text-ink"
+              className="display text-[clamp(2.5rem,5.5vw,4.75rem)] tracking-[-0.02em] leading-[0.98] text-ink"
             >
               Άμεση εξυπηρέτηση επειγόντων.{" "}
               <span className="display-italic text-cobalt">
