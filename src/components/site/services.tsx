@@ -189,7 +189,7 @@ function ServiceCard({
           <div className="absolute inset-x-0 bottom-0 p-5 lg:p-6">
             <h3
               className={
-                "display text-[clamp(1.25rem,2.6vw,1.85rem)] leading-[1.05] tracking-[-0.01em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] " +
+                "display text-[clamp(1.5rem,3vw,2.2rem)] leading-[1.05] tracking-[-0.01em] drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)] " +
                 (isDark ? "text-snow" : "text-ink")
               }
             >
@@ -199,20 +199,10 @@ function ServiceCard({
         </div>
 
         {/* Body */}
-        <div className="flex flex-1 flex-col gap-4 p-5 lg:gap-5 lg:p-6">
-          <p className="text-[13px] leading-relaxed text-ink-muted lg:text-sm">
+        <div className="flex flex-1 flex-col gap-4 p-6 lg:gap-5 lg:p-7">
+          <p className="text-base leading-relaxed text-ink-muted lg:text-lg">
             {service.tagline}
           </p>
-          <ul className="mt-auto flex flex-wrap gap-1.5 pt-1">
-            {service.bullets.map((b) => (
-              <li
-                key={b}
-                className="inline-flex items-center rounded-full border border-stone bg-mist/60 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-ink-muted"
-              >
-                {b}
-              </li>
-            ))}
-          </ul>
         </div>
       </Link>
     </motion.div>
