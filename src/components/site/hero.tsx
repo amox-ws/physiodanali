@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 // useScroll + useTransform kept for hero text parallax only — single
@@ -27,23 +28,24 @@ export function Hero() {
       id="top"
       className="relative isolate min-h-[100svh] overflow-hidden bg-porcelain"
     >
-      {/* Tonal gradient background — static, no animation (cheap paint) */}
+      {/* Hero photo background */}
+      <Image
+        src="/herohome2.jpg"
+        alt=""
+        aria-hidden
+        fill
+        priority
+        sizes="100vw"
+        className="absolute inset-0 -z-30 object-cover object-center"
+      />
+      {/* Light readability scrim — only enough to keep the dark ink
+          headline legible. Much weaker than before so the photo shows through. */}
       <div
         aria-hidden
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "radial-gradient(120% 80% at 80% 30%, rgba(15,37,64,0.32) 0%, rgba(15,37,64,0.12) 38%, rgba(247,248,250,0) 70%), radial-gradient(80% 60% at 20% 90%, rgba(126,168,220,0.28) 0%, rgba(247,248,250,0) 60%), linear-gradient(180deg, #eef1f4 0%, #f7f8fa 100%)",
-        }}
-      />
-      {/* Hairline grid */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #0a1628 1px, transparent 1px), linear-gradient(to bottom, #0a1628 1px, transparent 1px)",
-          backgroundSize: "120px 120px",
+            "linear-gradient(100deg, rgba(247,248,250,0.55) 0%, rgba(247,248,250,0.35) 40%, rgba(247,248,250,0.10) 70%, rgba(247,248,250,0) 100%)",
         }}
       />
       {/* Soft fade so the next section doesn't slam */}
