@@ -6,7 +6,6 @@ import { Testimonials } from "@/components/site/testimonials";
 import { Bio } from "@/components/site/bio";
 import { Process } from "@/components/site/process";
 import { BookingBand } from "@/components/site/booking-band";
-import { Coverage } from "@/components/site/coverage";
 import { LatestArticles } from "@/components/site/latest-articles";
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
       <Bio />
       <Process />
       <BookingBand />
-      <Coverage />
       <LatestArticles />
     </>
   );
