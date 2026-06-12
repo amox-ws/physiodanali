@@ -295,6 +295,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(150deg, #c9a96e 0%, #b89968 50%, #6b5a3f 100%)",
     monogram: "Κ",
+    image: "/kimfosis.jpg",
   },
   {
     slug: "lymphatic",
@@ -311,6 +312,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(155deg, #cdddef 0%, #7ea8dc 60%, #1e4d8b 100%)",
     monogram: "Λ",
+    image: "/brazilian.jpg",
   },
   {
     slug: "clinical-pilates",
@@ -322,6 +324,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(150deg, #182a44 0%, #0f2540 50%, #b89968 130%)",
     monogram: "CP",
+    image: "/clinicalpilates.jpg",
   },
   {
     slug: "neck-pain",
