@@ -38,7 +38,7 @@ export default function AboutPage() {
             <Reveal blur className="lg:col-span-5">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-stone">
                 <Image
-                  src="/doctor.webp"
+                  src="/drfoto2.jpg"
                   alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
                   fill
                   sizes="(min-width: 1024px) 40vw, 100vw"
