@@ -1,31 +1,43 @@
 import type { Metadata } from "next";
 import { articles } from "@/lib/content";
-import { PageHero } from "@/components/site/page-primitives";
 import { ArticleGrid } from "@/components/site/article-grid";
+import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: articles.meta.title,
   description: articles.meta.description,
 };
 
-export default function ArticlesPage() {
+function renderTitle() {
+  const { title, titleAccent } = articles.hero;
+  if (!titleAccent || !title.includes(titleAccent)) return title;
+  const [before, after] = title.split(titleAccent);
   return (
     <>
-      <PageHero
-        breadcrumb={articles.breadcrumb}
-        eyebrow={articles.hero.eyebrow}
-        title={articles.hero.title}
-        titleAccent={articles.hero.titleAccent}
-        lead={articles.hero.lead}
-        primaryCta={{ label: "Κλείστε ραντεβού", href: "/contact" }}
-        secondaryCta={{ label: "Καλέστε τώρα", href: "tel:+306944344342" }}
-      />
-
-      <section className="bg-snow py-28 lg:py-36">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <ArticleGrid posts={articles.posts} />
-        </div>
-      </section>
+      {before}
+      <span className="display-italic text-cobalt">{titleAccent}</span>
+      {after}
     </>
+  );
+}
+
+export default function ArticlesPage() {
+  return (
+    <section className="bg-snow pt-36 pb-28 lg:pt-44 lg:pb-36">
+      <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+        {/* Header */}
+        <Reveal className="mb-16 max-w-[68rem] lg:mb-20">
+          <h1 className="display text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-[-0.025em] text-ink">
+            {renderTitle()}
+          </h1>
+          <p className="mt-8 max-w-[58ch] text-lg leading-relaxed text-ink-muted lg:text-xl">
+            {articles.hero.lead}
+          </p>
+        </Reveal>
+
+        {/* Grid */}
+        <ArticleGrid posts={articles.posts} />
+      </div>
+    </section>
   );
 }
