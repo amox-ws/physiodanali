@@ -271,6 +271,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(160deg, #1e4d8b 0%, #0f2540 60%, #0a1628 100%)",
     monogram: "ΦΘ",
+    image: "/physioathome.jpg",
   },
   {
     slug: "chiropractic",
@@ -282,6 +283,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(150deg, #2563b0 0%, #1e4d8b 60%, #0f2540 100%)",
     monogram: "ΧΡ",
+    image: "/chiropractic.jpg",
   },
   {
     slug: "kyphosis",
