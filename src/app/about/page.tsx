@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
 import { about, home, site } from "@/lib/content";
 import { PageHero } from "@/components/site/page-primitives";
+import { TrustBar } from "@/components/site/trust-bar";
 import { Reveal } from "@/components/motion/reveal";
 import { CountUp } from "@/components/motion/count-up";
 
@@ -28,7 +29,7 @@ export default function AboutPage() {
       {/* ───── CONSOLIDATED CV — sticky portrait + scrolling content ───── */}
       <section className="bg-snow py-24 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="grid gap-14 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
             {/* Sticky portrait */}
             <div className="lg:col-span-5">
               <div className="lg:sticky lg:top-28">
@@ -151,6 +152,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* Affiliation logos carousel */}
+      <TrustBar />
 
       {/* Patient testimonials snippet */}
       <section className="bg-ink py-28 text-snow lg:py-36">
