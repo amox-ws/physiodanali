@@ -331,6 +331,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(150deg, #eef1f4 0%, #cdddef 50%, #7ea8dc 100%)",
     monogram: "Α",
+    image: "/auxenelia.jpg",
   },
   {
     slug: "low-back-pain",
@@ -342,6 +343,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(150deg, #e6d9bf 0%, #c9a96e 50%, #6b5a3f 100%)",
     monogram: "Ο",
+    image: "/osfilagia.jpg",
   },
   {
     slug: "hip-pain",
@@ -353,6 +355,7 @@ export const serviceSummaries: ServiceSummary[] = [
     gradient:
       "linear-gradient(150deg, #7ea8dc 0%, #2563b0 60%, #0f2540 100%)",
     monogram: "Ι",
+    image: "/isxilia.jpg",
   },
 ];
 
