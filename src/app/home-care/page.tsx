@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowUpRight,
@@ -49,12 +50,23 @@ export default function HomeCarePage() {
 
       {/* ───── HERO ───── */}
       <section className="relative isolate overflow-hidden bg-porcelain pt-36 pb-20 lg:pt-44 lg:pb-28">
+        {/* Photo background */}
+        <Image
+          src="/katoikonhero.jpg"
+          alt=""
+          aria-hidden
+          fill
+          priority
+          sizes="100vw"
+          className="absolute inset-0 -z-20 object-cover object-center"
+        />
+        {/* Light scrim so the dark ink headline stays legible */}
         <div
           aria-hidden
           className="absolute inset-0 -z-10"
           style={{
             background:
-              "radial-gradient(75% 60% at 85% 0%, rgba(30,77,139,0.16) 0%, transparent 60%), radial-gradient(55% 50% at 0% 100%, rgba(126,168,220,0.18) 0%, transparent 60%), linear-gradient(180deg, #eef1f4 0%, #f7f8fa 100%)",
+              "linear-gradient(100deg, rgba(247,248,250,0.92) 0%, rgba(247,248,250,0.8) 42%, rgba(247,248,250,0.5) 72%, rgba(247,248,250,0.18) 100%)",
           }}
         />
 
