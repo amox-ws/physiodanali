@@ -8,17 +8,22 @@ type RevealProps = {
   className?: string;
   delay?: number;
   y?: number;
+  /** Horizontal slide-in offset (e.g. -120 = enters from the left). */
+  x?: number;
+  /** Animation duration in seconds (default 0.7). */
+  duration?: number;
   /** Kept for API compat; blur is no longer applied (was GPU-expensive). */
   blur?: boolean;
   as?: "div" | "section" | "article" | "li" | "header";
 };
 
-const baseVariants = (y: number): Variants => ({
-  hidden: { opacity: 0, y },
+const baseVariants = (y: number, x: number, duration: number): Variants => ({
+  hidden: { opacity: 0, y, x },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    x: 0,
+    transition: { duration, ease: [0.22, 1, 0.36, 1] },
   },
 });
 
@@ -27,6 +32,8 @@ export function Reveal({
   className,
   delay = 0,
   y = 16,
+  x = 0,
+  duration = 0.7,
   as = "div",
 }: RevealProps) {
   const MotionTag = motion[as];
@@ -36,7 +43,7 @@ export function Reveal({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
-      variants={baseVariants(y)}
+      variants={baseVariants(y, x, duration)}
       transition={{ delay }}
     >
       {children}

@@ -175,7 +175,14 @@ export default function HomeCarePage() {
             {homeCare.whyDifferent.items.map((item, i) => {
               const Icon = whyIcons[i % whyIcons.length];
               return (
-                <Reveal key={item.title} delay={i * 0.08} className="h-full">
+                <Reveal
+                  key={item.title}
+                  x={-160}
+                  y={0}
+                  duration={0.7}
+                  delay={i * 0.18}
+                  className="h-full"
+                >
                   <div className="group flex h-full flex-col rounded-[24px] border border-stone bg-porcelain p-8 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)] lg:p-10">
                     <span className="flex size-14 items-center justify-center rounded-2xl bg-cobalt/10 text-cobalt transition-colors duration-500 group-hover:bg-cobalt group-hover:text-snow">
                       <Icon className="size-7" strokeWidth={1.5} />
