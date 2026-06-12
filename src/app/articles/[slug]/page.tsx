@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Clock } from "lucide-react";
@@ -94,6 +95,24 @@ export default async function ArticlePage({
               </span>
               <span className="block h-3 w-px bg-stone-dark/50" />
               <span>{post.date}</span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Featured image */}
+      <section className="bg-snow">
+        <div className="mx-auto max-w-[1100px] px-6 lg:px-10">
+          <Reveal>
+            <div className="relative aspect-[16/9] overflow-hidden rounded-[24px] bg-stone shadow-[0_40px_80px_-30px_rgba(15,37,64,0.35)]">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                priority
+                sizes="(min-width: 1100px) 1040px, 100vw"
+                className="object-cover"
+              />
             </div>
           </Reveal>
         </div>

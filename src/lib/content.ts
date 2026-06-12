@@ -466,6 +466,7 @@ export type Article = {
   readTime: string;
   date: string;
   href: string;
+  image: string;
 };
 
 export const articles = {
@@ -492,6 +493,7 @@ export const articles = {
       readTime: "10 λεπτά",
       date: "14 Μαΐου 2026",
       href: "/articles/vestibular-rehab",
+      image: "/articles/vestibular-rehab.jpg",
     },
     {
       slug: "disc-herniation",
@@ -503,6 +505,7 @@ export const articles = {
       readTime: "8 λεπτά",
       date: "11 Μαΐου 2026",
       href: "/articles/disc-herniation",
+      image: "/articles/disc-herniation.jpg",
     },
     {
       slug: "multiple-sclerosis",
@@ -514,6 +517,7 @@ export const articles = {
       readTime: "9 λεπτά",
       date: "8 Μαΐου 2026",
       href: "/articles/multiple-sclerosis",
+      image: "/articles/multiple-sclerosis.jpg",
     },
     {
       slug: "rotator-cuff",
@@ -525,6 +529,7 @@ export const articles = {
       readTime: "7 λεπτά",
       date: "5 Μαΐου 2026",
       href: "/articles/rotator-cuff",
+      image: "/articles/rotator-cuff.jpg",
     },
     {
       slug: "brazilian-drainage",
@@ -536,6 +541,7 @@ export const articles = {
       readTime: "6 λεπτά",
       date: "1 Μαΐου 2026",
       href: "/articles/brazilian-drainage",
+      image: "/articles/brazilian-drainage.jpg",
     },
     {
       slug: "frozen-shoulder",
@@ -546,6 +552,7 @@ export const articles = {
       readTime: "8 λεπτά",
       date: "27 Απριλίου 2026",
       href: "/articles/frozen-shoulder",
+      image: "/articles/frozen-shoulder.jpg",
     },
     {
       slug: "parkinsons-exercise",
@@ -556,6 +563,7 @@ export const articles = {
       readTime: "9 λεπτά",
       date: "24 Απριλίου 2026",
       href: "/articles/parkinsons-exercise",
+      image: "/articles/parkinsons-exercise.jpg",
     },
     {
       slug: "stroke-rehabilitation",
@@ -567,6 +575,7 @@ export const articles = {
       readTime: "7 λεπτά",
       date: "19 Απριλίου 2026",
       href: "/articles/stroke-rehabilitation",
+      image: "/articles/stroke-rehabilitation.jpg",
     },
     {
       slug: "sprained-ankle",
@@ -577,6 +586,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "15 Δεκεμβρίου 2024",
       href: "/articles/sprained-ankle",
+      image: "/articles/sprained-ankle.jpg",
     },
     {
       slug: "low-back-pain",
@@ -587,6 +597,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "22 Δεκεμβρίου 2023",
       href: "/articles/low-back-pain",
+      image: "/articles/low-back-pain.jpg",
     },
     {
       slug: "neck-pain",
@@ -597,6 +608,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "15 Δεκεμβρίου 2023",
       href: "/articles/neck-pain",
+      image: "/articles/neck-pain.jpg",
     },
     {
       slug: "shoulder-pain",
@@ -607,6 +619,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "5 Δεκεμβρίου 2023",
       href: "/articles/shoulder-pain",
+      image: "/articles/shoulder-pain.jpg",
     },
     {
       slug: "knee-pain",
@@ -617,6 +630,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "1 Δεκεμβρίου 2023",
       href: "/articles/knee-pain",
+      image: "/articles/knee-pain.jpg",
     },
     {
       slug: "hip-pain",
@@ -627,6 +641,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "30 Νοεμβρίου 2023",
       href: "/articles/hip-pain",
+      image: "/articles/hip-pain.jpg",
     },
     {
       slug: "hand-pain",
@@ -637,6 +652,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "29 Νοεμβρίου 2023",
       href: "/articles/hand-pain",
+      image: "/articles/hand-pain.jpg",
     },
     {
       slug: "elbow-pain",
@@ -647,6 +663,7 @@ export const articles = {
       readTime: "6 λεπτά",
       date: "24 Νοεμβρίου 2023",
       href: "/articles/elbow-pain",
+      image: "/articles/elbow-pain.jpg",
     },
     {
       slug: "foot-pain",
@@ -657,6 +674,7 @@ export const articles = {
       readTime: "5 λεπτά",
       date: "20 Νοεμβρίου 2023",
       href: "/articles/foot-pain",
+      image: "/articles/foot-pain.jpg",
     },
     {
       slug: "tendinopathy",
@@ -667,6 +685,7 @@ export const articles = {
       readTime: "6 λεπτά",
       date: "6 Αυγούστου 2023",
       href: "/articles/tendinopathy",
+      image: "/articles/tendinopathy.jpg",
     },
   ] satisfies Article[],
 };

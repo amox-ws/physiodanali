@@ -1,18 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock } from "lucide-react";
 import { stagger, staggerItem } from "@/components/motion/reveal";
 import type { Article } from "@/lib/content";
-
-const tints = [
-  "linear-gradient(150deg, #1e4d8b 0%, #0f2540 60%, #0a1628 100%)",
-  "linear-gradient(150deg, #cdddef 0%, #7ea8dc 100%)",
-  "linear-gradient(150deg, #eef1f4 0%, #dde3ea 100%)",
-];
-
-const textOnDark = [true, false, false];
 
 export function ArticleGrid({ posts }: { posts: Article[] }) {
   return (
@@ -23,7 +16,7 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
       viewport={{ once: true, margin: "-80px" }}
       className="grid gap-10 md:grid-cols-2 lg:grid-cols-3"
     >
-      {posts.map((post, idx) => (
+      {posts.map((post) => (
         <motion.article
           key={post.slug}
           variants={staggerItem}
@@ -34,48 +27,29 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
             aria-label={post.title}
             className="block"
           >
-            <div
-              className="relative aspect-[5/4] overflow-hidden rounded-[24px]"
-              style={{ background: tints[idx % tints.length] }}
-            >
+            <div className="relative aspect-[5/4] overflow-hidden rounded-[24px] bg-stone">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
+              />
+              {/* Gradient scrim for legibility of the overlaid label */}
               <div
-                className="absolute inset-0 mix-blend-overlay opacity-30"
+                aria-hidden
+                className="absolute inset-0"
                 style={{
-                  backgroundImage:
-                    "radial-gradient(60% 60% at 70% 20%, rgba(255,255,255,0.45) 0%, transparent 60%)",
+                  background:
+                    "linear-gradient(to top, rgba(10,22,40,0.55) 0%, transparent 45%)",
                 }}
               />
-              <div className="absolute inset-0 flex flex-col justify-between p-6 lg:p-8">
-                <div className="flex items-start justify-between">
-                  <span
-                    className={`text-[11px] uppercase tracking-[0.22em] ${
-                      textOnDark[idx % textOnDark.length]
-                        ? "text-snow/70"
-                        : "text-ink/70"
-                    }`}
-                  >
-                    {post.category}
-                  </span>
-                  <span
-                    className={`flex size-12 items-center justify-center rounded-full transition-all duration-500 group-hover:rotate-45 ${
-                      textOnDark[idx % textOnDark.length]
-                        ? "bg-snow/15 text-snow"
-                        : "bg-snow/70 text-ink"
-                    }`}
-                  >
-                    <ArrowUpRight className="size-5" strokeWidth={1.5} />
-                  </span>
-                </div>
-                <span
-                  className={`display text-[clamp(2.5rem,4vw,3.5rem)] leading-[0.95] ${
-                    textOnDark[idx % textOnDark.length]
-                      ? "text-snow/15"
-                      : "text-ink/15"
-                  }`}
-                  style={{ letterSpacing: "-0.04em" }}
-                  aria-hidden="true"
-                >
-                  {idx + 1}
+              <div className="absolute inset-0 flex items-start justify-between p-6 lg:p-8">
+                <span className="rounded-full bg-snow/90 px-3 py-1.5 text-[11px] uppercase tracking-[0.18em] text-ink">
+                  {post.category}
+                </span>
+                <span className="flex size-12 items-center justify-center rounded-full bg-snow/90 text-ink transition-all duration-500 group-hover:rotate-45 group-hover:bg-cobalt group-hover:text-snow">
+                  <ArrowUpRight className="size-5" strokeWidth={1.5} />
                 </span>
               </div>
             </div>
