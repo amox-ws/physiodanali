@@ -122,7 +122,7 @@ export default function HomeCarePage() {
       {/* Practitioner */}
       <section className="bg-snow py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <PractitionerCard />
+          <PractitionerCard image="/drfoto3.jpg" />
         </div>
       </section>
 

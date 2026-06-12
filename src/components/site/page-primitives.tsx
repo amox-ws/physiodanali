@@ -282,12 +282,16 @@ export function NumberedSteps({ steps }: NumberedStepsProps) {
 // ─────────────────────────────────────────────────────────────────────
 // PRACTITIONER MINI CARD — small bio reminder
 
-export function PractitionerCard() {
+export function PractitionerCard({
+  image = "/doctor.webp",
+}: {
+  image?: string;
+}) {
   return (
     <Reveal className="overflow-hidden rounded-[28px] border border-stone bg-snow lg:grid lg:grid-cols-12">
       <div className="relative aspect-[4/5] bg-stone lg:col-span-5 lg:aspect-auto">
         <Image
-          src="/doctor.webp"
+          src={image}
           alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
           fill
           sizes="(min-width: 1024px) 35vw, 100vw"
