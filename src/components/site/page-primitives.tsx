@@ -19,6 +19,8 @@ type PageHeroProps = {
   lead: string;
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
+  /** Optional photo background behind the hero. */
+  bgImage?: string;
 };
 
 export function PageHero({
@@ -29,6 +31,7 @@ export function PageHero({
   lead,
   primaryCta,
   secondaryCta,
+  bgImage,
 }: PageHeroProps) {
   // Render the title with the accent (if matched) replaced with italic span.
   const renderTitle = () => {
@@ -47,24 +50,50 @@ export function PageHero({
 
   return (
     <section className="relative isolate overflow-hidden bg-porcelain pt-36 pb-20 lg:pt-48 lg:pb-32">
-      {/* Soft tonal gradient + grid */}
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(80% 60% at 80% 0%, rgba(30,77,139,0.18) 0%, transparent 60%), radial-gradient(60% 50% at 0% 100%, rgba(126,168,220,0.18) 0%, transparent 60%), linear-gradient(180deg, #eef1f4 0%, #f7f8fa 100%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #0a1628 1px, transparent 1px), linear-gradient(to bottom, #0a1628 1px, transparent 1px)",
-          backgroundSize: "120px 120px",
-        }}
-      />
+      {bgImage ? (
+        <>
+          {/* Photo background */}
+          <Image
+            src={bgImage}
+            alt=""
+            aria-hidden
+            fill
+            priority
+            sizes="100vw"
+            className="absolute inset-0 -z-20 object-cover object-center"
+          />
+          {/* Light scrim so the dark ink headline stays legible */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "linear-gradient(100deg, rgba(247,248,250,0.92) 0%, rgba(247,248,250,0.78) 40%, rgba(247,248,250,0.45) 70%, rgba(247,248,250,0.15) 100%)",
+            }}
+          />
+        </>
+      ) : (
+        <>
+          {/* Soft tonal gradient + grid */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(80% 60% at 80% 0%, rgba(30,77,139,0.18) 0%, transparent 60%), radial-gradient(60% 50% at 0% 100%, rgba(126,168,220,0.18) 0%, transparent 60%), linear-gradient(180deg, #eef1f4 0%, #f7f8fa 100%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 opacity-[0.04]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, #0a1628 1px, transparent 1px), linear-gradient(to bottom, #0a1628 1px, transparent 1px)",
+              backgroundSize: "120px 120px",
+            }}
+          />
+        </>
+      )}
 
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <motion.div

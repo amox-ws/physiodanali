@@ -24,6 +24,7 @@ export default function AboutPage() {
         lead={about.hero.lead}
         primaryCta={about.hero.primaryCta}
         secondaryCta={about.hero.secondaryCta}
+        bgImage="/abouthero.jpg"
       />
 
       {/* ───── CONSOLIDATED CV — sticky portrait + scrolling content ───── */}
@@ -183,10 +184,10 @@ export default function AboutPage() {
           <Reveal>
             <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
-                <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-ink">
-                  Έτοιμος για το επόμενο βήμα.
+                <h2 className="display text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.98] tracking-[-0.02em] text-ink">
+                  Έτοιμοι για το επόμενο βήμα.
                 </h2>
-                <p className="mt-8 max-w-[50ch] text-base leading-relaxed text-ink-muted lg:text-lg">
+                <p className="mt-8 max-w-[50ch] text-lg leading-relaxed text-ink-muted lg:text-xl">
                   Κλείστε αξιολόγηση ή ραντεβού — αυθημερόν εφόσον υπάρχει
                   διαθεσιμότητα. Καλύπτουμε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα
                   και Άλιμο.
@@ -195,25 +196,25 @@ export default function AboutPage() {
               <div className="flex flex-col gap-3 lg:col-span-5">
                 <Link
                   href="/contact"
-                  className="group flex items-center justify-between rounded-2xl bg-ink px-6 py-5 text-snow transition-all hover:bg-cobalt"
+                  className="group flex items-center justify-between rounded-2xl bg-ink px-7 py-6 text-snow transition-all hover:bg-cobalt"
                 >
-                  <span className="display text-2xl tracking-tight">
+                  <span className="display text-2xl tracking-tight lg:text-3xl">
                     Φόρμα επικοινωνίας
                   </span>
                   <ArrowUpRight
-                    className="size-5 transition-transform duration-500 group-hover:rotate-45"
+                    className="size-6 transition-transform duration-500 group-hover:rotate-45"
                     strokeWidth={1.5}
                   />
                 </Link>
                 <a
                   href={`tel:${site.phone}`}
-                  className="group flex items-center justify-between rounded-2xl border border-stone bg-porcelain px-6 py-5 transition-all hover:border-cobalt"
+                  className="group flex items-center justify-between rounded-2xl border border-stone bg-porcelain px-7 py-6 transition-all hover:border-cobalt"
                 >
-                  <span className="display text-xl tracking-tight text-ink">
+                  <span className="text-2xl font-semibold tracking-tight text-ink lg:text-[1.75rem]">
                     {site.phoneDisplay}
                   </span>
                   <ArrowUpRight
-                    className="size-5 text-ink-muted transition-transform duration-500 group-hover:rotate-45 group-hover:text-cobalt"
+                    className="size-6 text-ink-muted transition-transform duration-500 group-hover:rotate-45 group-hover:text-cobalt"
                     strokeWidth={1.5}
                   />
                 </a>
