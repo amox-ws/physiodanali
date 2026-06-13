@@ -7,8 +7,12 @@ import { Bio } from "@/components/site/bio";
 import { Process } from "@/components/site/process";
 import { BookingBand } from "@/components/site/booking-band";
 import { LatestArticles } from "@/components/site/latest-articles";
+import { getPublishedArticles } from "@/lib/articles";
 
-export default function Home() {
+export const revalidate = 3600;
+
+export default async function Home() {
+  const latest = await getPublishedArticles(3);
   return (
     <>
       <Hero />
@@ -19,7 +23,7 @@ export default function Home() {
       <Bio />
       <Process />
       <BookingBand />
-      <LatestArticles />
+      <LatestArticles posts={latest} />
     </>
   );
 }

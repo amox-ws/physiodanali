@@ -4,11 +4,9 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { ArticleGrid } from "@/components/site/article-grid";
-import { articles } from "@/lib/content";
+import type { Article } from "@/lib/content";
 
-export function LatestArticles() {
-  const latest = articles.posts.slice(0, 3);
-
+export function LatestArticles({ posts }: { posts: Article[] }) {
   return (
     <section
       aria-labelledby="latest-articles-heading"
@@ -47,7 +45,7 @@ export function LatestArticles() {
           </div>
         </Reveal>
 
-        <ArticleGrid posts={latest} />
+        <ArticleGrid posts={posts} />
       </div>
     </section>
   );
