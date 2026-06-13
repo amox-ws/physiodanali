@@ -1,6 +1,7 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
 import { createServiceClient } from "@/lib/supabase/service";
+import { notifyNewDraft } from "@/lib/notify";
 
 // AI article generation (Phase 5). Picks the next backlog topic, asks Claude to
 // write a full Greek article in the exact DB shape (structured outputs), and
@@ -214,6 +215,9 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
   if (topic) {
     await supabase.from("article_topics").update({ status: "drafted" }).eq("id", topic.id);
   }
+
+  // 7. Notify the owner (never throws).
+  await notifyNewDraft({ id: inserted.id as string, title: inserted.title as string });
 
   return {
     id: inserted.id as string,

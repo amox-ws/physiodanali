@@ -3,6 +3,7 @@
 import { revalidateTag, revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminEmail } from "@/lib/admin";
+import { pingIndexNow } from "@/lib/indexnow";
 import type { Section, Faq } from "@/lib/admin-articles";
 
 // Server Actions can bypass the proxy matcher (Next 16 docs), so every action
@@ -70,6 +71,7 @@ export async function saveArticle(
       revalidateTag("articles", "max");
       revalidatePath("/articles");
       revalidatePath(`/articles/${data.slug}`);
+      await pingIndexNow(["/articles", `/articles/${data.slug}`]);
     }
     return { id };
   }
@@ -97,6 +99,7 @@ export async function publishArticle(id: string): Promise<void> {
   revalidatePath("/articles");
   revalidatePath(`/articles/${data.slug}`);
   revalidatePath("/admin");
+  await pingIndexNow(["/articles", `/articles/${data.slug}`]);
 }
 
 export async function unpublishArticle(id: string): Promise<void> {
