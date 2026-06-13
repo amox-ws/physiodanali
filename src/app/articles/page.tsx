@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import { articles } from "@/lib/content";
+import { getPublishedArticles } from "@/lib/articles";
 import { ArticleGrid } from "@/components/site/article-grid";
 import { Reveal } from "@/components/motion/reveal";
 
 export const metadata: Metadata = {
   title: articles.meta.title,
   description: articles.meta.description,
+  alternates: { canonical: "/articles" },
 };
+
+// ISR safety net; on publish the admin calls revalidateTag("articles").
+export const revalidate = 3600;
 
 function renderTitle() {
   const { title, titleAccent } = articles.hero;
@@ -21,7 +26,8 @@ function renderTitle() {
   );
 }
 
-export default function ArticlesPage() {
+export default async function ArticlesPage() {
+  const posts = await getPublishedArticles();
   return (
     <section className="bg-snow pt-36 pb-28 lg:pt-44 lg:pb-36">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
@@ -36,7 +42,7 @@ export default function ArticlesPage() {
         </Reveal>
 
         {/* Grid */}
-        <ArticleGrid posts={articles.posts} />
+        <ArticleGrid posts={posts} />
       </div>
     </section>
   );

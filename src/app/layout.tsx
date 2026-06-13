@@ -1,15 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { EB_Garamond, Inter } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/site/header";
-import { Footer } from "@/components/site/footer";
+import { SiteChrome } from "@/components/site/site-chrome";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema, personSchema } from "@/lib/seo";
 
-const cormorant = Cormorant_Garamond({
+// EB Garamond — Garamond-style serif with full Greek support (Cormorant
+// Garamond has no Greek subset). Keeps the --font-cormorant variable so the
+// design system (globals.css) is unchanged. Swap here for another Greek serif
+// (Literata, Noto Serif Display, GFS Didot) if the brand prefers.
+const cormorant = EB_Garamond({
   variable: "--font-cormorant",
   subsets: ["greek", "latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   display: "swap",
 });
@@ -58,11 +61,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <JsonLd data={[localBusinessSchema, personSchema]} />
-        <Header />
-        <div className="page-stack">
-          <main>{children}</main>
-        </div>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
