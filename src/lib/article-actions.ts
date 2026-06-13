@@ -57,9 +57,20 @@ export async function saveArticle(
   const row = toRow(input);
 
   if (id) {
-    const { error } = await supabase.from("articles").update(row).eq("id", id);
+    const { data, error } = await supabase
+      .from("articles")
+      .update(row)
+      .eq("id", id)
+      .select("slug,status")
+      .single();
     if (error) throw new Error(error.message);
     revalidatePath("/admin");
+    // Editing an already-published article must refresh the public page too.
+    if (data.status === "published") {
+      revalidateTag("articles", "max");
+      revalidatePath("/articles");
+      revalidatePath(`/articles/${data.slug}`);
+    }
     return { id };
   }
 
