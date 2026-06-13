@@ -3,14 +3,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight, Clock } from "lucide-react";
-import { articleBodies, articles, site } from "@/lib/content";
+import { site } from "@/lib/content";
+import {
+  getArticleBySlug,
+  getPublishedArticles,
+  getPublishedSlugs,
+} from "@/lib/articles";
 import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { articleSchema, breadcrumbSchema } from "@/lib/seo";
 import { FinalCTA } from "@/components/site/page-primitives";
 
-export function generateStaticParams() {
-  return articles.posts.map((p) => ({ slug: p.slug }));
+// ISR safety net; on publish the admin calls revalidateTag("articles").
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const slugs = await getPublishedSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +28,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = articles.posts.find((p) => p.slug === slug);
+  const post = await getArticleBySlug(slug);
   if (!post) return { title: "Άρθρο" };
   return {
     title: post.title,
@@ -39,11 +48,11 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = articles.posts.find((p) => p.slug === slug);
-  const body = articleBodies[slug];
-  if (!post || !body) notFound();
-
-  const others = articles.posts.filter((p) => p.slug !== slug);
+  const article = await getArticleBySlug(slug);
+  if (!article) notFound();
+  const post = article;
+  const body = article;
+  const others = (await getPublishedArticles()).filter((p) => p.slug !== slug);
 
   return (
     <>

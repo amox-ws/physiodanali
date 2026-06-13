@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/seo";
-import { articles, conditions } from "@/lib/content";
+import { conditions } from "@/lib/content";
+import { getPublishedSlugs } from "@/lib/articles";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -24,7 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/about`, priority: 0.7, changeFrequency: "monthly" },
     { url: `${SITE_URL}/articles`, priority: 0.8, changeFrequency: "weekly" },
     { url: `${SITE_URL}/contact`, priority: 0.8, changeFrequency: "monthly" },
-  ].map((r) => ({ ...r, lastModified: now }));
+  ].map((r) => ({ ...r, lastModified: now })) as MetadataRoute.Sitemap;
 
   const conditionRoutes: MetadataRoute.Sitemap = Object.keys(conditions).map(
     (slug) => ({
@@ -35,8 +36,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  const articleRoutes: MetadataRoute.Sitemap = articles.posts.map((p) => ({
-    url: `${SITE_URL}/articles/${p.slug}`,
+  const slugs = await getPublishedSlugs();
+  const articleRoutes: MetadataRoute.Sitemap = slugs.map((slug) => ({
+    url: `${SITE_URL}/articles/${slug}`,
     lastModified: now,
     priority: 0.7,
     changeFrequency: "monthly",
