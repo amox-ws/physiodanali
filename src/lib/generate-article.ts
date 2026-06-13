@@ -7,7 +7,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 // inserts it as a DRAFT (ai_generated=true). Never publishes — the client
 // reviews and approves in /admin (human-in-the-loop).
 
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-opus-4-8";
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-6";
 
 // Real internal routes the article may link to (for SEO internal linking).
 const INTERNAL_ROUTES = [
