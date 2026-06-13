@@ -204,15 +204,42 @@ export default function HomeCarePage() {
         </div>
       </section>
 
-      {/* ───── METHODS ───── */}
-      <section className="bg-snow py-24 lg:py-32">
+      {/* ───── METHODS — fixed parallax photo background ───── */}
+      <section className="relative isolate overflow-hidden py-24 text-snow lg:py-32">
+        {/* Fixed-attachment parallax photo */}
+        <div
+          aria-hidden
+          className="parallax-fixed absolute inset-0 -z-20"
+          style={{ backgroundImage: "url(/eksoplismos.jpg)" }}
+        />
+        {/* Dark scrim for legibility */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 80% 0%, rgba(30,77,139,0.30) 0%, transparent 60%), linear-gradient(180deg, rgba(10,22,40,0.82) 0%, rgba(10,22,40,0.7) 100%)",
+          }}
+        />
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow={homeCare.methods.eyebrow}
-            title={homeCare.methods.title}
-            intro="Όλος ο εξοπλισμός που χρειάζεται μια ολοκληρωμένη συνεδρία — έρχεται σε σας."
+          <Reveal className="mb-16 grid gap-10 lg:grid-cols-12 lg:items-end">
+            <div className="lg:col-span-7">
+              <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
+                {homeCare.methods.title}
+              </h2>
+            </div>
+            <div className="lg:col-span-4 lg:col-start-9">
+              <p className="text-base leading-relaxed text-snow/75 lg:text-lg">
+                Όλος ο εξοπλισμός που χρειάζεται μια ολοκληρωμένη συνεδρία —
+                έρχεται σε σας.
+              </p>
+            </div>
+          </Reveal>
+          <CardGrid
+            items={homeCare.methods.items}
+            cols={3}
+            showNumbers={false}
           />
-          <CardGrid items={homeCare.methods.items} cols={3} />
         </div>
       </section>
 

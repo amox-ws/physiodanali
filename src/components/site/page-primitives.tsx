@@ -189,9 +189,14 @@ export function SectionHeader({
 type CardGridProps = {
   items: { title: string; body: string }[];
   cols?: 2 | 3;
+  showNumbers?: boolean;
 };
 
-export function CardGrid({ items, cols = 2 }: CardGridProps) {
+export function CardGrid({
+  items,
+  cols = 2,
+  showNumbers = true,
+}: CardGridProps) {
   return (
     <motion.div
       variants={stagger}
@@ -209,9 +214,11 @@ export function CardGrid({ items, cols = 2 }: CardGridProps) {
           variants={staggerItem}
           className="group relative overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)]"
         >
-          <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
-            {idx + 1}
-          </span>
+          {showNumbers && (
+            <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
+              {idx + 1}
+            </span>
+          )}
           <h3 className="display text-2xl leading-[1.1] tracking-tight text-ink lg:text-[1.75rem]">
             {item.title}
           </h3>
