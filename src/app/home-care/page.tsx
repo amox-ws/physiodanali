@@ -243,6 +243,14 @@ export default function HomeCarePage() {
         </div>
       </section>
 
+      {/* ───── FAQ ───── */}
+      <section className="bg-porcelain py-24 lg:py-32">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <SectionHeader eyebrow="Συχνές ερωτήσεις" title="Ό,τι σας ενδιαφέρει." />
+          <FaqList items={homecareFaq} />
+        </div>
+      </section>
+
       {/* ───── AVAILABILITY ───── */}
       <section className="bg-ink py-24 text-snow lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
@@ -273,14 +281,6 @@ export default function HomeCarePage() {
               </div>
             </div>
           </Reveal>
-        </div>
-      </section>
-
-      {/* ───── FAQ ───── */}
-      <section className="bg-porcelain py-24 lg:py-32">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader eyebrow="Συχνές ερωτήσεις" title="Ό,τι σας ενδιαφέρει." />
-          <FaqList items={homecareFaq} />
         </div>
       </section>
 
