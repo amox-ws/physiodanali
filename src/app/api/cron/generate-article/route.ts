@@ -1,12 +1,13 @@
 import { NextResponse } from "next/server";
 import { generateAndInsertArticle } from "@/lib/generate-article";
 
-// Weekly AI generation endpoint (Phase 5). Trigger from a scheduler (Railway
-// cron / Vercel cron / GitHub Action) with: Authorization: Bearer $CRON_SECRET
-// It generates ONE article as a draft and notifies (Phase 6). Never publishes.
+// Manual/Pro AI generation endpoint. On the Vercel Hobby plan, functions are
+// capped at 60s but generation takes ~150s, so the WEEKLY job runs in GitHub
+// Actions instead (.github/workflows/weekly-article.yml). This route stays for
+// manual triggering on Pro: Authorization: Bearer $CRON_SECRET. Never publishes.
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 300; // generation can take ~30-90s
+export const maxDuration = 60; // Hobby plan max; full generation runs in CI
 
 function authorized(req: Request): boolean {
   const secret = process.env.CRON_SECRET;
