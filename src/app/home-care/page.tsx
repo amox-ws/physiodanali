@@ -52,7 +52,7 @@ export default function HomeCarePage() {
       <section className="relative isolate overflow-hidden bg-porcelain pt-36 pb-20 lg:pt-44 lg:pb-28">
         {/* Photo background */}
         <Image
-          src="/katoikonhero.jpg"
+          src="/physiotest1.jpg"
           alt=""
           aria-hidden
           fill
@@ -200,42 +200,6 @@ export default function HomeCarePage() {
                 </Reveal>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* ───── CONDITIONS GRID ───── */}
-      <section
-        className="relative isolate overflow-hidden py-24 lg:py-32"
-        style={{ backgroundColor: "#e8eff8" }}
-      >
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            background:
-              "radial-gradient(60% 60% at 80% 10%, rgba(30,77,139,0.08) 0%, transparent 65%)",
-          }}
-        />
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <Reveal className="mx-auto mb-14 max-w-[760px] text-center">
-            <h2 className="display text-[clamp(2.25rem,5vw,4rem)] leading-[1.02] tracking-[-0.025em] text-ink">
-              Παθήσεις &amp; καταστάσεις
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed text-ink-muted lg:text-xl">
-              Εξατομικευμένο πρωτόκολλο αποκατάστασης για κάθε περιστατικό — με
-              τον ίδιο φυσικοθεραπευτή σε κάθε συνεδρία.
-            </p>
-          </Reveal>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {homeCare.conditionsGrid.map((c, i) => (
-              <Reveal key={c} delay={(i % 4) * 0.05} className="h-full">
-                <div className="flex h-full items-center justify-center rounded-2xl border border-cobalt/15 bg-snow px-6 py-6 text-center text-base font-medium leading-snug text-ink transition-colors duration-500 hover:border-cobalt/40 hover:text-cobalt lg:text-lg">
-                  {c}
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
