@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/site/header";
-import { Footer } from "@/components/site/footer";
+import { SiteChrome } from "@/components/site/site-chrome";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema, personSchema } from "@/lib/seo";
 
@@ -58,11 +57,7 @@ export default function RootLayout({
     >
       <body className="antialiased">
         <JsonLd data={[localBusinessSchema, personSchema]} />
-        <Header />
-        <div className="page-stack">
-          <main>{children}</main>
-        </div>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );
