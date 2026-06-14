@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22 # supabase-js needs native WebSocket (Node 22+)
       - run: npm ci
       - name: Generate draft
         run: npx --yes tsx scripts/generate-article.ts
