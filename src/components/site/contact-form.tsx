@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
 import { contact, site } from "@/lib/content";
@@ -9,6 +10,7 @@ type Status = "idle" | "submitting" | "success";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [consent, setConsent] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -22,6 +24,7 @@ export function ContactForm() {
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!consent) return;
     setStatus("submitting");
     // No backend yet — open mail client with the message prefilled.
     const subject = encodeURIComponent(`Ραντεβού — ${form.name}`);
@@ -103,14 +106,37 @@ export function ContactForm() {
         />
       </Field>
 
-      <div className="mt-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+      <label className="mt-2 flex cursor-pointer items-start gap-3">
+        <input
+          type="checkbox"
+          required
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+          className="mt-0.5 size-4 shrink-0 accent-cobalt"
+        />
+        <span className="text-xs leading-relaxed text-ink-muted">
+          Έχω διαβάσει και αποδέχομαι την{" "}
+          <Link
+            href="/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cobalt underline underline-offset-2"
+          >
+            Πολιτική Απορρήτου
+          </Link>{" "}
+          και συναινώ στην επεξεργασία των στοιχείων μου για την απάντηση στο
+          αίτημά μου.
+        </span>
+      </label>
+
+      <div className="mt-2 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <p className="text-xs text-ink-muted">
           Απαντάμε εντός λίγων ωρών. Δωρεάν αξιολόγηση μέσω τηλεφώνου.
         </p>
         <button
           type="submit"
-          disabled={status === "submitting"}
-          className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-medium text-snow transition-all duration-500 hover:bg-cobalt disabled:opacity-60"
+          disabled={status === "submitting" || !consent}
+          className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-medium text-snow transition-all duration-500 hover:bg-cobalt disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span>
             {status === "submitting" ? "Αποστολή..." : contact.fields.submit}

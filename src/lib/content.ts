@@ -21,6 +21,17 @@ export const site = {
     youtube: "https://www.youtube.com/channel/UCgsVQu84h_mXoCyCz6opbkQ",
   },
   whatsapp: "https://wa.me/306944344342",
+  // Legal identity (used by the footer + legal pages). ⚠️ ΑΦΜ και αριθμός
+  // άδειας ασκήσεως επαγγέλματος ΠΡΕΠΕΙ να συμπληρωθούν από τον πελάτη πριν το
+  // launch — μένουν κενά ώστε να μην εμφανίζονται ψεύτικα στοιχεία. Μόλις
+  // συμπληρωθούν, εμφανίζονται αυτόματα στο footer και στα νομικά κείμενα.
+  legal: {
+    controller: "Κωνσταντίνος Δανάλης",
+    role: "Φυσικοθεραπευτής – Χειροπρακτικός, ατομική επιχείρηση",
+    afm: "", // π.χ. "123456789"
+    license: "", // Αρ. άδειας ασκήσεως επαγγέλματος / Μητρώο ΠΣΦ
+    updated: "15 Ιουνίου 2026",
+  },
 };
 
 export type NavItem = {
@@ -3932,5 +3943,7 @@ export const footer = {
     { href: "/articles", label: "Άρθρα" },
     { href: "/contact", label: "Επικοινωνία" },
     { href: "/privacy", label: "Πολιτική Απορρήτου" },
+    { href: "/cookies", label: "Πολιτική Cookies" },
+    { href: "/terms", label: "Όροι Χρήσης" },
   ],
 };

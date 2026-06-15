@@ -236,7 +236,14 @@ export function Footer() {
 
       <div className="border-t border-snow/10">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-4 px-6 py-6 text-xs text-snow/50 lg:flex-row lg:items-center lg:px-10">
-          <span>{footer.legal}</span>
+          <div className="flex flex-col gap-1">
+            <span>{footer.legal}</span>
+            <span className="text-snow/40">
+              {site.legal.controller} — {site.legal.role}
+              {site.legal.afm ? ` · ΑΦΜ: ${site.legal.afm}` : ""}
+              {site.legal.license ? ` · Αρ. αδείας: ${site.legal.license}` : ""}
+            </span>
+          </div>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {footer.links.map((link) => (
               <li key={link.href}>
