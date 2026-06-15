@@ -38,6 +38,13 @@ export const metadata: Metadata = {
       "Επιστημονική αντιμετώπιση πόνου και αποκατάσταση στο σπίτι σας. Άμεσα, αποτελεσματικά, όλες τις ημέρες της εβδομάδας.",
     locale: "el_GR",
     type: "website",
+    siteName: "PhysioDanali",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PhysioDanali — Χειροπρακτική και Φυσικοθεραπεία κατ' οίκον",
+    description:
+      "Επιστημονική αντιμετώπιση πόνου και αποκατάσταση στο σπίτι σας. Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα.",
   },
   alternates: {
     canonical: "/",
