@@ -183,8 +183,19 @@ export function SectionHeader({
   );
 }
 
+// Brand accent palette — one colour per item, cycles for longer lists.
+// Shared by CardGrid / CheckList / NumberedSteps so every section that uses
+// them gets the same premium, colour-rhythmed treatment.
+const SECTION_ACCENTS = [
+  "#1e4d8b",
+  "#2563b0",
+  "#0f2540",
+  "#8a6d3b",
+  "#4577b8",
+];
+
 // ─────────────────────────────────────────────────────────────────────
-// CARD GRID — for benefits / conditions / why-us with title+body items
+// CARD GRID — colour-accented cards with a growing top bar + hover lift
 
 type CardGridProps = {
   items: { title: string; body: string }[];
@@ -192,47 +203,43 @@ type CardGridProps = {
   showNumbers?: boolean;
 };
 
-export function CardGrid({
-  items,
-  cols = 2,
-  showNumbers = false,
-}: CardGridProps) {
+export function CardGrid({ items, cols = 2 }: CardGridProps) {
   return (
-    <motion.div
-      variants={stagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+    <div
       className={cn(
         "grid gap-5",
         cols === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2",
       )}
     >
-      {items.map((item, idx) => (
-        <motion.article
-          key={item.title}
-          variants={staggerItem}
-          className="group relative overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)]"
-        >
-          {showNumbers && (
-            <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
-              {idx + 1}
-            </span>
-          )}
-          <h3 className="display text-2xl leading-[1.1] tracking-tight text-ink lg:text-[1.75rem]">
-            {item.title}
-          </h3>
-          <p className="mt-4 text-base leading-relaxed text-ink-muted">
-            {item.body}
-          </p>
-        </motion.article>
-      ))}
-    </motion.div>
+      {items.map((item, idx) => {
+        const accent = SECTION_ACCENTS[idx % SECTION_ACCENTS.length];
+        return (
+          <Reveal key={item.title} delay={idx * 0.07} className="h-full">
+            <div className="group relative h-full overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.18)] lg:p-10">
+              <span
+                aria-hidden
+                className="absolute left-0 top-0 h-1 w-16 transition-all duration-500 group-hover:w-full"
+                style={{ backgroundColor: accent }}
+              />
+              <h3
+                className="display mt-3 text-2xl leading-[1.1] tracking-tight lg:text-[1.85rem]"
+                style={{ color: accent }}
+              >
+                {item.title}
+              </h3>
+              <p className="mt-4 text-base leading-relaxed text-ink-muted lg:text-lg">
+                {item.body}
+              </p>
+            </div>
+          </Reveal>
+        );
+      })}
+    </div>
   );
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// CHECK LIST — for indications / "for whom" lists
+// CHECK LIST — colour-accented check cards with hover lift
 
 type CheckListProps = {
   items: string[];
@@ -241,36 +248,36 @@ type CheckListProps = {
 
 export function CheckList({ items, cols = 2 }: CheckListProps) {
   return (
-    <motion.ul
-      variants={stagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+    <div
       className={cn(
-        "grid gap-x-12 gap-y-5",
-        cols === 2 ? "lg:grid-cols-2" : "lg:grid-cols-1",
+        "grid gap-4",
+        cols === 2 ? "sm:grid-cols-2" : "grid-cols-1",
       )}
     >
-      {items.map((item) => (
-        <motion.li
-          key={item}
-          variants={staggerItem}
-          className="flex items-start gap-4 border-b border-stone pb-5"
-        >
-          <span className="mt-1 flex size-6 shrink-0 items-center justify-center rounded-full border border-cobalt/30 bg-cobalt/5">
-            <Check className="size-3 text-cobalt" strokeWidth={2.5} />
-          </span>
-          <span className="text-base leading-relaxed text-ink lg:text-lg">
-            {item}
-          </span>
-        </motion.li>
-      ))}
-    </motion.ul>
+      {items.map((item, idx) => {
+        const accent = SECTION_ACCENTS[idx % SECTION_ACCENTS.length];
+        return (
+          <Reveal key={item} delay={idx * 0.06} className="h-full">
+            <div className="group flex h-full items-center gap-4 rounded-2xl border border-stone bg-snow p-5 transition-all duration-500 hover:-translate-y-0.5 hover:shadow-[0_24px_50px_-24px_rgba(15,37,64,0.2)] lg:gap-5 lg:p-6">
+              <span
+                className="flex size-11 shrink-0 items-center justify-center rounded-full lg:size-12"
+                style={{ backgroundColor: `${accent}1a`, color: accent }}
+              >
+                <Check className="size-5" strokeWidth={2.5} />
+              </span>
+              <span className="text-base font-medium leading-snug text-ink lg:text-lg">
+                {item}
+              </span>
+            </div>
+          </Reveal>
+        );
+      })}
+    </div>
   );
 }
 
 // ─────────────────────────────────────────────────────────────────────
-// NUMBERED STEPS — for method/process
+// NUMBERED STEPS — vertical timeline with colour-accented circles
 
 type NumberedStepsProps = {
   steps: { n: string; title: string; body: string }[];
@@ -278,40 +285,41 @@ type NumberedStepsProps = {
 
 export function NumberedSteps({ steps }: NumberedStepsProps) {
   return (
-    <motion.ol
-      variants={stagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
-      className="divide-y divide-stone border-t border-stone"
-    >
-      {steps.map((step) => (
-        <motion.li
-          key={step.n}
-          variants={staggerItem}
-          className="group grid gap-6 py-10 lg:grid-cols-12 lg:gap-12"
-        >
-          <div className="lg:col-span-2">
+    <ol className="relative mt-4 space-y-10 lg:space-y-12">
+      {/* Connecting line behind the numbered circles */}
+      <span
+        aria-hidden
+        className="absolute left-8 top-8 bottom-8 w-px -translate-x-1/2 bg-gradient-to-b from-cobalt/40 via-stone to-stone"
+      />
+      {steps.map((step, i) => {
+        const accent = SECTION_ACCENTS[i % SECTION_ACCENTS.length];
+        return (
+          <Reveal
+            as="li"
+            key={step.n}
+            x={70}
+            y={0}
+            delay={i * 0.1}
+            className="group relative flex items-start gap-6 lg:gap-8"
+          >
             <span
-              className="display text-[clamp(2.5rem,5vw,4rem)] leading-none text-cobalt transition-colors duration-500 group-hover:text-navy"
-              style={{ letterSpacing: "-0.02em" }}
+              className="relative z-10 flex size-16 shrink-0 items-center justify-center rounded-full text-snow shadow-[0_14px_34px_-12px_rgba(15,37,64,0.45)] transition-transform duration-500 group-hover:scale-105"
+              style={{ backgroundColor: accent }}
             >
-              {step.n}
+              <span className="display text-2xl leading-none">{i + 1}</span>
             </span>
-          </div>
-          <div className="lg:col-span-5">
-            <h3 className="display text-2xl leading-[1.1] tracking-tight text-ink lg:text-[1.95rem]">
-              {step.title}
-            </h3>
-          </div>
-          <div className="lg:col-span-5">
-            <p className="text-base leading-relaxed text-ink-muted lg:text-lg">
-              {step.body}
-            </p>
-          </div>
-        </motion.li>
-      ))}
-    </motion.ol>
+            <div className="pt-2.5">
+              <h3 className="display text-2xl leading-tight tracking-tight text-ink lg:text-[1.9rem]">
+                {step.title}
+              </h3>
+              <p className="mt-3 max-w-[58ch] text-base leading-relaxed text-ink-muted lg:text-lg">
+                {step.body}
+              </p>
+            </div>
+          </Reveal>
+        );
+      })}
+    </ol>
   );
 }
 
