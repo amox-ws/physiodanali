@@ -145,19 +145,38 @@ export default function ChiropracticPage() {
         </div>
       </section>
 
-      {/* Method — vertical timeline */}
-      <section className="bg-snow py-28 lg:py-36">
+      {/* Method — vertical timeline over a fixed parallax photo */}
+      <section className="relative isolate overflow-hidden py-28 text-snow lg:py-36">
+        {/* Fixed-attachment parallax photo */}
+        <div
+          aria-hidden
+          className="parallax-fixed absolute inset-0 -z-20"
+          style={{ backgroundImage: "url(/chiropractic2g.jpg)" }}
+        />
+        {/* Dark scrim for legibility */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 80% 0%, rgba(30,77,139,0.32) 0%, transparent 60%), linear-gradient(180deg, rgba(10,22,40,0.85) 0%, rgba(10,22,40,0.74) 100%)",
+          }}
+        />
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow={chiropractic.method.eyebrow}
-            title={chiropractic.method.title}
-            intro="Τέσσερα βήματα — από την επιστημονική αξιολόγηση μέχρι το πρόγραμμα συντήρησης στο σπίτι."
-          />
+          <Reveal className="mb-14 max-w-[760px] lg:mb-16">
+            <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
+              {chiropractic.method.title}
+            </h2>
+            <p className="mt-6 text-lg leading-relaxed text-snow/75 lg:text-xl">
+              Τέσσερα βήματα — από την επιστημονική αξιολόγηση μέχρι το
+              πρόγραμμα συντήρησης στο σπίτι.
+            </p>
+          </Reveal>
           <ol className="relative mt-4 space-y-10 lg:space-y-12">
             {/* Connecting line behind the numbered circles */}
             <span
               aria-hidden
-              className="absolute left-8 top-8 bottom-8 w-px -translate-x-1/2 bg-gradient-to-b from-cobalt/40 via-stone to-stone"
+              className="absolute left-8 top-8 bottom-8 w-px -translate-x-1/2 bg-gradient-to-b from-gold/60 via-snow/30 to-snow/10"
             />
             {chiropractic.method.steps.map((step, i) => {
               const accent = COND_ACCENTS[i % COND_ACCENTS.length];
@@ -171,7 +190,7 @@ export default function ChiropracticPage() {
                   className="group relative flex items-start gap-6 lg:gap-8"
                 >
                   <span
-                    className="relative z-10 flex size-16 shrink-0 items-center justify-center rounded-full text-snow shadow-[0_14px_34px_-12px_rgba(15,37,64,0.55)] transition-transform duration-500 group-hover:scale-105"
+                    className="relative z-10 flex size-16 shrink-0 items-center justify-center rounded-full text-snow shadow-[0_14px_34px_-12px_rgba(0,0,0,0.6)] ring-1 ring-snow/15 transition-transform duration-500 group-hover:scale-105"
                     style={{ backgroundColor: accent }}
                   >
                     <span className="display text-2xl leading-none">
@@ -179,10 +198,10 @@ export default function ChiropracticPage() {
                     </span>
                   </span>
                   <div className="pt-2.5">
-                    <h3 className="display text-2xl leading-tight tracking-tight text-ink lg:text-[1.9rem]">
+                    <h3 className="display text-2xl leading-tight tracking-tight text-snow lg:text-[1.9rem]">
                       {step.title}
                     </h3>
-                    <p className="mt-3 max-w-[58ch] text-base leading-relaxed text-ink-muted lg:text-lg">
+                    <p className="mt-3 max-w-[58ch] text-base leading-relaxed text-snow/75 lg:text-lg">
                       {step.body}
                     </p>
                   </div>
