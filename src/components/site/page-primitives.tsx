@@ -195,7 +195,7 @@ type CardGridProps = {
 export function CardGrid({
   items,
   cols = 2,
-  showNumbers = true,
+  showNumbers = false,
 }: CardGridProps) {
   return (
     <motion.div
@@ -487,10 +487,7 @@ export function RelatedServices({ exclude }: { exclude: string }) {
                 href={service.href}
                 className="group relative flex h-full min-h-[260px] flex-col justify-between overflow-hidden rounded-[24px] border border-stone bg-porcelain p-7 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:bg-snow hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)]"
               >
-                <div className="flex items-start justify-between">
-                  <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">
-                    0{idx + 1}
-                  </span>
+                <div className="flex items-start justify-end">
                   <ArrowUpRight
                     className="size-4 text-ink-muted transition-all duration-500 group-hover:rotate-45 group-hover:text-cobalt"
                     strokeWidth={1.5}
