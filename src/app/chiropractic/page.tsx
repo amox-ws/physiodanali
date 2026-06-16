@@ -30,6 +30,9 @@ const INDICATION_ICONS = [
   MoveVertical,
   Sparkles,
 ];
+
+// One brand accent per condition card — adds colour + rhythm.
+const COND_ACCENTS = ["#1e4d8b", "#2563b0", "#0f2540", "#8a6d3b", "#4577b8"];
 import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
@@ -69,14 +72,50 @@ export default function ChiropracticPage() {
       />
 
       {/* Conditions */}
-      <section className="bg-snow py-28 lg:py-36">
+      <section
+        className="relative isolate overflow-hidden py-28 lg:py-36"
+        style={{ backgroundColor: "#eef4fb" }}
+      >
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(55% 50% at 85% 5%, rgba(30,77,139,0.08) 0%, transparent 60%), radial-gradient(45% 55% at 5% 95%, rgba(126,168,220,0.14) 0%, transparent 60%)",
+          }}
+        />
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <SectionHeader
             eyebrow={chiropractic.conditions.eyebrow}
             title={chiropractic.conditions.title}
             intro="Οι πιο συχνές περιπτώσεις που αντιμετωπίζει η χειροπρακτική παρέμβαση — με συνδυαστική προσέγγιση και έμφαση στη διαρκή αποκατάσταση."
           />
-          <CardGrid items={chiropractic.conditions.items} />
+          <div className="grid gap-5 sm:grid-cols-2">
+            {chiropractic.conditions.items.map((item, i) => {
+              const accent = COND_ACCENTS[i % COND_ACCENTS.length];
+              return (
+                <Reveal key={item.title} delay={i * 0.08} className="h-full">
+                  <div className="group relative h-full overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.18)] lg:p-10">
+                    {/* Top accent bar — grows across the card on hover */}
+                    <span
+                      aria-hidden
+                      className="absolute left-0 top-0 h-1 w-16 transition-all duration-500 group-hover:w-full"
+                      style={{ backgroundColor: accent }}
+                    />
+                    <h3
+                      className="display mt-3 text-[clamp(1.75rem,2.6vw,2.4rem)] leading-tight tracking-tight"
+                      style={{ color: accent }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="mt-4 text-base leading-relaxed text-ink-muted lg:text-lg">
+                      {item.body}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </section>
 
