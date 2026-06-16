@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { home, serviceSummaries, type ServiceSummary } from "@/lib/content";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
@@ -16,7 +16,7 @@ const ServicesScene = dynamic(
   { ssr: false },
 );
 
-export function Services() {
+export function Services({ title }: { title?: ReactNode } = {}) {
   const { services } = home;
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -65,10 +65,14 @@ export function Services() {
               id="services-heading"
               className="display text-[clamp(2.5rem,5.5vw,4.75rem)] tracking-[-0.02em] leading-[0.98] text-ink"
             >
-              Άμεση εξυπηρέτηση επειγόντων.{" "}
-              <span className="display-italic text-cobalt">
-                Ερευνητικά τεκμηριωμένες παρεμβάσεις.
-              </span>
+              {title ?? (
+                <>
+                  Άμεση εξυπηρέτηση επειγόντων.{" "}
+                  <span className="display-italic text-cobalt">
+                    Ερευνητικά τεκμηριωμένες παρεμβάσεις.
+                  </span>
+                </>
+              )}
             </h2>
           </div>
           <div className="lg:col-span-4 lg:col-start-9">

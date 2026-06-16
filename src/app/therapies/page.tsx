@@ -116,7 +116,14 @@ export default function TherapiesPage() {
       </section>
 
       {/* All services — same section as the home page, with 3D background */}
-      <Services />
+      <Services
+        title={
+          <>
+            Όλες οι{" "}
+            <span className="display-italic text-cobalt">υπηρεσίες</span>.
+          </>
+        }
+      />
 
       <FinalCTA
         title="Δεν είστε σίγουρος ποια ταιριάζει;"
