@@ -51,6 +51,7 @@ export default function TherapiesPage() {
         lead={therapies.hero.lead}
         primaryCta={therapies.hero.primaryCta}
         secondaryCta={therapies.hero.secondaryCta}
+        bgImage="/serviceshero.jpg"
       />
 
       {/* Intro / philosophy */}
