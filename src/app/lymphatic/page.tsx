@@ -88,7 +88,7 @@ export default function LymphaticPage() {
           <SectionHeader
             eyebrow={lymphatic.why.eyebrow}
             title={lymphatic.why.title}
-            intro="Δεν είναι κοσμετική παρέμβαση — είναι εξειδικευμένη φυσικοθεραπευτική τεχνική με 20+ χρόνια εφαρμογής."
+            intro="Δεν είναι κοσμετική παρέμβαση — είναι εξειδικευμένη φυσικοθεραπευτική τεχνική με 15+ χρόνια εφαρμογής."
           />
           <CardGrid items={lymphatic.why.items} cols={3} />
         </div>
