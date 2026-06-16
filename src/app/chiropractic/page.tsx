@@ -1,4 +1,12 @@
 import type { Metadata } from "next";
+import {
+  Activity,
+  Zap,
+  Accessibility,
+  RefreshCw,
+  MoveVertical,
+  Sparkles,
+} from "lucide-react";
 import { chiropractic, chiropracticFaq } from "@/lib/content";
 import {
   PageHero,
@@ -11,6 +19,17 @@ import {
   RelatedServices,
 } from "@/components/site/page-primitives";
 import { Reveal } from "@/components/motion/reveal";
+
+// Icons paired to each indication (by order), to give the section visual
+// rhythm instead of a flat checklist.
+const INDICATION_ICONS = [
+  Activity,
+  Zap,
+  Accessibility,
+  RefreshCw,
+  MoveVertical,
+  Sparkles,
+];
 import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
@@ -69,9 +88,23 @@ export default function ChiropracticPage() {
             title={chiropractic.indications.title}
             intro="Αν αναγνωρίζετε κάποια από τις παρακάτω καταστάσεις, η χειροπρακτική κατ' οίκον είναι κατάλληλη επιλογή."
           />
-          <Reveal>
-            <CheckList items={chiropractic.indications.items} />
-          </Reveal>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {chiropractic.indications.items.map((item, i) => {
+              const Icon = INDICATION_ICONS[i % INDICATION_ICONS.length];
+              return (
+                <Reveal key={item} delay={i * 0.07} className="h-full">
+                  <div className="group flex h-full items-start gap-5 rounded-[24px] border border-stone bg-snow p-7 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)] lg:p-8">
+                    <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-cobalt/10 text-cobalt transition-colors duration-500 group-hover:bg-cobalt group-hover:text-snow lg:size-14">
+                      <Icon className="size-6 lg:size-7" strokeWidth={1.5} />
+                    </span>
+                    <p className="text-lg font-medium leading-snug text-ink lg:text-xl">
+                      {item}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
         </div>
       </section>
 
