@@ -2,6 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import type { Article, ArticleBody } from "@/lib/content";
+import { articles as staticArticles, articleBodies } from "@/lib/content";
 
 // ─────────────────────────────────────────────────────────────────────
 // Article data access — reads from Supabase (table: public.articles).
@@ -28,6 +29,31 @@ type Row = {
   sections: ArticleBody["sections"] | null;
 };
 
+// When Supabase env vars are absent (e.g. local dev before the CMS is wired
+// up), the data layer falls back to the static articles bundled in
+// content.ts. This keeps the site fully runnable without a database; once
+// NEXT_PUBLIC_SUPABASE_URL / _ANON_KEY are set, the live CMS takes over.
+function hasSupabase() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  );
+}
+
+function staticArticleFull(slug: string): ArticleFull | null {
+  const post = staticArticles.posts.find((p) => p.slug === slug);
+  if (!post) return null;
+  return { ...post, sections: articleBodies[slug]?.sections ?? [] };
+}
+
+function staticAll(limit?: number): ArticleFull[] {
+  const all = staticArticles.posts.map((p) => ({
+    ...p,
+    sections: articleBodies[p.slug]?.sections ?? [],
+  }));
+  return limit ? all.slice(0, limit) : all;
+}
+
 function db() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anon = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -53,6 +79,7 @@ function toArticle(r: Row): ArticleFull {
 
 export const getPublishedArticles = unstable_cache(
   async (limit?: number): Promise<ArticleFull[]> => {
+    if (!hasSupabase()) return staticAll(limit);
     let q = db()
       .from("articles")
       .select(SELECT)
@@ -69,6 +96,7 @@ export const getPublishedArticles = unstable_cache(
 
 export const getArticleBySlug = unstable_cache(
   async (slug: string): Promise<ArticleFull | null> => {
+    if (!hasSupabase()) return staticArticleFull(slug);
     const { data, error } = await db()
       .from("articles")
       .select(SELECT)
@@ -84,6 +112,7 @@ export const getArticleBySlug = unstable_cache(
 
 export const getPublishedSlugs = unstable_cache(
   async (): Promise<string[]> => {
+    if (!hasSupabase()) return staticArticles.posts.map((p) => p.slug);
     const { data, error } = await db()
       .from("articles")
       .select("slug")
