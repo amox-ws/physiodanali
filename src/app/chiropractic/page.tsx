@@ -299,8 +299,8 @@ export default function ChiropracticPage() {
       </section>
 
       <FinalCTA
-        title="Έτοιμοι όταν είστε."
-        titleAccent="Έτοιμοι"
+        title="Η ανακούφιση ξεκινά εδώ."
+        titleAccent="ανακούφιση"
         lead="Ραντεβού δίνονται έως αυθημερόν, εφόσον υπάρχει διαθεσιμότητα. Καλύπτουμε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα, Άλιμο."
       />
 
