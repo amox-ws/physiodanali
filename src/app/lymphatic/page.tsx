@@ -45,6 +45,7 @@ export default function LymphaticPage() {
         lead={lymphatic.hero.lead}
         primaryCta={lymphatic.hero.primaryCta}
         secondaryCta={lymphatic.hero.secondaryCta}
+        bgImage="/brazilian.jpg"
       />
 
       {/* About / definition */}

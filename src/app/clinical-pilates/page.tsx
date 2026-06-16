@@ -51,6 +51,7 @@ export default function ClinicalPilatesPage() {
         lead={clinicalPilates.hero.lead}
         primaryCta={clinicalPilates.hero.primaryCta}
         secondaryCta={clinicalPilates.hero.secondaryCta}
+        bgImage="/clinicalpilates.jpg"
       />
 
       {/* About */}

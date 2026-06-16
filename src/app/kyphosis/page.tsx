@@ -47,6 +47,7 @@ export default function KyphosisPage() {
         lead={kyphosis.hero.lead}
         primaryCta={kyphosis.hero.primaryCta}
         secondaryCta={kyphosis.hero.secondaryCta}
+        bgImage="/kimfosis.jpg"
       />
 
       {/* Benefits */}

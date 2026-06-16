@@ -15,7 +15,13 @@ import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 import { FaqList } from "@/components/site/faq-list";
 import type { ConditionPage } from "@/lib/content";
 
-export function ConditionPageTemplate({ data }: { data: ConditionPage }) {
+export function ConditionPageTemplate({
+  data,
+  bgImage,
+}: {
+  data: ConditionPage;
+  bgImage?: string;
+}) {
   return (
     <>
       <PageHero
@@ -26,6 +32,7 @@ export function ConditionPageTemplate({ data }: { data: ConditionPage }) {
         lead={data.hero.lead}
         primaryCta={data.hero.primaryCta}
         secondaryCta={data.hero.secondaryCta}
+        bgImage={bgImage}
       />
 
       {/* Causes */}

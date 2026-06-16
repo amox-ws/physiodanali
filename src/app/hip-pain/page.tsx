@@ -34,7 +34,7 @@ export default function Page() {
           ]),
         ]}
       />
-      <ConditionPageTemplate data={data} />
+      <ConditionPageTemplate data={data} bgImage="/isxilia.jpg" />
     </>
   );
 }
