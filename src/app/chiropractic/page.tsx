@@ -6,14 +6,12 @@ import {
   RefreshCw,
   MoveVertical,
   Sparkles,
+  Check,
 } from "lucide-react";
 import { chiropractic, chiropracticFaq } from "@/lib/content";
 import {
   PageHero,
   SectionHeader,
-  CardGrid,
-  CheckList,
-  NumberedSteps,
   PractitionerCard,
   FinalCTA,
   RelatedServices,
@@ -147,7 +145,7 @@ export default function ChiropracticPage() {
         </div>
       </section>
 
-      {/* Method */}
+      {/* Method — vertical timeline */}
       <section className="bg-snow py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <SectionHeader
@@ -155,20 +153,80 @@ export default function ChiropracticPage() {
             title={chiropractic.method.title}
             intro="Τέσσερα βήματα — από την επιστημονική αξιολόγηση μέχρι το πρόγραμμα συντήρησης στο σπίτι."
           />
-          <NumberedSteps steps={chiropractic.method.steps} />
+          <ol className="relative mt-4 space-y-10 lg:space-y-12">
+            {/* Connecting line behind the numbered circles */}
+            <span
+              aria-hidden
+              className="absolute left-8 top-8 bottom-8 w-px -translate-x-1/2 bg-gradient-to-b from-cobalt/40 via-stone to-stone"
+            />
+            {chiropractic.method.steps.map((step, i) => {
+              const accent = COND_ACCENTS[i % COND_ACCENTS.length];
+              return (
+                <Reveal
+                  as="li"
+                  key={step.title}
+                  x={70}
+                  y={0}
+                  delay={i * 0.1}
+                  className="group relative flex items-start gap-6 lg:gap-8"
+                >
+                  <span
+                    className="relative z-10 flex size-16 shrink-0 items-center justify-center rounded-full text-snow shadow-[0_14px_34px_-12px_rgba(15,37,64,0.55)] transition-transform duration-500 group-hover:scale-105"
+                    style={{ backgroundColor: accent }}
+                  >
+                    <span className="display text-2xl leading-none">
+                      {i + 1}
+                    </span>
+                  </span>
+                  <div className="pt-2.5">
+                    <h3 className="display text-2xl leading-tight tracking-tight text-ink lg:text-[1.9rem]">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 max-w-[58ch] text-base leading-relaxed text-ink-muted lg:text-lg">
+                      {step.body}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </ol>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="bg-porcelain py-28 lg:py-36">
+      {/* Benefits — dark section with gold checks */}
+      <section className="relative isolate overflow-hidden bg-ink py-28 text-snow lg:py-36">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(55% 55% at 85% 0%, rgba(184,153,104,0.16) 0%, transparent 60%), radial-gradient(50% 55% at 0% 100%, rgba(30,77,139,0.55) 0%, transparent 65%), #0a1628",
+          }}
+        />
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow={chiropractic.benefits.eyebrow}
-            title={chiropractic.benefits.title}
-          />
-          <Reveal>
-            <CheckList items={chiropractic.benefits.items} />
+          <Reveal className="mb-14 max-w-[760px] lg:mb-16">
+            <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
+              {chiropractic.benefits.title}
+            </h2>
           </Reveal>
+          <div className="grid gap-x-12 gap-y-2 sm:grid-cols-2">
+            {chiropractic.benefits.items.map((item, i) => (
+              <Reveal
+                key={item}
+                x={i % 2 === 0 ? -60 : 60}
+                y={0}
+                delay={(i % 2) * 0.08}
+                className="group flex items-center gap-5 border-b border-snow/12 py-6"
+              >
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gold/15 text-gold transition-colors duration-500 group-hover:bg-gold group-hover:text-ink">
+                  <Check className="size-5" strokeWidth={2.5} />
+                </span>
+                <span className="text-lg leading-snug text-snow lg:text-xl">
+                  {item}
+                </span>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
