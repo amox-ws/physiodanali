@@ -68,17 +68,38 @@ export default function LymphaticPage() {
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="bg-porcelain py-28 lg:py-36">
+      {/* Benefits — fixed parallax photo background */}
+      <section className="relative isolate overflow-hidden py-28 text-snow lg:py-36">
+        {/* Fixed-attachment parallax photo */}
+        <div
+          aria-hidden
+          className="parallax-fixed absolute inset-0 -z-20"
+          style={{ backgroundImage: "url(/brazilian2g.jpg)" }}
+        />
+        {/* Dark scrim for legibility */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 80% 0%, rgba(30,77,139,0.32) 0%, transparent 60%), linear-gradient(180deg, rgba(10,22,40,0.85) 0%, rgba(10,22,40,0.74) 100%)",
+          }}
+        />
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow={lymphatic.benefits.eyebrow}
-            title={lymphatic.benefits.title}
-            intro="Συνδυάζει αισθητικό αποτέλεσμα με θεραπευτική αξία — ιδιαίτερα μετά από επεμβάσεις ή για χρόνια κατακράτηση."
-          />
-          <Reveal>
-            <CheckList items={lymphatic.benefits.items} />
+          <Reveal className="mb-14 grid gap-10 lg:grid-cols-12 lg:items-end lg:mb-16">
+            <div className="lg:col-span-7">
+              <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
+                {lymphatic.benefits.title}
+              </h2>
+            </div>
+            <div className="lg:col-span-4 lg:col-start-9">
+              <p className="text-base leading-relaxed text-snow/75 lg:text-lg">
+                Συνδυάζει αισθητικό αποτέλεσμα με θεραπευτική αξία — ιδιαίτερα
+                μετά από επεμβάσεις ή για χρόνια κατακράτηση.
+              </p>
+            </div>
           </Reveal>
+          <CheckList items={lymphatic.benefits.items} />
         </div>
       </section>
 
