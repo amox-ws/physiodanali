@@ -89,11 +89,20 @@
 - Σήμερα: αγγλικά kebab (π.χ. `telework-back-pain`). Λειτουργεί, αλλά **keyword-in-slug** βοηθά.
 - Επιλογή: ο slug να περιέχει το αγγλικό keyword (ok) **ή** ελληνικό transliteration του primary keyword. Συνέπεια > τελειότητα. (Δες §4 — το AI ήδη βγάζει slug· θα το συντονίσουμε με το target keyword.)
 
-### ⚠️ i18n / hreflang (κρίσιμο — bilingual site)
-Ο site έγινε EL/EN. **Έλεγξε πώς σερβίρεται το EN:**
-- Αν είναι **cookie-based χωρίς ξεχωριστά URLs** (`/en/...`) → η αγγλική έκδοση **ΔΕΝ είναι ξεχωριστά indexable** → χάνεις το English SEO (expats).
-- Σωστό για SEO: ξεχωριστά paths (`/en/...` ή subdomain) + **hreflang** tags (`el` / `en` / `x-default`).
-- *Action (dev):* επιβεβαίωση + αν χρειάζεται, EN σε `/en/` + hreflang. (Αλλιώς, focus 100% στο ελληνικό.)
+### 🔴 i18n / hreflang — ΕΠΙΒΕΒΑΙΩΜΕΝΟ ΠΡΟΒΛΗΜΑ (priority — ο πελάτης έχει πολλούς ξένους πελάτες)
+**Κατάσταση:** το i18n είναι **cookie-based** (`locale` cookie, [i18n.ts](../src/lib/i18n.ts)) — και οι 2 γλώσσες στα **ίδια URLs**, χωρίς `/en/`.
+- Ο **Googlebot (χωρίς cookie) βλέπει πάντα ΕΛ** → η **αγγλική έκδοση ΔΕΝ indexάρεται** → μηδέν οργανικό αγγλικό (π.χ. «physiotherapist Glyfada», «home physiotherapy Athens»).
+- Με πολλούς ξένους πελάτες = **σημαντικό κενό**. (GBP βοηθά ανεξαρτήτως γλώσσας, αλλά το website organic λείπει.)
+
+**Λύση — path-based EN + hreflang:**
+- EN σε ξεχωριστά **`/en/...` URLs** (ΕΛ στο root). Locale από το **path** αντί cookie.
+- **hreflang** tags σε κάθε σελίδα (`el`, `en`, `x-default`) + **canonical** ανά γλώσσα.
+- **Sitemap**: πρόσθεσε τα `/en/` URLs.
+- Locale toggle → εναλλαγή `/path` ↔ `/en/path`.
+- Targets EN: home, services, condition, location pages (το blog μένει ΕΛ — οι ξένοι ψάχνουν transactional, όχι articles).
+
+**Approach (App Router):** middleware rewrite `/en/*` → ίδιες σελίδες με `x-locale=en` (πιο contained) **ή** `[locale]` segment (πιο καθαρό, μεγαλύτερο refactor). **Effort: μέτριο-μεγάλο** — αγγίζει routing + όλα τα internal links + metadata + sitemap.
+**⚠️ Αγγίζει το i18n του άλλου dev** → συντονισμός πριν την υλοποίηση.
 
 ### Domain (Φάση 0 — προαπαιτούμενο)
 - `physiodanali.gr` → νέο site. **301 redirects** παλιά→νέα URLs (διατήρηση link equity).
