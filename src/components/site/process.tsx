@@ -3,39 +3,26 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "@/components/motion/reveal";
+import { useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 
 type Step = {
   title: string;
   description: string;
 };
 
-const steps: Step[] = [
-  {
-    title: "Άμεση εκτίμηση",
-    description:
-      "Καλέστε ή στείλτε WhatsApp. Συζητάμε το περιστατικό σας με τον φυσικοθεραπευτή.",
-  },
-  {
-    title: "Ραντεβού στο σπίτι σας",
-    description:
-      "Σας επισκεπτόμαστε με όλο τον φορητό εξοπλισμό. Ίδια ή επόμενη μέρα.",
-  },
-  {
-    title: "Εξατομικευμένο πλάνο",
-    description:
-      "Συνδυασμός manual therapy, μηχανημάτων και ασκήσεων προσαρμοσμένων σε εσάς.",
-  },
-  {
-    title: "Επιστροφή στη ζωή σας",
-    description:
-      "Παρακολούθηση προόδου, σταδιακή αυτονομία και πρόληψη υποτροπής.",
-  },
-];
-
 const STEP_DELAY = 0.55; // seconds between each step lighting up
 const STEP_DURATION = 0.55;
 
 export function Process() {
+  const locale = useLocale();
+  const tx = t(locale);
+  const steps: Step[] = [
+    { title: tx.processStep1Title, description: tx.processStep1Desc },
+    { title: tx.processStep2Title, description: tx.processStep2Desc },
+    { title: tx.processStep3Title, description: tx.processStep3Desc },
+    { title: tx.processStep4Title, description: tx.processStep4Desc },
+  ];
   const gridRef = useRef<HTMLOListElement>(null);
   const inView = useInView(gridRef, {
     once: true,
@@ -69,11 +56,13 @@ export function Process() {
             id="process-heading"
             className="display text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[0.98] tracking-[-0.025em] text-ink"
           >
-            Πώς{" "}
-            <span className="display-italic text-cobalt">λειτουργεί.</span>
+            {tx.processTitle1}
+            <span className="display-italic text-cobalt">
+              {tx.processTitleAccent}
+            </span>
           </h2>
           <p className="mt-6 text-base leading-relaxed text-ink-muted lg:text-lg">
-            Από το πρώτο τηλέφωνο μέχρι την ανακούφισή σας, σε 4 απλά βήματα.
+            {tx.processIntro}
           </p>
         </Reveal>
 

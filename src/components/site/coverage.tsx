@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { home } from "@/lib/content";
+import { useContent } from "@/components/site/locale-provider";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 
 export function Coverage() {
+  const { home } = useContent();
   const { coverage } = home;
   return (
     <section className="relative bg-porcelain py-28 lg:py-40">

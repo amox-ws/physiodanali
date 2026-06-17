@@ -8,7 +8,9 @@ import {
   Sparkles,
   Check,
 } from "lucide-react";
-import { chiropractic, chiropracticFaq } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import {
   PageHero,
   SectionHeader,
@@ -35,12 +37,20 @@ import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: chiropractic.meta.title,
-  description: chiropractic.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { chiropractic } = getContent(locale);
+  return {
+    title: chiropractic.meta.title,
+    description: chiropractic.meta.description,
+    alternates: { canonical: "/chiropractic" },
+  };
+}
 
-export default function ChiropracticPage() {
+export default async function ChiropracticPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { chiropractic, chiropracticFaq } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -86,7 +96,7 @@ export default function ChiropracticPage() {
           <SectionHeader
             eyebrow={chiropractic.conditions.eyebrow}
             title={chiropractic.conditions.title}
-            intro="Οι πιο συχνές περιπτώσεις που αντιμετωπίζει η χειροπρακτική παρέμβαση — με συνδυαστική προσέγγιση και έμφαση στη διαρκή αποκατάσταση."
+            intro={tx.chiropracticConditionsIntro}
           />
           <div className="grid gap-5 sm:grid-cols-2">
             {chiropractic.conditions.items.map((item, i) => {
@@ -123,7 +133,7 @@ export default function ChiropracticPage() {
           <SectionHeader
             eyebrow={chiropractic.indications.eyebrow}
             title={chiropractic.indications.title}
-            intro="Αν αναγνωρίζετε κάποια από τις παρακάτω καταστάσεις, η χειροπρακτική κατ' οίκον είναι κατάλληλη επιλογή."
+            intro={tx.chiropracticIndicationsIntro}
           />
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {chiropractic.indications.items.map((item, i) => {
@@ -168,8 +178,7 @@ export default function ChiropracticPage() {
               {chiropractic.method.title}
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-snow/75 lg:text-xl">
-              Τέσσερα βήματα — από την επιστημονική αξιολόγηση μέχρι το
-              πρόγραμμα συντήρησης στο σπίτι.
+              {tx.chiropracticMethodIntro}
             </p>
           </Reveal>
           <ol className="relative mt-4 space-y-10 lg:space-y-12">
@@ -254,14 +263,14 @@ export default function ChiropracticPage() {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mb-10">
             <h3 className="display text-[clamp(1.75rem,3vw,2.5rem)] leading-[1.05] tracking-tight text-ink">
-              Σελίδες ανά πάθηση.
+              {tx.chiropracticConditionPagesTitle}
             </h3>
           </Reveal>
           <div className="grid gap-px overflow-hidden rounded-[24px] border border-stone bg-stone sm:grid-cols-3">
             {[
-              { href: "/neck-pain", label: "Αυχεναλγία" },
-              { href: "/low-back-pain", label: "Οσφυαλγία" },
-              { href: "/hip-pain", label: "Ισχιαλγία" },
+              { href: "/neck-pain", label: tx.chiropracticCondNeck },
+              { href: "/low-back-pain", label: tx.chiropracticCondLowBack },
+              { href: "/hip-pain", label: tx.chiropracticCondHip },
             ].map((c) => (
               <a
                 key={c.href}
@@ -283,10 +292,7 @@ export default function ChiropracticPage() {
       {/* FAQ */}
       <section className="bg-snow py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow="Συχνές ερωτήσεις"
-            title="Ό,τι σας ενδιαφέρει."
-          />
+          <SectionHeader eyebrow={tx.faqHeading} title={tx.faqTitle} />
           <FaqList items={chiropracticFaq} />
         </div>
       </section>
@@ -299,9 +305,9 @@ export default function ChiropracticPage() {
       </section>
 
       <FinalCTA
-        title="Η ανακούφιση ξεκινά εδώ."
-        titleAccent="ανακούφιση"
-        lead="Ραντεβού δίνονται έως αυθημερόν, εφόσον υπάρχει διαθεσιμότητα. Καλύπτουμε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα, Άλιμο."
+        title={tx.chiropracticCtaTitle}
+        titleAccent={tx.chiropracticCtaAccent}
+        lead={tx.chiropracticCtaLead}
       />
 
       <RelatedServices exclude="chiropractic" />

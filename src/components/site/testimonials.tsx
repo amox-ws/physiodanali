@@ -3,13 +3,16 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { home } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { Reveal } from "@/components/motion/reveal";
 
 export function Testimonials() {
+  const { home } = useContent();
+  const tx = t(useLocale());
   const { testimonials } = home;
   const [i, setI] = useState(0);
-  const t = testimonials[i];
+  const tm = testimonials[i];
 
   const prev = () =>
     setI((v) => (v - 1 + testimonials.length) % testimonials.length);
@@ -21,9 +24,9 @@ export function Testimonials() {
         <Reveal className="mb-12 flex items-end justify-between gap-6">
           <div>
             <h2 className="display text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1] tracking-[-0.02em] text-ink">
-              Τι λένε{" "}
+              {tx.testimonialsTitle1}
               <span className="display-italic text-cobalt">
-                οι ασθενείς μας
+                {tx.testimonialsAccent}
               </span>
               .
             </h2>
@@ -50,23 +53,23 @@ export function Testimonials() {
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               >
                 <p className="display text-[clamp(1.5rem,3vw,2.6rem)] leading-[1.25] tracking-[-0.01em] text-ink">
-                  {t.quote}
+                  {tm.quote}
                 </p>
                 <footer className="mt-10 flex flex-wrap items-center gap-4">
                   <span className="flex size-12 items-center justify-center rounded-full bg-cobalt/10 font-medium text-cobalt">
-                    {t.author.charAt(0)}
+                    {tm.author.charAt(0)}
                   </span>
                   <div>
                     <cite className="not-italic text-sm font-medium text-ink">
-                      {t.author}
+                      {tm.author}
                     </cite>
                     <p className="text-xs uppercase tracking-[0.18em] text-ink-muted">
-                      Ασθενής
+                      {tx.testimonialsRole}
                     </p>
                   </div>
-                  {"condition" in t && t.condition && (
+                  {"condition" in tm && tm.condition && (
                     <span className="ml-2 inline-flex items-center rounded-full border border-stone bg-snow px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-ink-muted">
-                      {t.condition}
+                      {tm.condition}
                     </span>
                   )}
                 </footer>
@@ -85,7 +88,7 @@ export function Testimonials() {
             <button
               type="button"
               onClick={prev}
-              aria-label="Προηγούμενη μαρτυρία"
+aria-label={tx.testimonialsPrev}
               className="group flex size-12 items-center justify-center rounded-full border border-stone-dark/40 text-ink transition-all hover:border-cobalt hover:text-cobalt"
             >
               <ArrowLeft className="size-4" strokeWidth={1.5} />
@@ -93,7 +96,7 @@ export function Testimonials() {
             <button
               type="button"
               onClick={next}
-              aria-label="Επόμενη μαρτυρία"
+aria-label={tx.testimonialsNext}
               className="group flex size-12 items-center justify-center rounded-full border border-stone-dark/40 text-ink transition-all hover:border-cobalt hover:text-cobalt"
             >
               <ArrowRight className="size-4" strokeWidth={1.5} />

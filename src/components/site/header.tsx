@@ -7,10 +7,16 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Menu, Phone, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { nav, site, type NavItem } from "@/lib/content";
+import { site, type NavItem } from "@/lib/content";
+import { useLocale } from "@/components/site/locale-provider";
+import { getNav, t } from "@/lib/translations";
+import { LocaleToggle } from "@/components/site/locale-toggle";
 
 export function Header() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const nav = getNav(locale);
+  const tx = t(locale);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSubmenu, setOpenSubmenu] = useState<string | null>(null);
@@ -65,7 +71,7 @@ export function Header() {
       >
         <Link
           href="/"
-          aria-label="PhysioDanali — Αρχική"
+          aria-label={tx.homeAria}
           className="group relative z-50 flex items-center"
         >
           <Image
@@ -118,7 +124,7 @@ export function Header() {
                         )
                       }
                       aria-expanded={openSubmenu === item.href}
-                      aria-label="Άνοιγμα υπομενού"
+                      aria-label={tx.openSubmenu}
                       className="rounded-full p-1 text-ink-muted transition-colors hover:text-ink"
                     >
                       <ChevronDown
@@ -217,6 +223,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <LocaleToggle className="hidden sm:inline-flex" />
           <a
             href={`tel:${site.phone}`}
             className="hidden xl:inline-flex items-center gap-2 rounded-full border border-stone bg-snow/80 px-4 py-2 text-sm text-ink transition-all hover:border-cobalt hover:text-cobalt"
@@ -230,13 +237,13 @@ export function Header() {
             href="/contact"
             className="hidden sm:inline-flex items-center rounded-full bg-ink px-5 py-2.5 text-sm text-snow transition-all duration-300 hover:bg-cobalt"
           >
-            Κλείστε ραντεβού
+            {tx.book}
           </Link>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
             className="relative z-50 lg:hidden rounded-full border border-stone bg-snow/80 p-2 text-ink"
-            aria-label={open ? "Κλείσιμο μενού" : "Άνοιγμα μενού"}
+            aria-label={open ? tx.closeMenu : tx.openMenu}
             aria-expanded={open}
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -330,7 +337,7 @@ export function Header() {
                                 )
                               }
                               aria-expanded={isExpanded}
-                              aria-label="Άνοιγμα υπομενού"
+                              aria-label={tx.openSubmenu}
                               className={cn(
                                 "flex size-10 shrink-0 items-center justify-center text-ink-muted transition-colors hover:text-cobalt",
                               )}
@@ -443,11 +450,12 @@ export function Header() {
                   }}
                   className="mt-12 flex flex-col gap-3"
                 >
+                  <LocaleToggle />
                   <Link
                     href="/contact"
                     className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-colors hover:bg-cobalt"
                   >
-                    <span>Κλείστε ραντεβού</span>
+                    <span>{tx.book}</span>
                     <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
                   </Link>
                   <a
@@ -471,8 +479,8 @@ export function Header() {
                   }}
                   className="mt-12 border-t border-stone/40 pt-7 text-xs text-ink-muted"
                 >
-                  <p>{site.hoursShort}</p>
-                  <p className="mt-1.5">{site.address}</p>
+                  <p>{tx.hoursShort}</p>
+                  <p className="mt-1.5">{tx.address}</p>
                 </motion.div>
               </div>
             </div>

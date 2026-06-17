@@ -6,7 +6,9 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { home, serviceSummaries, type ServiceSummary } from "@/lib/content";
+import { type ServiceSummary } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 
 // Lazy-loaded 3D scene
@@ -17,6 +19,8 @@ const ServicesScene = dynamic(
 );
 
 export function Services({ title }: { title?: ReactNode } = {}) {
+  const { home, serviceSummaries } = useContent();
+  const tx = t(useLocale());
   const { services } = home;
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -67,9 +71,9 @@ export function Services({ title }: { title?: ReactNode } = {}) {
             >
               {title ?? (
                 <>
-                  Άμεση εξυπηρέτηση επειγόντων.{" "}
+                  {tx.servicesTitle1}{" "}
                   <span className="display-italic text-cobalt">
-                    Ερευνητικά τεκμηριωμένες παρεμβάσεις.
+                    {tx.servicesTitleAccent}
                   </span>
                 </>
               )}

@@ -11,7 +11,9 @@ import {
   Activity,
   CalendarCheck,
 } from "lucide-react";
-import { homeCare, homecareFaq, site } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import {
   SectionHeader,
   CardGrid,
@@ -22,14 +24,22 @@ import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: homeCare.meta.title,
-  description: homeCare.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { homeCare } = getContent(locale);
+  return {
+    title: homeCare.meta.title,
+    description: homeCare.meta.description,
+    alternates: { canonical: "/home-care" },
+  };
+}
 
 const whyIcons = [Package, Activity, CalendarCheck];
 
-export default function HomeCarePage() {
+export default async function HomeCarePage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { homeCare, homecareFaq, site } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -96,17 +106,19 @@ export default function HomeCarePage() {
           {/* Title */}
           <Reveal delay={0.05}>
             <h1 className="display mt-8 text-[clamp(2.5rem,6.5vw,5.5rem)] leading-[0.96] tracking-[-0.03em] text-ink">
-              Φυσικοθεραπεία &amp; αποκατάσταση{" "}
-              <span className="display-italic text-cobalt">κατ&apos; οίκον</span>{" "}
-              στη Βούλα
+              {tx.homeCareHeroTitle1}
+              <span className="display-italic text-cobalt">
+                {tx.homeCareHeroTitleAccent}
+              </span>
+              {tx.homeCareHeroTitle2}
             </h1>
           </Reveal>
 
           {/* Lead */}
           <Reveal delay={0.1}>
             <p className="mt-8 max-w-[60ch] text-lg leading-relaxed text-ink-muted lg:text-xl">
-              {homeCare.hero.lead} Πλήρης φορητός εξοπλισμός — η ίδια ποιότητα
-              κλινικής, στο σπίτι σας.
+              {homeCare.hero.lead}
+              {tx.homeCareHeroLeadSuffix}
             </p>
           </Reveal>
 
@@ -133,7 +145,7 @@ export default function HomeCarePage() {
                 href="/contact"
                 className="group inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-snow/40 px-7 py-4 text-base text-ink transition-colors hover:border-ink/50"
               >
-                Φόρμα επικοινωνίας
+                {tx.homeCareHeroForm}
                 <ArrowUpRight
                   className="size-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   strokeWidth={1.5}
@@ -230,8 +242,7 @@ export default function HomeCarePage() {
             </div>
             <div className="lg:col-span-4 lg:col-start-9">
               <p className="text-base leading-relaxed text-snow/75 lg:text-lg">
-                Όλος ο εξοπλισμός που χρειάζεται μια ολοκληρωμένη συνεδρία —
-                έρχεται σε σας.
+                {tx.homeCareMethodsIntro}
               </p>
             </div>
           </Reveal>
@@ -246,7 +257,7 @@ export default function HomeCarePage() {
       {/* ───── FAQ ───── */}
       <section className="bg-porcelain py-24 lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader eyebrow="Συχνές ερωτήσεις" title="Ό,τι σας ενδιαφέρει." />
+          <SectionHeader eyebrow={tx.faqHeading} title={tx.faqTitle} />
           <FaqList items={homecareFaq} />
         </div>
       </section>

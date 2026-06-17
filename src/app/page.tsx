@@ -8,11 +8,12 @@ import { Process } from "@/components/site/process";
 import { BookingBand } from "@/components/site/booking-band";
 import { LatestArticles } from "@/components/site/latest-articles";
 import { getPublishedArticles } from "@/lib/articles";
+import { getLocale } from "@/lib/i18n-server";
 
 export const revalidate = 3600;
 
 export default async function Home() {
-  const latest = await getPublishedArticles(3);
+  const latest = await getPublishedArticles(await getLocale(), 3);
   return (
     <>
       <Hero />

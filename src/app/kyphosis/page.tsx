@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { kyphosis, kyphosisFaq } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import {
   PageHero,
   SectionHeader,
@@ -16,12 +18,20 @@ import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: kyphosis.meta.title,
-  description: kyphosis.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { kyphosis } = getContent(locale);
+  return {
+    title: kyphosis.meta.title,
+    description: kyphosis.meta.description,
+    alternates: { canonical: "/kyphosis" },
+  };
+}
 
-export default function KyphosisPage() {
+export default async function KyphosisPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { kyphosis, kyphosisFaq } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -56,7 +66,7 @@ export default function KyphosisPage() {
           <SectionHeader
             eyebrow={kyphosis.benefits.eyebrow}
             title={kyphosis.benefits.title}
-            intro="Αισθητή διαφορά από τις πρώτες συνεδρίες — όχι αόριστες υποσχέσεις, αλλά μετρήσιμα αποτελέσματα."
+            intro={tx.kyphosisBenefitsIntro}
           />
           <CardGrid items={kyphosis.benefits.items} />
         </div>
@@ -91,9 +101,9 @@ export default function KyphosisPage() {
       <section className="bg-ink py-24 text-snow lg:py-32">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="grid gap-12 lg:grid-cols-3">
-            <Stat n="20" label="συνεδρίες για ορατό αποτέλεσμα" />
-            <Stat n="4" label="συνεδρίες μέχρι μείωση πόνου" />
-            <Stat n="100%" label="κατ' οίκον — στο δικό σας χώρο" />
+            <Stat n="20" label={tx.kyphosisStat1Label} />
+            <Stat n="4" label={tx.kyphosisStat2Label} />
+            <Stat n="100%" label={tx.kyphosisStat3Label} />
           </Reveal>
         </div>
       </section>
@@ -101,10 +111,7 @@ export default function KyphosisPage() {
       {/* FAQ */}
       <section className="bg-porcelain py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow="Συχνές ερωτήσεις"
-            title="Ό,τι σας ενδιαφέρει."
-          />
+          <SectionHeader eyebrow={tx.faqHeading} title={tx.faqTitle} />
           <FaqList items={kyphosisFaq} />
         </div>
       </section>
@@ -117,9 +124,9 @@ export default function KyphosisPage() {
       </section>
 
       <FinalCTA
-        title="Ψηλότερη στάση. Από σήμερα."
-        titleAccent="Ψηλότερη στάση."
-        lead="Ξεκινήστε τη διόρθωση τώρα — ραντεβού αξιολόγησης κατ' οίκον σε Γλυφάδα, Βούλα, Βουλιαγμένη και Βάρη."
+        title={tx.kyphosisCtaTitle}
+        titleAccent={tx.kyphosisCtaAccent}
+        lead={tx.kyphosisCtaLead}
       />
 
       <RelatedServices exclude="kyphosis" />

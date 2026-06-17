@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { therapies, homeCare } from "@/lib/content";
+import { therapies } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import {
   PageHero,
   PractitionerCard,
@@ -10,11 +13,15 @@ import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, SITE_URL } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: therapies.meta.title,
-  description: therapies.meta.description,
-  alternates: { canonical: "/therapies" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { therapies } = getContent(locale);
+  return {
+    title: therapies.meta.title,
+    description: therapies.meta.description,
+    alternates: { canonical: "/therapies" },
+  };
+}
 
 const itemListSchema = {
   "@context": "https://schema.org",
@@ -28,7 +35,10 @@ const itemListSchema = {
   })),
 };
 
-export default function TherapiesPage() {
+export default async function TherapiesPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { therapies, homeCare } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -68,11 +78,10 @@ export default function TherapiesPage() {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mx-auto mb-14 max-w-[760px] text-center">
             <h2 className="display text-[clamp(2.25rem,5vw,4rem)] leading-[1.02] tracking-[-0.025em] text-ink">
-              Παθήσεις &amp; καταστάσεις
+              {tx.therapiesConditionsTitle}
             </h2>
             <p className="mt-5 text-lg leading-relaxed text-ink-muted lg:text-xl">
-              Εξατομικευμένο πρωτόκολλο αποκατάστασης για κάθε περιστατικό — με
-              τον ίδιο φυσικοθεραπευτή σε κάθε συνεδρία.
+              {tx.therapiesConditionsIntro}
             </p>
           </Reveal>
 
@@ -134,16 +143,19 @@ export default function TherapiesPage() {
       <Services
         title={
           <>
-            Όλες οι{" "}
-            <span className="display-italic text-cobalt">υπηρεσίες</span>.
+            {tx.therapiesAllServices1}
+            <span className="display-italic text-cobalt">
+              {tx.therapiesAllServicesAccent}
+            </span>
+            .
           </>
         }
       />
 
       <FinalCTA
-        title="Δεν είστε σίγουρος ποια ταιριάζει;"
-        titleAccent="ποια"
-        lead="Καλέστε για μια σύντομη τηλεφωνική αξιολόγηση — θα σας προτείνουμε την κατάλληλη θεραπεία πριν καν κλείσετε ραντεβού."
+        title={tx.therapiesCtaTitle}
+        titleAccent={tx.therapiesCtaAccent}
+        lead={tx.therapiesCtaLead}
       />
     </>
   );

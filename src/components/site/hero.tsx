@@ -7,12 +7,16 @@ import { motion, useScroll, useTransform } from "framer-motion";
 // composited transform, no layout reflows.
 import { useRef } from "react";
 import { ArrowRight, Phone, Star } from "lucide-react";
-import { home, site } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { stagger, staggerItem } from "@/components/motion/reveal";
 import { Magnetic } from "@/components/motion/magnetic";
 import { TextReveal } from "@/components/motion/text-reveal";
 
 export function Hero() {
+  const locale = useLocale();
+  const { home, site } = useContent();
+  const tx = t(locale);
   const { hero } = home;
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -65,13 +69,11 @@ export function Hero() {
           className="max-w-[68rem]"
         >
           <h1 className="display text-ink text-[clamp(2.75rem,8vw,7.5rem)] tracking-[-0.025em] leading-[0.95] max-w-[18ch]">
-            <TextReveal>{"Χειροπρακτική και Φυσικοθεραπεία"}</TextReveal>{" "}
+            <TextReveal>{tx.heroTitle1}</TextReveal>{" "}
             <span className="display-italic text-cobalt">
-              <TextReveal delay={0.15}>{"κατ' οίκον"}</TextReveal>
+              <TextReveal delay={0.15}>{tx.heroTitleAccent}</TextReveal>
             </span>{" "}
-            <TextReveal delay={0.3}>
-              {"στη Βούλα και τη Γλυφάδα."}
-            </TextReveal>
+            <TextReveal delay={0.3}>{tx.heroTitle2}</TextReveal>
           </h1>
 
           <motion.p

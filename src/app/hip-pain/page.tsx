@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { conditions } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
 import { ConditionPageTemplate } from "@/components/site/condition-page-template";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -10,11 +12,15 @@ import {
 
 const data = conditions["hip-pain"];
 
-export const metadata: Metadata = {
-  title: data.meta.title,
-  description: data.meta.description,
-  alternates: { canonical: "/hip-pain" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { conditions } = getContent(await getLocale());
+  const data = conditions["hip-pain"];
+  return {
+    title: data.meta.title,
+    description: data.meta.description,
+    alternates: { canonical: "/hip-pain" },
+  };
+}
 
 export default function Page() {
   return (
@@ -34,7 +40,7 @@ export default function Page() {
           ]),
         ]}
       />
-      <ConditionPageTemplate data={data} bgImage="/isxilia.jpg" />
+      <ConditionPageTemplate slug="hip-pain" bgImage="/isxilia.jpg" />
     </>
   );
 }

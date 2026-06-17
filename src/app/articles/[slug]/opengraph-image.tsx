@@ -1,5 +1,6 @@
 import { renderOg, ogSize, ogContentType } from "@/lib/og";
 import { getArticleBySlug } from "@/lib/articles";
+import { getLocale } from "@/lib/i18n-server";
 
 export const size = ogSize;
 export const contentType = ogContentType;
@@ -16,7 +17,7 @@ export default async function Image({
   let title = "Άρθρο & ενημέρωση";
   let eyebrow = "ΑΡΘΡΟ · PHYSIODANALI";
   try {
-    const article = await getArticleBySlug(slug);
+    const article = await getArticleBySlug(await getLocale(), slug);
     if (article?.title) title = article.title;
     if (article?.category)
       eyebrow = `${article.category.toUpperCase()} · PHYSIODANALI`;

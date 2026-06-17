@@ -4,8 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
-import { footer, nav, site } from "@/lib/content";
 import { Reveal } from "@/components/motion/reveal";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { getNav, t } from "@/lib/translations";
 
 function InstagramIcon() {
   return (
@@ -70,6 +71,10 @@ function YouTubeIcon() {
 
 export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
+  const locale = useLocale();
+  const { footer, site } = useContent();
+  const nav = getNav(locale);
+  const tx = t(locale);
 
   // The stacked-footer reveal pins the footer to the bottom (position: fixed).
   // That only works if the footer fits within the viewport — otherwise its
@@ -119,33 +124,34 @@ export function Footer() {
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="lg:col-span-6">
               <h2 className="display text-[clamp(2rem,4vw,3.5rem)] leading-[0.95] tracking-[-0.025em]">
-                Ο πόνος δεν περιμένει.
+                {tx.footerLine1}
                 <br />
-                <span className="display-italic text-gold">Ούτε εμείς.</span>
+                <span className="display-italic text-gold">
+                  {tx.footerLine2}
+                </span>
               </h2>
               <p className="mt-5 max-w-[44ch] text-sm leading-relaxed text-snow/65 lg:text-base">
-                Φυσικοθεραπεία και χειροπρακτική κατ&apos; οίκον σε Βούλα,
-                Βουλιαγμένη, Βάρη και Γλυφάδα.
+                {tx.footerTagline}
               </p>
               <div className="mt-7 flex gap-3">
                 <Link
                   href="/contact"
                   className="inline-flex items-center rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
                 >
-                  Κλείστε ραντεβού
+                  {tx.book}
                 </Link>
                 <a
                   href={`tel:${site.phone}`}
                   className="inline-flex items-center rounded-full border border-snow/20 px-6 py-3 text-sm text-snow transition-all hover:border-snow/60"
                 >
-                  Καλέστε τώρα
+                  {tx.callNow}
                 </a>
               </div>
             </div>
             <div className="grid gap-8 sm:grid-cols-3 lg:col-span-6">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
-                  Πλοήγηση
+                  {tx.colNavigation}
                 </p>
                 <ul className="mt-4 space-y-2.5 text-sm">
                   {nav.map((item) => (
@@ -162,7 +168,7 @@ export function Footer() {
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
-                  Επικοινωνία
+                  {tx.colContact}
                 </p>
                 <ul className="mt-4 space-y-2.5 text-sm text-snow/85">
                   <li>
@@ -181,13 +187,13 @@ export function Footer() {
                       {site.email}
                     </a>
                   </li>
-                  <li className="text-snow/65">{site.address}</li>
-                  <li className="text-snow/65">{site.hoursShort}</li>
+                  <li className="text-snow/65">{tx.address}</li>
+                  <li className="text-snow/65">{tx.hoursShort}</li>
                 </ul>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-snow/45">
-                  Social
+                  {tx.colSocial}
                 </p>
                 <ul className="mt-4 flex gap-3">
                   <li>

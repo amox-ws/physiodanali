@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { lymphatic, lymphaticFaq } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import {
   PageHero,
   SectionHeader,
@@ -14,12 +16,20 @@ import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: lymphatic.meta.title,
-  description: lymphatic.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { lymphatic } = getContent(locale);
+  return {
+    title: lymphatic.meta.title,
+    description: lymphatic.meta.description,
+    alternates: { canonical: "/lymphatic" },
+  };
+}
 
-export default function LymphaticPage() {
+export default async function LymphaticPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { lymphatic, lymphaticFaq } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -94,8 +104,7 @@ export default function LymphaticPage() {
             </div>
             <div className="lg:col-span-4 lg:col-start-9">
               <p className="text-base leading-relaxed text-snow/75 lg:text-lg">
-                Συνδυάζει αισθητικό αποτέλεσμα με θεραπευτική αξία — ιδιαίτερα
-                μετά από επεμβάσεις ή για χρόνια κατακράτηση.
+                {tx.lymphaticBenefitsIntro}
               </p>
             </div>
           </Reveal>
@@ -109,7 +118,7 @@ export default function LymphaticPage() {
           <SectionHeader
             eyebrow={lymphatic.why.eyebrow}
             title={lymphatic.why.title}
-            intro="Δεν είναι κοσμετική παρέμβαση — είναι εξειδικευμένη φυσικοθεραπευτική τεχνική με 15+ χρόνια εφαρμογής."
+            intro={tx.lymphaticWhyIntro}
           />
           <CardGrid items={lymphatic.why.items} cols={3} />
         </div>
@@ -118,10 +127,7 @@ export default function LymphaticPage() {
       {/* FAQ */}
       <section className="bg-porcelain py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow="Συχνές ερωτήσεις"
-            title="Ό,τι σας ενδιαφέρει."
-          />
+          <SectionHeader eyebrow={tx.faqHeading} title={tx.faqTitle} />
           <FaqList items={lymphaticFaq} />
         </div>
       </section>
@@ -134,9 +140,9 @@ export default function LymphaticPage() {
       </section>
 
       <FinalCTA
-        title="Νοιώστε τη διαφορά. Άμεσα."
-        titleAccent="τη διαφορά."
-        lead="Brazilian lymphatic drainage κατ' οίκον σε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα και Άλιμο."
+        title={tx.lymphaticCtaTitle}
+        titleAccent={tx.lymphaticCtaAccent}
+        lead={tx.lymphaticCtaLead}
       />
 
       <RelatedServices exclude="lymphatic" />

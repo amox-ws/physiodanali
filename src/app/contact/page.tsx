@@ -1,15 +1,26 @@
 import type { Metadata } from "next";
-import { contact, site } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import { PageHero } from "@/components/site/page-primitives";
 import { ContactForm } from "@/components/site/contact-form";
 import { Reveal } from "@/components/motion/reveal";
 
-export const metadata: Metadata = {
-  title: contact.meta.title,
-  description: contact.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { contact } = getContent(locale);
+  return {
+    title: contact.meta.title,
+    description: contact.meta.description,
+    alternates: { canonical: "/contact" },
+  };
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { contact: contactContent, site } = getContent(locale);
+  const contact = contactContent;
   return (
     <>
       <PageHero
@@ -18,8 +29,8 @@ export default function ContactPage() {
         title={contact.hero.title}
         titleAccent={contact.hero.titleAccent}
         lead={contact.hero.lead}
-        primaryCta={{ label: "Καλέστε τώρα", href: `tel:${site.phone}` }}
-        secondaryCta={{ label: "Στείλτε WhatsApp", href: site.whatsapp }}
+        primaryCta={{ label: tx.contactCallNow, href: `tel:${site.phone}` }}
+        secondaryCta={{ label: tx.contactWhatsApp, href: site.whatsapp }}
       />
 
       <section className="bg-snow py-28 lg:py-36">
@@ -35,27 +46,27 @@ export default function ContactPage() {
 
               <ul className="mt-12 space-y-6">
                 <ContactRow
-                  label="Τηλέφωνο"
+                  label={tx.contactRowPhone}
                   value={site.phoneDisplay}
                   href={`tel:${site.phone}`}
                 />
                 <ContactRow
-                  label="Email"
+                  label={tx.contactRowEmail}
                   value={site.email}
                   href={`mailto:${site.email}`}
                 />
                 <ContactRow
-                  label="WhatsApp"
-                  value="Στείλτε μήνυμα"
+                  label={tx.contactRowWhatsApp}
+                  value={tx.contactRowWhatsAppValue}
                   href={site.whatsapp}
                   external
                 />
-                <ContactRow label="Διεύθυνση" value={site.address} />
+                <ContactRow label={tx.contactRowAddress} value={site.address} />
               </ul>
 
               <div className="mt-12 border-t border-stone pt-8">
                 <p className="text-xs uppercase tracking-[0.22em] text-ink-muted">
-                  Ωράριο
+                  {tx.contactHoursLabel}
                 </p>
                 <ul className="mt-5 space-y-3">
                   {site.hoursList.map((h) => (

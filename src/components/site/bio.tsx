@@ -4,10 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { home } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 
 export function Bio() {
+  const { home } = useContent();
+  const tx = t(useLocale());
   const { bio } = home;
 
   // Split the name so the surname can carry an italic cobalt accent.
@@ -45,7 +48,7 @@ export function Bio() {
               <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-stone shadow-[0_40px_80px_-30px_rgba(15,37,64,0.35)]">
                 <Image
                   src="/doctor.webp"
-                  alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
+                  alt={tx.bioAlt}
                   fill
                   sizes="(min-width: 1024px) 40vw, 100vw"
                   priority={false}
@@ -71,18 +74,18 @@ export function Bio() {
               >
                 <div>
                   <p className="display text-2xl leading-none tracking-tight text-cobalt lg:text-3xl">
-                    ΠΣΦ
+                    {tx.bioCred1Abbr}
                   </p>
                   <p className="mt-1.5 text-sm text-ink-muted">
-                    Μέλος Συλλόγου
+                    {tx.bioCred1Label}
                   </p>
                 </div>
                 <span className="h-10 w-px bg-stone" />
                 <div>
                   <p className="display text-2xl leading-none tracking-tight text-ink lg:text-3xl">
-                    ΠΑΔΑ
+                    {tx.bioCred2Abbr}
                   </p>
-                  <p className="mt-1.5 text-sm text-ink-muted">Απόφοιτος</p>
+                  <p className="mt-1.5 text-sm text-ink-muted">{tx.bioCred2Label}</p>
                 </div>
               </motion.div>
             </div>
@@ -121,7 +124,7 @@ export function Bio() {
             <Reveal delay={0.2}>
               <div className="mt-9">
                 <h3 className="display text-xl tracking-tight text-ink lg:text-2xl">
-                  Εξειδικεύσεις
+                  {tx.bioSpecialties}
                 </h3>
                 <motion.ol
                   variants={stagger}
@@ -153,7 +156,7 @@ export function Bio() {
                 href="/about"
                 className="group mt-8 inline-flex items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-base text-snow transition-colors duration-500 hover:bg-cobalt"
               >
-                Πλήρες βιογραφικό
+                {tx.bioFullCv}
                 <ArrowUpRight
                   className="size-5 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   strokeWidth={1.5}

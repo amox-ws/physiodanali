@@ -13,6 +13,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { JsonLd } from "@/components/seo/json-ld";
 import { articleSchema, breadcrumbSchema } from "@/lib/seo";
 import { FinalCTA } from "@/components/site/page-primitives";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 
 // ISR safety net; on publish the admin calls revalidateTag("articles").
 export const revalidate = 3600;
@@ -28,8 +30,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getArticleBySlug(slug);
-  if (!post) return { title: "Άρθρο" };
+  const locale = await getLocale();
+  const post = await getArticleBySlug(locale, slug);
+  if (!post) return { title: t(locale).articleMetaFallback };
   return {
     title: post.title,
     description: post.excerpt,
@@ -48,11 +51,15 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = await getArticleBySlug(slug);
+  const locale = await getLocale();
+  const tx = t(locale);
+  const article = await getArticleBySlug(locale, slug);
   if (!article) notFound();
   const post = article;
   const body = article;
-  const others = (await getPublishedArticles()).filter((p) => p.slug !== slug);
+  const others = (await getPublishedArticles(locale)).filter(
+    (p) => p.slug !== slug,
+  );
 
   return (
     <>
@@ -88,7 +95,7 @@ export default async function ArticlePage({
               className="inline-flex items-center gap-2 text-base text-ink-muted transition-colors hover:text-cobalt"
             >
               <ArrowLeft className="size-4" strokeWidth={1.5} />
-              Όλα τα άρθρα
+              {tx.allArticles}
             </Link>
           </Reveal>
           <Reveal delay={0.05}>
@@ -96,7 +103,7 @@ export default async function ArticlePage({
               {post.title}
             </h1>
             <div className="mt-10 flex items-center gap-4 text-sm text-ink-muted">
-              <span className="display text-cobalt">Κωνσταντίνος Δανάλης</span>
+              <span className="display text-cobalt">{tx.authorName}</span>
               <span className="block h-3 w-px bg-stone-dark/50" />
               <span className="inline-flex items-center gap-2">
                 <Clock className="size-3.5" strokeWidth={1.5} />
@@ -146,15 +153,14 @@ export default async function ArticlePage({
           <Reveal>
             <div className="rounded-[24px] border border-cobalt/20 bg-cobalt/5 p-8 lg:p-10">
               <p className="display text-2xl leading-[1.2] tracking-tight text-ink lg:text-3xl">
-                Κλείστε αξιολόγηση και βρείτε την προσέγγιση που ταιριάζει στη
-                δική σας περίπτωση.
+                {tx.articleCtaText}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/contact"
                   className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-all hover:bg-cobalt"
                 >
-                  Κλείστε ραντεβού
+                  {tx.book}
                   <ArrowUpRight className="size-4" strokeWidth={1.5} />
                 </Link>
                 <a
@@ -174,7 +180,7 @@ export default async function ArticlePage({
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mb-12">
             <h2 className="display text-[clamp(2rem,4vw,3.5rem)] leading-[1] tracking-[-0.02em] text-ink">
-              Συνεχίστε την ανάγνωση.
+              {tx.keepReading}
             </h2>
           </Reveal>
           <div className="grid gap-8 md:grid-cols-2">
@@ -194,7 +200,7 @@ export default async function ArticlePage({
                     {p.excerpt}
                   </p>
                   <span className="mt-6 inline-flex items-center gap-2 text-sm text-cobalt">
-                    Διαβάστε το άρθρο
+                    {tx.readArticle}
                     <ArrowUpRight
                       className="size-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                       strokeWidth={1.5}
@@ -208,9 +214,9 @@ export default async function ArticlePage({
       </section>
 
       <FinalCTA
-        title="Έτοιμοι όταν είστε."
-        titleAccent="Έτοιμοι"
-        lead="Από αξιολόγηση μέχρι ολοκληρωμένο πρόγραμμα αποκατάστασης — στο σπίτι σας ή στο ιατρείο."
+        title={tx.articleFinalTitle}
+        titleAccent={tx.articleFinalAccent}
+        lead={tx.articleFinalLead}
       />
     </>
   );

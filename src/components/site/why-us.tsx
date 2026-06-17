@@ -5,7 +5,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { home } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { Reveal } from "@/components/motion/reveal";
 
 // Floating crystalline shards — distinct from the Services orb scene.
@@ -109,6 +110,8 @@ function buildSegments(
 }
 
 export function WhyUs() {
+  const { home } = useContent();
+  const tx = t(useLocale());
   const { whyUs } = home;
   const segments = buildSegments(whyUs.points);
 
@@ -172,7 +175,7 @@ export function WhyUs() {
                 id="why-heading"
                 className="display text-[clamp(2.75rem,8vw,7rem)] leading-[0.92] tracking-[-0.03em] text-ink"
               >
-                Γιατί{" "}
+                {tx.whyHeading}{" "}
                 <span className="display-italic text-cobalt">
                   PhysioDanali.
                 </span>
@@ -186,7 +189,7 @@ export function WhyUs() {
                 href="/about"
                 className="group mt-5 inline-flex items-center gap-2 text-base text-cobalt transition-colors hover:text-navy"
               >
-                Πλήρες βιογραφικό
+                {tx.whyBioLink}
                 <span className="transition-transform duration-500 group-hover:translate-x-1">
                   →
                 </span>

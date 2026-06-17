@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { clinicalPilates } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import {
   PageHero,
   SectionHeader,
@@ -18,13 +20,20 @@ import {
   medicalProcedureSchema,
 } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: clinicalPilates.meta.title,
-  description: clinicalPilates.meta.description,
-  alternates: { canonical: "/clinical-pilates" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { clinicalPilates } = getContent(locale);
+  return {
+    title: clinicalPilates.meta.title,
+    description: clinicalPilates.meta.description,
+    alternates: { canonical: "/clinical-pilates" },
+  };
+}
 
-export default function ClinicalPilatesPage() {
+export default async function ClinicalPilatesPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { clinicalPilates } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -143,10 +152,7 @@ export default function ClinicalPilatesPage() {
       {/* FAQ */}
       <section className="bg-snow py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader
-            eyebrow="Συχνές ερωτήσεις"
-            title="Ό,τι σας ενδιαφέρει."
-          />
+          <SectionHeader eyebrow={tx.faqHeading} title={tx.faqTitle} />
           <FaqList items={clinicalPilates.faq} />
         </div>
       </section>
@@ -159,9 +165,9 @@ export default function ClinicalPilatesPage() {
       </section>
 
       <FinalCTA
-        title="Ξεκινήστε σήμερα. Στο σπίτι σας."
-        titleAccent="Στο σπίτι σας."
-        lead="Άμεση κράτηση. Ραντεβού ίδια μέρα, εφόσον υπάρχει διαθεσιμότητα. Καλύπτουμε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα και Άλιμο."
+        title={tx.clinicalPilatesCtaTitle}
+        titleAccent={tx.clinicalPilatesCtaAccent}
+        lead={tx.clinicalPilatesCtaLead}
       />
 
       <RelatedServices exclude="clinical-pilates" />

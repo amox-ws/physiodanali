@@ -5,7 +5,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check, Phone } from "lucide-react";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
-import { serviceSummaries, site } from "@/lib/content";
+import { site } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { cn } from "@/lib/utils";
 
 // ─────────────────────────────────────────────────────────────────────
@@ -331,12 +333,13 @@ export function PractitionerCard({
 }: {
   image?: string;
 }) {
+  const tx = t(useLocale());
   return (
     <Reveal className="overflow-hidden rounded-[28px] border border-stone bg-snow lg:grid lg:grid-cols-12">
       <div className="relative aspect-[4/5] bg-stone lg:col-span-5 lg:aspect-auto">
         <Image
           src={image}
-          alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
+          alt={tx.practitionerAlt}
           fill
           sizes="(min-width: 1024px) 35vw, 100vw"
           className="object-cover object-[center_20%]"
@@ -352,23 +355,18 @@ export function PractitionerCard({
       </div>
       <div className="p-10 lg:col-span-7 lg:p-14">
         <h3 className="display text-[clamp(2rem,3.5vw,3.25rem)] leading-[1] tracking-[-0.02em] text-ink">
-          Κωνσταντίνος Δανάλης, PT
+          {tx.practitionerName}
         </h3>
-        <p className="mt-3 text-lg text-ink-muted">
-          Φυσικοθεραπευτής · Χειροπρακτικός
-        </p>
+        <p className="mt-3 text-lg text-ink-muted">{tx.practitionerRole}</p>
         <p className="mt-8 max-w-[55ch] text-base leading-relaxed text-ink-muted">
-          Αδειούχος Φυσικοθεραπευτής, μέλος του Πανελλήνιου Συλλόγου
-          Φυσικοθεραπευτών και απόφοιτος του Πανεπιστημίου Δυτικής Αττικής.
-          Συνδυαστική χρήση χειροπρακτικής, νευροδυναμικής και θεραπευτικής
-          άσκησης σε βιβλιογραφικά τεκμηριωμένα πρωτόκολλα.
+          {tx.practitionerBio}
         </p>
         <div className="mt-8 flex items-center gap-3">
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-snow transition-all hover:bg-cobalt"
           >
-            Κλείστε ραντεβού
+            {tx.book}
             <ArrowUpRight className="size-4" strokeWidth={1.5} />
           </Link>
           <a
@@ -394,10 +392,14 @@ type FinalCTAProps = {
 };
 
 export function FinalCTA({
-  title = "Έτοιμοι όταν είστε.",
-  titleAccent = "Έτοιμοι",
-  lead = "Επικοινωνήστε σήμερα — ραντεβού δίνονται έως αυθημερόν, εφόσον υπάρχει διαθεσιμότητα.",
+  title,
+  titleAccent,
+  lead,
 }: FinalCTAProps) {
+  const tx = t(useLocale());
+  const _title = title ?? tx.finalCtaTitle;
+  const _accent = titleAccent ?? tx.finalCtaAccent;
+  const _lead = lead ?? tx.finalCtaLead;
   return (
     <section className="relative isolate overflow-hidden bg-ink py-28 text-snow lg:py-36">
       <div
@@ -413,20 +415,20 @@ export function FinalCTA({
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
               <h2 className="display text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] tracking-[-0.025em]">
-                {title.includes(titleAccent) ? (
+                {_accent && _title.includes(_accent) ? (
                   <>
-                    {title.split(titleAccent)[0]}
+                    {_title.split(_accent)[0]}
                     <span className="display-italic text-gold">
-                      {titleAccent}
+                      {_accent}
                     </span>
-                    {title.split(titleAccent)[1]}
+                    {_title.split(_accent)[1]}
                   </>
                 ) : (
-                  title
+                  _title
                 )}
               </h2>
               <p className="mt-8 max-w-[48ch] text-base leading-relaxed text-snow/75 lg:text-lg">
-                {lead}
+                {_lead}
               </p>
             </div>
             <div className="flex flex-col gap-3 lg:col-span-5">
@@ -435,7 +437,7 @@ export function FinalCTA({
                 className="group flex items-center justify-between rounded-2xl bg-cobalt px-6 py-5 transition-all hover:bg-azure"
               >
                 <span className="display text-2xl tracking-tight">
-                  Κλείστε ραντεβού
+                  {tx.book}
                 </span>
                 <ArrowUpRight
                   className="size-5 transition-transform duration-500 group-hover:rotate-45"
@@ -469,6 +471,8 @@ export function FinalCTA({
 // RELATED SERVICES — bottom of detail page
 
 export function RelatedServices({ exclude }: { exclude: string }) {
+  const { serviceSummaries } = useContent();
+  const tx = t(useLocale());
   const others = serviceSummaries
     .filter((s) => s.slug !== exclude && !s.href.includes("#"))
     .slice(0, 3);
@@ -477,9 +481,9 @@ export function RelatedServices({ exclude }: { exclude: string }) {
     <section className="bg-snow py-28 lg:py-36">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionHeader
-          eyebrow="Συνεχίστε"
-          title="Δείτε επίσης."
-          intro="Οι υπόλοιπες υπηρεσίες — όλες με τον ίδιο φυσικοθεραπευτή."
+          eyebrow={tx.relatedHeading}
+          title={tx.relatedTitle}
+          intro={tx.relatedIntro}
         />
 
         <motion.div

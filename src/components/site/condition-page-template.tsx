@@ -13,15 +13,20 @@ import {
 } from "@/components/site/page-primitives";
 import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 import { FaqList } from "@/components/site/faq-list";
-import type { ConditionPage } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 
 export function ConditionPageTemplate({
-  data,
+  slug,
   bgImage,
 }: {
-  data: ConditionPage;
+  slug: string;
   bgImage?: string;
 }) {
+  const locale = useLocale();
+  const { conditions } = useContent();
+  const tx = t(locale);
+  const data = conditions[slug];
   return (
     <>
       <PageHero
@@ -55,7 +60,7 @@ export function ConditionPageTemplate({
           <SectionHeader
             eyebrow={data.symptoms.eyebrow}
             title={data.symptoms.title}
-            intro="Αναγνωρίστε αν τα συμπτώματά σας ταιριάζουν — η πρώιμη παρέμβαση φέρνει ταχύτερη ανακούφιση."
+            intro={tx.condSymptomsIntro}
           />
           <motion.ul
             variants={stagger}
@@ -105,9 +110,9 @@ export function ConditionPageTemplate({
       <section className="bg-snow py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <SectionHeader
-            eyebrow="Συχνές ερωτήσεις"
-            title="Ό,τι σας ενδιαφέρει."
-            intro="Αν η ερώτησή σας δεν απαντιέται εδώ, καλέστε ή στείλτε μήνυμα — απαντάμε εντός λίγων ωρών."
+            eyebrow={tx.faqHeading}
+            title={tx.faqTitle}
+            intro={tx.condFaqIntro}
           />
           <FaqList items={data.faq} />
         </div>
@@ -121,9 +126,9 @@ export function ConditionPageTemplate({
       </section>
 
       <FinalCTA
-        title="Ραντεβού αξιολόγησης. Άμεσα."
-        titleAccent="Άμεσα."
-        lead="Ραντεβού αυθημερόν εφόσον υπάρχει διαθεσιμότητα. Καλύπτουμε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα, Άλιμο."
+        title={tx.condCtaTitle}
+        titleAccent={tx.condCtaAccent}
+        lead={tx.condCtaLead}
       />
 
       <RelatedServices exclude={data.slug} />

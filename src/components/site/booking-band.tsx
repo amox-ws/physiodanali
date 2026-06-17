@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Phone, MessageCircle } from "lucide-react";
-import { site } from "@/lib/content";
+import { useContent, useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 import { Reveal } from "@/components/motion/reveal";
 
 export function BookingBand() {
+  const { site } = useContent();
+  const tx = t(useLocale());
   return (
     <section
       id="contact"
@@ -37,19 +40,17 @@ export function BookingBand() {
               id="contact-heading"
               className="display text-[clamp(2.75rem,6vw,5.5rem)] leading-[0.95] tracking-[-0.025em] text-snow"
             >
-              Κλείστε ραντεβού. <br />
-              <span className="display-italic text-gold">Άμεσα.</span>
+              {tx.bookingTitle} <br />
+              <span className="display-italic text-gold">{tx.bookingAccent}</span>
             </h2>
             <p className="mt-8 max-w-[48ch] text-base leading-relaxed text-snow/75 lg:text-lg">
-              Επικοινωνήστε μέσω τηλεφώνου ή WhatsApp. Απαντάμε τις ίδιες μέρες
-              — και ραντεβού δίνονται έως αυθημερόν, εφόσον υπάρχει
-              διαθεσιμότητα.
+              {tx.bookingLead}
             </p>
             <Link
               href="/contact"
               className="mt-10 inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
             >
-              Φόρμα επικοινωνίας
+              {tx.contactForm}
               <ArrowUpRight className="size-4" strokeWidth={1.5} />
             </Link>
           </Reveal>
@@ -67,7 +68,7 @@ export function BookingBand() {
                   </span>
                   <div>
                     <p className="text-xs uppercase tracking-[0.18em] text-snow/55">
-                      Τηλέφωνο
+                      {tx.contactRowPhone}
                     </p>
                     <p className="display text-2xl tracking-tight">
                       {site.phoneDisplay}
@@ -93,10 +94,10 @@ export function BookingBand() {
                   </span>
                   <div>
                     <p className="text-xs uppercase tracking-[0.18em] text-snow/55">
-                      WhatsApp
+                      {tx.contactRowWhatsApp}
                     </p>
                     <p className="display text-2xl tracking-tight">
-                      Στείλτε μήνυμα
+                      {tx.contactRowWhatsAppValue}
                     </p>
                   </div>
                 </div>

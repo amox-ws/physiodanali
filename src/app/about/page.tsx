@@ -2,18 +2,29 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
-import { about, home, site } from "@/lib/content";
+import { getContent } from "@/lib/content-i18n";
+import { getLocale } from "@/lib/i18n-server";
+import { t } from "@/lib/translations";
 import { PageHero } from "@/components/site/page-primitives";
 import { TrustBar } from "@/components/site/trust-bar";
 import { Reveal } from "@/components/motion/reveal";
 import { CountUp } from "@/components/motion/count-up";
 
-export const metadata: Metadata = {
-  title: about.meta.title,
-  description: about.meta.description,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const { about } = getContent(locale);
+  return {
+    title: about.meta.title,
+    description: about.meta.description,
+    alternates: { canonical: "/about" },
+  };
+}
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const locale = await getLocale();
+  const tx = t(locale);
+  const { about: aboutContent, home, site } = getContent(locale);
+  const about = aboutContent;
   return (
     <>
       <PageHero
@@ -38,7 +49,7 @@ export default function AboutPage() {
                   <div className="relative aspect-[4/5] overflow-hidden rounded-[28px] bg-stone shadow-[0_40px_80px_-30px_rgba(15,37,64,0.35)]">
                     <Image
                       src="/drfoto2.jpg"
-                      alt="Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός"
+                      alt={tx.aboutPortraitAlt}
                       fill
                       sizes="(min-width: 1024px) 40vw, 100vw"
                       priority
@@ -54,10 +65,10 @@ export default function AboutPage() {
                     />
                     <div className="absolute inset-x-0 bottom-0 p-7">
                       <p className="display text-3xl leading-tight tracking-tight text-snow lg:text-[2.5rem]">
-                        Κωνσταντίνος Δανάλης
+                        {tx.aboutPractitionerName}
                       </p>
                       <p className="mt-2 text-sm text-snow/80 lg:text-base">
-                        Φυσικοθεραπευτής · Χειροπρακτικός
+                        {tx.aboutPractitionerRole}
                       </p>
                     </div>
                   </div>
@@ -95,7 +106,7 @@ export default function AboutPage() {
               </Reveal>
 
               {/* Education */}
-              <CvBlock title={about.education.title} label="Εκπαίδευση">
+              <CvBlock title={about.education.title} label={tx.aboutEducationLabel}>
                 <ol className="space-y-7">
                   {about.education.items.map((item, i) => (
                     <li key={item.title} className="flex gap-5">
@@ -116,7 +127,10 @@ export default function AboutPage() {
               </CvBlock>
 
               {/* Specialties */}
-              <CvBlock title={about.specialties.title} label="Εξειδικεύσεις">
+              <CvBlock
+                title={about.specialties.title}
+                label={tx.aboutSpecialtiesLabel}
+              >
                 <div className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
                   {about.specialties.items.map((item) => (
                     <div key={item.title}>
@@ -132,7 +146,10 @@ export default function AboutPage() {
               </CvBlock>
 
               {/* Memberships */}
-              <CvBlock title={about.memberships.title} label="Συμμετοχές">
+              <CvBlock
+                title={about.memberships.title}
+                label={tx.aboutMembershipsLabel}
+              >
                 <ul className="space-y-4">
                   {about.memberships.items.map((item) => (
                     <li
@@ -162,7 +179,11 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <Reveal className="mb-16">
             <h2 className="display text-[clamp(2.25rem,5vw,4.25rem)] leading-[0.98] tracking-[-0.02em] text-snow">
-              Τι λένε <span className="display-italic text-gold">οι ασθενείς</span>.
+              {tx.aboutTestimonialsTitle1}
+              <span className="display-italic text-gold">
+                {tx.aboutTestimonialsTitleAccent}
+              </span>
+              .
             </h2>
           </Reveal>
           <div className="grid gap-8 lg:grid-cols-3">
@@ -185,12 +206,10 @@ export default function AboutPage() {
             <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
                 <h2 className="display text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.98] tracking-[-0.02em] text-ink">
-                  Έτοιμοι για το επόμενο βήμα.
+                  {tx.aboutCtaTitle}
                 </h2>
                 <p className="mt-8 max-w-[50ch] text-lg leading-relaxed text-ink-muted lg:text-xl">
-                  Κλείστε αξιολόγηση ή ραντεβού — αυθημερόν εφόσον υπάρχει
-                  διαθεσιμότητα. Καλύπτουμε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα
-                  και Άλιμο.
+                  {tx.aboutCtaLead}
                 </p>
               </div>
               <div className="flex flex-col gap-3 lg:col-span-5">
@@ -199,7 +218,7 @@ export default function AboutPage() {
                   className="group flex items-center justify-between rounded-2xl bg-ink px-7 py-6 text-snow transition-all hover:bg-cobalt"
                 >
                   <span className="display text-2xl tracking-tight lg:text-3xl">
-                    Φόρμα επικοινωνίας
+                    {tx.aboutCtaForm}
                   </span>
                   <ArrowUpRight
                     className="size-6 transition-transform duration-500 group-hover:rotate-45"

@@ -6,8 +6,11 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Clock } from "lucide-react";
 import { stagger, staggerItem } from "@/components/motion/reveal";
 import type { Article } from "@/lib/content";
+import { useLocale } from "@/components/site/locale-provider";
+import { t } from "@/lib/translations";
 
 export function ArticleGrid({ posts }: { posts: Article[] }) {
+  const tx = t(useLocale());
   return (
     <motion.div
       variants={stagger}
@@ -68,7 +71,7 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
                 {post.excerpt}
               </p>
               <span className="mt-6 inline-flex items-center gap-2 text-sm text-cobalt">
-                Διαβάστε το άρθρο
+                {tx.readArticle}
                 <ArrowUpRight
                   className="size-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                   strokeWidth={1.5}

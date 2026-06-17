@@ -2,15 +2,17 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import type { Article, ArticleBody } from "@/lib/content";
-import { articles as staticArticles, articleBodies } from "@/lib/content";
+import { articles as elArticles, articleBodies as elBodies } from "@/lib/content";
+import { articles as enArticles, articleBodies as enBodies } from "@/lib/content.en";
+import type { Locale } from "@/lib/i18n";
 
 // ─────────────────────────────────────────────────────────────────────
-// Article data access — reads from Supabase (table: public.articles).
+// Article data access.
 //
-// Public pages use the ANON key; RLS restricts reads to status='published',
-// so drafts never leak even though the anon key is public. Results are wrapped
-// in unstable_cache with the "articles" tag — the admin publish action calls
-// revalidateTag("articles") for instant updates (see Phase 4).
+// Greek (el): reads from Supabase (public.articles, status='published') with
+//   a static fallback to content.ts when the DB env vars are absent.
+// English (en): served from the bundled static translations (content.en.ts),
+//   since the CMS stores Greek only.
 // ─────────────────────────────────────────────────────────────────────
 
 export type ArticleFull = Article & { sections: ArticleBody["sections"] };
@@ -29,10 +31,6 @@ type Row = {
   sections: ArticleBody["sections"] | null;
 };
 
-// When Supabase env vars are absent (e.g. local dev before the CMS is wired
-// up), the data layer falls back to the static articles bundled in
-// content.ts. This keeps the site fully runnable without a database; once
-// NEXT_PUBLIC_SUPABASE_URL / _ANON_KEY are set, the live CMS takes over.
 function hasSupabase() {
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&
@@ -40,16 +38,24 @@ function hasSupabase() {
   );
 }
 
-function staticArticleFull(slug: string): ArticleFull | null {
-  const post = staticArticles.posts.find((p) => p.slug === slug);
-  if (!post) return null;
-  return { ...post, sections: articleBodies[slug]?.sections ?? [] };
+function staticSource(locale: Locale) {
+  return locale === "en"
+    ? { posts: enArticles.posts, bodies: enBodies }
+    : { posts: elArticles.posts, bodies: elBodies };
 }
 
-function staticAll(limit?: number): ArticleFull[] {
-  const all = staticArticles.posts.map((p) => ({
+function staticArticleFull(locale: Locale, slug: string): ArticleFull | null {
+  const { posts, bodies } = staticSource(locale);
+  const post = posts.find((p) => p.slug === slug);
+  if (!post) return null;
+  return { ...post, sections: bodies[slug]?.sections ?? [] };
+}
+
+function staticAll(locale: Locale, limit?: number): ArticleFull[] {
+  const { posts, bodies } = staticSource(locale);
+  const all = posts.map((p) => ({
     ...p,
-    sections: articleBodies[p.slug]?.sections ?? [],
+    sections: bodies[p.slug]?.sections ?? [],
   }));
   return limit ? all.slice(0, limit) : all;
 }
@@ -77,9 +83,9 @@ function toArticle(r: Row): ArticleFull {
   };
 }
 
-export const getPublishedArticles = unstable_cache(
+// ── Greek: cached Supabase reads ──────────────────────────────────────
+const dbPublished = unstable_cache(
   async (limit?: number): Promise<ArticleFull[]> => {
-    if (!hasSupabase()) return staticAll(limit);
     let q = db()
       .from("articles")
       .select(SELECT)
@@ -94,9 +100,8 @@ export const getPublishedArticles = unstable_cache(
   { tags: ["articles"], revalidate: REVALIDATE },
 );
 
-export const getArticleBySlug = unstable_cache(
+const dbBySlug = unstable_cache(
   async (slug: string): Promise<ArticleFull | null> => {
-    if (!hasSupabase()) return staticArticleFull(slug);
     const { data, error } = await db()
       .from("articles")
       .select(SELECT)
@@ -110,9 +115,29 @@ export const getArticleBySlug = unstable_cache(
   { tags: ["articles"], revalidate: REVALIDATE },
 );
 
+// ── Public, locale-aware getters ──────────────────────────────────────
+export async function getPublishedArticles(
+  locale: Locale,
+  limit?: number,
+): Promise<ArticleFull[]> {
+  if (locale === "en") return staticAll("en", limit);
+  if (!hasSupabase()) return staticAll("el", limit);
+  return dbPublished(limit);
+}
+
+export async function getArticleBySlug(
+  locale: Locale,
+  slug: string,
+): Promise<ArticleFull | null> {
+  if (locale === "en") return staticArticleFull("en", slug);
+  if (!hasSupabase()) return staticArticleFull("el", slug);
+  return dbBySlug(slug);
+}
+
+// Slugs are shared across locales — used for generateStaticParams / sitemap.
 export const getPublishedSlugs = unstable_cache(
   async (): Promise<string[]> => {
-    if (!hasSupabase()) return staticArticles.posts.map((p) => p.slug);
+    if (!hasSupabase()) return elArticles.posts.map((p) => p.slug);
     const { data, error } = await db()
       .from("articles")
       .select("slug")
