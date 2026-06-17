@@ -33,7 +33,7 @@ Design & UI · ταχύτητα (272KB/0.5s) · mobile · **SEO schema** (LocalB
 - [ ] **Hero ≥1920px** + αντικατάσταση low-res εικόνων (όταν έρθει υλικό)
 - [ ] **Analytics install** + cookie-consent gating
 - [ ] **Location pages** (`/fysikotherapeftis-glyfada`, `-voula`) — organic SEO
-- [ ] 🔴 **English SEO** — το EN είναι cookie-based (ίδια URLs) → **δεν indexάρεται από Google**. Με πολλούς ξένους πελάτες, χρειάζεται `/en/` paths + hreflang. *(αγγίζει το i18n του dev — συντονισμός· βλ. [seo-plan.md](seo-plan.md) §2)*
+- [~] **English SEO** — `/en/` paths + hreflang **υλοποιήθηκε** → **[PR #2](https://github.com/amox-ws/physiodanali/pull/2)** (review από dev πριν merge, αγγίζει το i18n του). Σημαντικό λόγω πολλών ξένων πελατών. *(βλ. [seo-plan.md](seo-plan.md) §2)*
 - [ ] **Review schema fix** (τώρα hardcoded 100· πραγματικό 121 + embed)
 - [ ] **Easy/ασφαλή** (νέα αρχεία, μηδέν ρίσκο): `llms.txt` · PWA manifest+apple-icon · service schema · accessibility statement · dev scripts (`.nvmrc`/typecheck) · skip-link · medical disclaimer
 
