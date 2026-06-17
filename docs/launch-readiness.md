@@ -19,12 +19,51 @@
 | 🟢 AI blog automation | Λειτουργεί end-to-end |
 | ✅ Νομικά / GDPR | **ΕΓΙΝΕ** (code) — εκκρεμεί μόνο ΑΦΜ/αρ.αδείας από πελάτη |
 | 🔴 Φόρμα επικοινωνίας | **Δεν δουλεύει (fake mailto)** |
-| 🔴 Email (Resend) production | Test mode |
+| 🟠 Email (Resend) production | From=amox.gr ✅· μένει φρέσκο key |
 | 🟡 Εικόνες (ποιότητα) | Ο dev πρόσθεσε νέες εικόνες· μένει hero + φωτογράφιση |
 | ✅ Social sharing (OG) | **ΕΓΙΝΕ** (default + per-article) |
 | 🟠 Analytics | Δεν υπάρχει (εκκρεμεί) |
 | 🟠 Booking system | Αφαιρέθηκε (μετά τον πελάτη) |
 | ✅ Security headers / error pages | **ΕΓΙΝΕ** |
+
+---
+
+# 🎯 ΤΙ ΜΕΝΕΙ ΓΙΑ 100% — Master Checklist (ενημ. 2026-06-17)
+
+> Η **ενιαία λίστα αλήθειας**. Ό,τι έχει ολοκληρωθεί είναι στο «✅ Πρόοδος» πιο κάτω· εδώ μόνο ό,τι **ΜΕΝΕΙ**. Ομαδοποιημένο ανά «ποιος».
+
+### 🔴 Functional — πριν το επίσημο launch
+- [ ] **Φόρμα επικοινωνίας να στέλνει** (B1) — τώρα είναι `mailto:`/ψεύτικη. API route + Resend + spam protection. *(εγώ)*
+- [ ] **Resend production**: φρέσκο API key (rotate το εκτεθειμένο) → GitHub Secrets + Vercel. *(owner δίνει key → εγώ wiring)*
+- [ ] **Final QA pass** σε όλο το site πριν βγει (φόρμα, links, mobile, legal, login). *(εγώ)*
+
+### 🔑 Rotate εκτεθειμένα keys — **owner**
+- [ ] Anthropic · Supabase PAT · Resend · Unsplash (όλα μπήκαν σε chat). + άλλαξε τους temp κωδικούς admin (`Danaliqy3mt8` / `Amoxhh0gcona`).
+
+### 🌐 Infrastructure — **owner** (+ dev wiring)
+- [ ] ⭐ **Custom domain physiodanali.gr → νέο site** — ο Νο.1 SEO κρίκος (συνδέει το GBP με 121×5.0). *(owner DNS)*
+- [ ] **Google Search Console** (ιδανικά μετά το domain) + verification token → `GOOGLE_SITE_VERIFICATION` + submit sitemap. *(owner + εγώ)*
+- [ ] **Analytics** (GA4 ή Vercel Analytics) + cookie-consent gating. *(εγώ install + owner λογαριασμός)*
+- [ ] **Supabase Pro** ~$25/μ (προαιρετικό· public blog καλυμμένο με static fallback, αλλά admin/generation θέλουν always-on). *(owner)*
+
+### 📋 Από τον πελάτη (Δανάλη)
+- [ ] **ΑΦΜ + αρ. άδειας ασκήσεως** → `site.legal` (εμφανίζονται αυτόματα). *(υποχρεωτικό νομικά)*
+- [ ] **Έγκριση νομικών κειμένων** (privacy/terms/cookies).
+- [ ] **Επαγγελματικές φωτογραφίες** (hero + about) — το μεγαλύτερο visual κενό.
+- [ ] **Άδεια προβολής κριτικών** + testimonials (για Review schema).
+- [ ] **Απόφαση booking** (SimplyBook / custom / όχι).
+
+### 🟠 SEO / Design polish — **εγώ** (όταν έρθει υλικό)
+- [ ] **Hero ≥1920px** + αντικατάσταση όσων low-res/Pinterest μένουν.
+- [ ] **Review/AggregateRating fix** (τώρα hardcoded 100· πραγματικό 121 + embed κριτικών).
+- [ ] **Location pages** (`/fysikotherapeftis-glyfada`, `-voula`…) — organic SEO.
+
+### 🤖 Blog automation — finishing touches
+- [ ] **Topic backlog preload** (15-20 SEO θέματα) — έλεγχος τι βγαίνει. *(εγώ)*
+- [ ] **End-to-end test** (generate → email → login → preview → publish). *(μαζί)*
+
+### 🟡 Smaller polish (P1–P10, μη-blockers)
+- [ ] WebGL mobile frameloop · PWA manifest/apple-icon · skip-to-content · focus styles · contact canonical · lint/typecheck scripts · `.nvmrc` · accessibility statement.
 
 ---
 
