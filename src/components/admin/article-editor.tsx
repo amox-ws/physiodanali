@@ -451,7 +451,7 @@ export function ArticleEditor({ article }: { article: AdminArticle | null }) {
 
         {id && form.slug && (
           <Link
-            href={`/articles/${form.slug}`}
+            href={`/api/preview?slug=${form.slug}`}
             target="_blank"
             className="inline-flex items-center gap-2 rounded-full border border-stone px-5 py-2.5 text-sm text-ink-muted transition-colors hover:border-cobalt hover:text-cobalt"
           >

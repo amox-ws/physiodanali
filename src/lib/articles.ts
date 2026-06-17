@@ -134,6 +134,27 @@ export async function getArticleBySlug(
   return dbBySlug(slug);
 }
 
+// Draft-capable read for ADMIN PREVIEW only. Uses the service-role key to
+// bypass RLS so unpublished drafts are visible. Invoked solely when Next's
+// draftMode() is enabled — and that is only ever turned on by the admin-gated
+// /api/preview route — so drafts never leak publicly (a draft slug without
+// draft mode still 404s). Not cached: previews must always be fresh.
+export async function getArticleBySlugPreview(
+  slug: string,
+): Promise<ArticleFull | null> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const service = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !service) return staticArticleFull("el", slug);
+  const sb = createClient(url, service, { auth: { persistSession: false } });
+  const { data, error } = await sb
+    .from("articles")
+    .select(SELECT)
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw error;
+  return data ? toArticle(data as Row) : null;
+}
+
 // Slugs are shared across locales — used for generateStaticParams / sitemap.
 export const getPublishedSlugs = unstable_cache(
   async (): Promise<string[]> => {

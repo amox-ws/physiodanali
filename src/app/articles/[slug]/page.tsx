@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { draftMode } from "next/headers";
 import { ArrowLeft, ArrowUpRight, Clock } from "lucide-react";
 import { site } from "@/lib/content";
 import {
   getArticleBySlug,
+  getArticleBySlugPreview,
   getPublishedArticles,
   getPublishedSlugs,
 } from "@/lib/articles";
@@ -31,7 +33,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const locale = await getLocale();
-  const post = await getArticleBySlug(locale, slug);
+  const { isEnabled: isDraft } = await draftMode();
+  const post = isDraft
+    ? await getArticleBySlugPreview(slug)
+    : await getArticleBySlug(locale, slug);
   if (!post) return { title: t(locale).articleMetaFallback };
   return {
     title: post.title,
@@ -53,7 +58,10 @@ export default async function ArticlePage({
   const { slug } = await params;
   const locale = await getLocale();
   const tx = t(locale);
-  const article = await getArticleBySlug(locale, slug);
+  const { isEnabled: isDraft } = await draftMode();
+  const article = isDraft
+    ? await getArticleBySlugPreview(slug)
+    : await getArticleBySlug(locale, slug);
   if (!article) notFound();
   const post = article;
   const body = article;
@@ -63,6 +71,18 @@ export default async function ArticlePage({
 
   return (
     <>
+      {isDraft && (
+        <div className="fixed inset-x-0 top-0 z-[80] flex flex-wrap items-center justify-center gap-x-4 gap-y-1 bg-gold px-4 py-2 text-center text-sm font-medium text-ink">
+          <span>👁️ Προεπισκόπηση προσχεδίου — δεν είναι δημοσιευμένο.</span>
+          <a
+            href="/api/preview/exit"
+            className="rounded-full bg-ink px-3 py-1 text-xs text-snow transition-colors hover:bg-cobalt"
+          >
+            Έξοδος προεπισκόπησης
+          </a>
+        </div>
+      )}
+
       <JsonLd
         data={[
           articleSchema({
