@@ -261,6 +261,14 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/admin"
+                className="text-snow/35 transition-colors hover:text-snow"
+              >
+                {locale === "en" ? "Admin" : "Διαχείριση"}
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
