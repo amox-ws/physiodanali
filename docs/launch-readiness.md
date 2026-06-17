@@ -20,7 +20,7 @@
 | ✅ Νομικά / GDPR | **ΕΓΙΝΕ** (code) — εκκρεμεί μόνο ΑΦΜ/αρ.αδείας από πελάτη |
 | 🔴 Φόρμα επικοινωνίας | **Δεν δουλεύει (fake mailto)** |
 | 🔴 Email (Resend) production | Test mode |
-| 🟠 Εικόνες (ποιότητα) | Χαμηλή ανάλυση (εκκρεμεί) |
+| 🟡 Εικόνες (ποιότητα) | Ο dev πρόσθεσε νέες εικόνες· μένει hero + φωτογράφιση |
 | ✅ Social sharing (OG) | **ΕΓΙΝΕ** (default + per-article) |
 | 🟠 Analytics | Δεν υπάρχει (εκκρεμεί) |
 | 🟠 Booking system | Αφαιρέθηκε (μετά τον πελάτη) |
@@ -29,6 +29,10 @@
 ---
 
 # ✅ Πρόοδος
+
+### 2026-06-16 — Pull & integration (other dev) + SEO update
+- ⬇️ **Pull 16 commits** του άλλου dev — ενσωματώθηκαν καθαρά πάνω στη δική μου δουλειά (build GREEN 43 routes, μηδέν conflicts). Συμπληρωματικά: **νέες εικόνες υπηρεσιών** (5×) + photo backgrounds, UI/layout αναβαθμίσεις (chiropractic/therapies/lymphatic, vertical timeline, color accents), content (lymphatic 15+ έτη), και ⭐ **static fallback άρθρων** όταν η Supabase είναι κάτω ([articles.ts](src/lib/articles.ts)).
+- 🔎 **SEO/GEO section** προστέθηκε + αναθεωρήθηκε με βάση το πραγματικό GBP (verified, **121×5.0★**) — βλ. παρακάτω.
 
 ### 2026-06-15 — Social sharing OG + Security headers + Error pages (build GREEN, 43 routes)
 - ✅ **OG / Social sharing (I2)** — δυναμικά branded 1200×630 images με `next/og`: default για όλο το site ([opengraph-image.tsx](src/app/opengraph-image.tsx)) + **per-article** με τον τίτλο του άρθρου ([articles/[slug]/opengraph-image.tsx](src/app/articles/[slug]/opengraph-image.tsx)). Twitter cards (`summary_large_image`). Ελληνικά renderάρουν σωστά (EB Garamond/Inter μέσω Google Fonts, subsetted, graceful fallback). Generator: [src/lib/og.tsx](src/lib/og.tsx). Verified: og:image/twitter:image meta με absolute URLs.
@@ -118,7 +122,9 @@
 
 > ℹ️ Δεν επηρεάζει **ταχύτητα** (το `next/image` τις συμπιέζει), μόνο **εμφάνιση**.
 
-**Τι χρειάζεται:** επαγγελματική φωτογράφιση του Δανάλη (hero/about/services) + συνεκτικό licensed stock για τα υπόλοιπα. Hero ≥1920px.
+> ✅ **Update (pull 2026-06-16):** ο άλλος dev πρόσθεσε **νέες εικόνες υπηρεσιών** (`brazilian2g`, `chiropractic2g`, `clinical2g`, `services2g`, `serviceshero`) + photo backgrounds (`bgImage` prop) — βελτιώνει αισθητά την κατάσταση. **Μένει:** δυνατό hero ≥1920px + επαγγελματική φωτογράφιση του Δανάλη + καθάρισμα των παλιών low-res/Pinterest assets.
+
+**Τι χρειάζεται (υπόλοιπο):** επαγγελματική φωτογράφιση του Δανάλη (hero/about) + αντικατάσταση όσων παλιών 736px/low-res μένουν. Hero ≥1920px.
 **Ποιος:** πελάτης/φωτογράφος (υλικό) · εγώ (wiring/optimization)
 
 ### I2. OG images — τα social shares βγαίνουν ΚΕΝΑ
@@ -161,6 +167,111 @@
 
 ---
 
+# 🔎 SEO / GEO — Στρατηγική «Νο.1 φυσικοθεραπευτής Γλυφάδα & Βούλα»
+
+> **Στόχος:** top-3 στο Google (local pack + organic) για «φυσικοθεραπευτής Γλυφάδα/Βούλα», και να μας **προτείνουν τα AI** (ChatGPT / Perplexity / Google AI Overviews / Gemini) όταν κάποιος ρωτά για φυσικοθεραπευτή ή χιροπρακτικό στα νότια προάστια.
+>
+> Η αλήθεια του local SEO: **~80% κρίνεται ΕΚΤΟΣ κώδικα** (Google Business Profile + κριτικές + citations). Ο κώδικας είναι ήδη άριστος — το «κλειδί» είναι τα owner-side βήματα παρακάτω.
+
+## 🎯 Keyword map (στόχευση)
+**Primary (υψηλή πρόθεση αγοράς):**
+- `φυσικοθεραπευτής Γλυφάδα` · `φυσικοθεραπευτής Βούλα`
+- `φυσικοθεραπεία κατ' οίκον` + Γλυφάδα / Βούλα / Βουλιαγμένη / Βάρη / Άλιμο
+- `χιροπρακτικός Γλυφάδα` · `χιροπρακτικός Βούλα`
+
+**Secondary / long-tail (υπηρεσία × περιοχή — εύκολες νίκες):**
+- `φυσικοθεραπεία για οσφυαλγία/αυχεναλγία Γλυφάδα`
+- `brazilian lymphatic drainage` / `λεμφικό μασάζ νότια προάστια`
+- `clinical pilates Γλυφάδα` · `χιροπρακτική Βουλιαγμένη`
+- `φυσικοθεραπεία στο σπίτι Βούλα` (γηριατρική, μετεγχειρητική, νευρολογική)
+
+**English (expats νότιων προαστίων):** `physiotherapist Glyfada / Voula`, `home physiotherapy Athens south`.
+
+## ✅ Τι έχουμε ήδη (γερό θεμέλιο — βαθμός A)
+Structured data (LocalBusiness/MedicalBusiness/Person/FAQ/Article/Breadcrumb), geo coordinates, `areaServed` ×5, μοναδικά metadata παντού, δυναμικό sitemap, robots, ταχύτητα (272KB / 0.5s), mobile, canonical, OG images, **+ εβδομαδιαίο AI blog** (φρέσκο GEO περιεχόμενο). Αυτό το θεμέλιο είναι ήδη καλύτερο από τον μέσο τοπικό ανταγωνιστή.
+
+## 🥇 Local SEO — οι ΜΕΓΑΛΥΤΕΡΟΙ μοχλοί (κατά σειρά impact)
+
+**1. Google Business Profile (GBP) — ✅ ΗΔΗ ΙΣΧΥΡΟ** *(owner — επιβεβαιωμένο 2026-06-16)*
+- ✅ Verified, ενεργό knowledge panel: «PhysioDanali – Χειροπρακτική & Φυσικοθεραπεία Κατ' Οίκον **Βούλα, Γλυφάδα**».
+- ✅ Σωστή κατηγορία «**Φυσικοθεραπευτής στη Γλυφάδα**», διεύθυνση (Αγ. Νεκταρίου 58, Γλυφάδα 165 62), τηλέφωνο, ωράριο (έως 23:00), φωτογραφίες, χάρτης + street view.
+- 🟢 Μικρές βελτιστοποιήσεις: πρόσθεσε *Χιροπρακτικός* ως 2η κατηγορία, **service areas** (Βουλιαγμένη/Βάρη/Άλιμο), εβδομαδιαία **GBP Posts** (αναδημοσίευση blog), ενότητα Q&A, υπηρεσίες με περιγραφές.
+- ⭐ **ΚΡΙΣΙΜΟ**: το πεδίο «Ιστότοπος» του GBP δείχνει σε **physiodanali.gr** → μόλις το domain δείξει στο **νέο** site (task O1), όλη η ισχύς του GBP «πέφτει» στο νέο site. **Αυτό κάνει το custom domain switch τον Νο.1 συνδετικό κρίκο.**
+
+**2. Google Reviews — ✅ ΗΔΗ ΕΞΑΙΡΕΤΙΚΕΣ** *(owner)*
+- ✅ **121 αξιολογήσεις, 5.0★** — πραγματικές, στο Google. Καλύτερη prominence από τους περισσότερους τοπικούς ανταγωνιστές.
+- 🟢 Διατήρηση: σταθερή **velocity** νέων κριτικών (QR/link μετά τη συνεδρία) + **απάντηση σε κάθε κριτική** + ενθάρρυνση keyword-rich («οσφυαλγία, ήρθε σπίτι στη Βούλα»).
+- → Οι 2 δυσκολότεροι μοχλοί (GBP + κριτικές) είναι **ήδη κερδισμένοι** — τεράστιο πλεονέκτημα.
+
+**3. Dedicated location landing pages** 🟠 *(dev)*
+- Μοναδικές σελίδες ανά περιοχή: `/fysikotherapeftis-glyfada`, `/fysikotherapeftis-voula` (+ Βουλιαγμένη / Βάρη / Άλιμο).
+- ⚠️ ΟΧΙ thin/duplicate — η κάθε μία θέλει **πραγματικό τοπικό περιεχόμενο**: χάρτης, τοπικά σημεία, τοπικές κριτικές, χρόνος εξυπηρέτησης, τοπικό FAQ, `LocalBusiness` schema με τη συγκεκριμένη περιοχή.
+- → Μεγάλος μοχλός για organic «φυσικοθεραπευτής + περιοχή».
+
+**4. NAP consistency + citations** 🟠 *(owner)*
+- **Ίδιο ακριβώς** Όνομα / Διεύθυνση / Τηλέφωνο σε site + GBP + όλους τους καταλόγους.
+- Εγγραφή σε: **doctoranytime.gr** (το πιο σημαντικό για health), doctari, vrisko.gr, xo.gr, 11888, Apple/Bing Maps, κατάλογος ΠΣΦ.
+
+**5. Review / AggregateRating schema** 🟠 *(dev)*
+- Το schema έχει `aggregateRating 5.0 / 100` hardcoded ([src/lib/seo.ts](src/lib/seo.ts)). Το rating είναι **πραγματικό** (GBP: 121 × 5.0) αλλά (α) ο αριθμός είναι **stale (100 → 121)** και (β) το Google δεν δίνει star rich-snippets σε «self-serving» aggregateRating που δεν στηρίζεται σε κριτικές **ορατές στη σελίδα**.
+- Fix: ενημέρωση count + **embed πραγματικών Google reviews** στο site (testimonials section) ώστε το markup να είναι έγκυρο.
+
+## ⚔️ Ανταγωνισμός (νότια προάστια)
+- Στο brand search «physiodanali» κυριαρχούμε (knowledge panel + 121×5.0). Στα **generic** όμως («φυσικοθεραπεία κατ' οίκον», «φυσικοθεραπευτής Γλυφάδα») ανταγωνιστές όπως **care4physio.gr** & **physiovardas.com** τρέχουν **Google Ads** + οργανικό περιεχόμενο.
+- Στρατηγική: (α) κέρδισε το **οργανικό** με location/content pages (έχουμε πλεονέκτημα: 121 κριτικές + AI blog) και (β) σκέψου **Google Ads** στα high-intent terms (οι ανταγωνιστές πληρώνουν → υπάρχει ζήτηση). *(owner απόφαση)*
+
+## 🤖 GEO — Generative Engine Optimization (AI Search)
+Για να σε **προτείνει το ChatGPT / Perplexity / AI Overviews** όταν ρωτούν «καλός φυσικοθεραπευτής στη Γλυφάδα»:
+- **Answer-first περιεχόμενο** + **FAQ schema** που ταιριάζει σε φυσικές ερωτήσεις. ✅ έχουμε FAQ — εμπλούτισέ το με τοπικές ερωτήσεις.
+- **Entity clarity**: συνεπές όνομα + credentials + `sameAs` (social/ΠΣΦ) χτίζει την «οντότητα Δανάλης» για τα LLMs. Ιδανικά: **Wikidata entry** + Google Knowledge Panel.
+- **`llms.txt`** (αναδυόμενο standard): curated markdown περίληψη του site για LLMs. *(dev — εύκολο)*
+- **Παρουσία σε πηγές που εμπιστεύονται τα AI**: GBP, doctoranytime, κριτικές — τα LLMs αντλούν από εκεί.
+- **Φρεσκάδα + βάθος**: το εβδομαδιαίο AI blog ✅ δουλεύει υπέρ μας — μη στερέψει το backlog.
+- **Brand mentions** (ακόμα & χωρίς backlink) σε τοπικά/health sites μετράνε για GEO.
+
+## 📝 Content / topical authority
+- Pillar pages ανά πάθηση ✅ (αυχεναλγία/οσφυαλγία/ισχίο…) — εμπλούτισε με τοπικό angle + internal links.
+- AI blog ✅ — refill topics + 2-4 internal links/άρθρο (ήδη στο prompt).
+- Long-tail άρθρα: **υπηρεσία × πάθηση × περιοχή**.
+
+## 🔗 Off-page (backlinks)
+- Τοπικές συνεργασίες: γυμναστήρια / ιατρεία / σύλλογοι Γλυφάδας-Βούλας.
+- Health directories (doctoranytime profile = link + citation μαζί).
+- Τοπικά news/blogs νότιων προαστίων.
+
+## 🛠 Dev-side TODO (μπορώ εγώ)
+- [ ] Location landing pages (Γλυφάδα/Βούλα/Βουλιαγμένη/Βάρη/Άλιμο) με τοπικό schema
+- [ ] `llms.txt` (GEO)
+- [ ] `Service` / `MedicalProcedure` schema ανά υπηρεσία + `areaServed`
+- [ ] Review/AggregateRating από πραγματικές κριτικές (ή αφαίρεση placeholder)
+- [ ] Internal-linking audit + keyword-rich anchor text
+- [x] OG images ✅ · Breadcrumb schema ✅ · Sitemap/robots ✅
+
+## 👤 Owner/client TODO
+- [x] **Google Business Profile** verified + πλήρες ✅ (121×5.0) — μένουν micro-opts (2η κατηγορία, posts, Q&A, service areas)
+- [x] **Google Reviews** ✅ (121×5.0) — διατήρηση velocity + απαντήσεις
+- [ ] **Custom domain** physiodanali.gr → νέο site *(συνδέει το GBP)*
+- [ ] **Search Console** + submit sitemap + Bing Webmaster Tools
+- [ ] Citations: doctoranytime, vrisko, xo.gr, 11888, ΠΣΦ
+- [ ] *(απόφαση)* Google Ads στα high-intent terms (ανταγωνιστές πληρώνουν)
+- [ ] (GEO) Wikidata entry + brand mentions
+
+## 📊 Μέτρηση (KPIs)
+- **Google Search Console** — queries, positions, CTR (submit το sitemap).
+- **GBP Insights** — κλήσεις, οδηγίες, αναζητήσεις «discovery vs direct».
+- **Rank tracking** για τα primary keywords.
+- **(GEO) spot-check**: ρώτα ChatGPT/Perplexity «φυσικοθεραπευτής Γλυφάδα» — μας αναφέρει;
+
+## 🥇 Σειρά προτεραιότητας (αναθεωρημένη — GBP & κριτικές ✅ ήδη)
+1. 🔴 **Custom domain physiodanali.gr → νέο site** *(owner+dev, task O1)* — συνδέει το ισχυρό GBP (121×5.0) με το νέο site. Ο Νο.1 κρίκος τώρα.
+2. 🟠 **Location pages** *(dev)* — κέρδισε το οργανικό για «φυσικοθεραπευτής + περιοχή» vs care4physio/physiovardas.
+3. 🟠 **Search Console** *(owner)* + submit sitemap.
+4. 🟠 **Review schema fix** (121 + embed κριτικών) + **llms.txt** + **Service schema** *(dev)*.
+5. 🟢 **GBP micro-opts** (2η κατηγορία, posts, Q&A) + **citations** (doctoranytime) *(owner)*.
+6. 🟢 **Google Ads** στα high-intent terms *(owner απόφαση)* + **backlinks/Wikidata** (GEO long-game).
+
+---
+
 # 🟡 POLISH — Nice to have (ποιοτικό φινίρισμα)
 
 | # | Θέμα | Λεπτομέρεια | Effort |
@@ -183,7 +294,7 @@
 | # | Task | Ποιος | Σημείωση |
 |---|---|---|---|
 | O1 | **Custom domain** physiodanali.gr → Vercel | AMOX | Τώρα τρέχει σε `.vercel.app`. DNS + SSL auto. |
-| O2 | **Supabase Pro** ($25/μήνα) | AMOX/πελάτης | Το free tier **παγώνει** μετά ~1 βδομάδα αδράνειας → το site σπάει. Pro = always-on. |
+| O2 | **Supabase Pro** ($25/μήνα) | AMOX/πελάτης | Free tier **παγώνει** μετά ~1 βδομάδα αδράνειας. ✅ Μετριάστηκε: ο dev πρόσθεσε **static fallback** στα άρθρα ([articles.ts](src/lib/articles.ts)) → το **public blog ΔΕΝ σπάει** αν η Supabase είναι κάτω. Pro παραμένει συστατό για αξιόπιστο **/admin + weekly generation**. |
 | O3 | **Resend account πελάτη** + verified domain | AMOX/πελάτης | Βλ. B5. |
 | O4 | **Google Search Console** + **GA property** | AMOX | Βλ. I3. |
 | O5 | **Strong CRON_SECRET** | AMOX | Production-grade secret στα env. |
