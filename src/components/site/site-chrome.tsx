@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { CookieConsent } from "@/components/site/cookie-consent";
+import { ScrollToTop } from "@/components/site/scroll-to-top";
 
 /**
  * Public site chrome (Header + Footer). Hidden on /admin so the CMS has its
@@ -22,6 +23,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       </div>
       <Footer />
       <CookieConsent />
+      <ScrollToTop />
     </>
   );
 }

@@ -112,6 +112,7 @@ const STRINGS = {
     cfPrivacy: "Πολιτική Απορρήτου",
     cfConsent2: "και συναινώ στην επεξεργασία των στοιχείων μου για την απάντηση στο αίτημά μου.",
     cfFootnote: "Απαντάμε εντός λίγων ωρών. Δωρεάν αξιολόγηση μέσω τηλεφώνου.",
+    scrollTop: "Επιστροφή στην κορυφή",
     // About page
     aboutPractitionerName: "Κωνσταντίνος Δανάλης",
     aboutPractitionerRole: "Φυσικοθεραπευτής · Χειροπρακτικός",
@@ -317,6 +318,7 @@ const STRINGS = {
     cfPrivacy: "Privacy Policy",
     cfConsent2: "and consent to the processing of my details in order to respond to my request.",
     cfFootnote: "We reply within a few hours. Free phone assessment.",
+    scrollTop: "Back to top",
     // About page
     aboutPractitionerName: "Konstantinos Danalis",
     aboutPractitionerRole: "Physiotherapist · Chiropractor",
