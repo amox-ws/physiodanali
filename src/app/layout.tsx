@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { headers } from "next/headers";
 import { EB_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteChrome } from "@/components/site/site-chrome";
@@ -29,6 +30,10 @@ const inter = Inter({
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const isEn = locale === "en";
+
+  // Path-aware hreflang/canonical (proxy sets x-pathname to the canonical path).
+  const path = (await headers()).get("x-pathname") || "/";
+  const enPath = path === "/" ? "/en" : `/en${path}`;
 
   const defaultTitle = isEn
     ? "PhysioDanali — Chiropractic & Physiotherapy at home"
@@ -72,7 +77,12 @@ export async function generateMetadata(): Promise<Metadata> {
       description: twitterDescription,
     },
     alternates: {
-      canonical: "/",
+      canonical: isEn ? enPath : path,
+      languages: {
+        el: path,
+        en: enPath,
+        "x-default": path,
+      },
     },
   };
 }

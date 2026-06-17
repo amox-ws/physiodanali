@@ -1,25 +1,29 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { cn } from "@/lib/utils";
 import { LOCALE_COOKIE, type Locale } from "@/lib/i18n";
 import { useLocale } from "@/components/site/locale-provider";
 
 /**
- * EL / EN language switch. Writes the locale cookie and refreshes the route
- * so server components re-render in the new language.
+ * EL / EN language switch. Navigates between the Greek route (root) and the
+ * crawlable English route (`/en/...`) so each language has its own URL, and
+ * mirrors the choice in the cookie for in-session persistence.
  */
 export function LocaleToggle({ className }: { className?: string }) {
   const locale = useLocale();
   const router = useRouter();
+  const pathname = usePathname();
   const [, startTransition] = useTransition();
 
   const set = (next: Locale) => {
     if (next === locale) return;
-    // 1 year, site-wide.
     document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-    startTransition(() => router.refresh());
+    const base = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+    const target =
+      next === "en" ? (base === "/" ? "/en" : `/en${base}`) : base;
+    startTransition(() => router.push(target));
   };
 
   return (

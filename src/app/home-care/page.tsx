@@ -30,7 +30,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: homeCare.meta.title,
     description: homeCare.meta.description,
-    alternates: { canonical: "/home-care" },
   };
 }
 

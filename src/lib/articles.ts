@@ -129,7 +129,11 @@ export async function getArticleBySlug(
   locale: Locale,
   slug: string,
 ): Promise<ArticleFull | null> {
-  if (locale === "en") return staticArticleFull("en", slug);
+  if (locale === "en") {
+    const en = staticArticleFull("en", slug);
+    if (en) return en;
+    // No English version → fall back to Greek so /en/articles/* never 404s.
+  }
   if (!hasSupabase()) return staticArticleFull("el", slug);
   return dbBySlug(slug);
 }
