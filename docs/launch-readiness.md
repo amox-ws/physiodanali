@@ -40,6 +40,8 @@ Design & UI · ταχύτητα (272KB/0.5s) · mobile · **SEO schema** (LocalB
 
 ## 🔎 SEO / GEO Plan — Νο.1 φυσικοθεραπευτής Γλυφάδα/Βούλα
 
+> 📘 **Πλήρες deep playbook:** [docs/seo-plan.md](seo-plan.md) — keyword research (SEMrush/Ahrefs free week), σωστά paths, blog keyword strategy, technical, local, links, GEO, roadmap, seed keywords.
+
 **Στόχος:** top-3 (local pack + organic) στα target keywords + να μας προτείνουν τα AI.
 **Keywords:** `φυσικοθεραπευτής Γλυφάδα/Βούλα` · `φυσικοθεραπεία κατ' οίκον {Γλυφάδα/Βούλα/Βουλιαγμένη/Βάρη/Άλιμο}` · `χιροπρακτικός Γλυφάδα/Βούλα` · long-tail: **υπηρεσία × πάθηση × περιοχή**.
 **✅ Ήδη κερδισμένα:** GBP verified **121×5.0★** · structured data · sitemap · IndexNow (Bing/Yandex) · AI blog.
