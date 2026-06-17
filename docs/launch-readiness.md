@@ -272,6 +272,67 @@ Structured data (LocalBusiness/MedicalBusiness/Person/FAQ/Article/Breadcrumb), g
 
 ---
 
+# 🤖 Blog Automation — προς 100%
+
+> **Αποφάσεις & πρόοδος (2026-06-17):**
+> - 🖼️ Εικόνα → **Unsplash auto-fetch** επιλέχθηκε. Κώδικας ΕΓΙΝΕ (AI βγάζει `image_query` → script τραβά Unsplash → μπαίνει στο draft). **Εκκρεμεί:** δωρεάν `UNSPLASH_ACCESS_KEY` (owner) → GitHub Secrets + Vercel. Χωρίς key → draft χωρίς cover (όπως τώρα), override στον editor.
+> - 🔎 Indexing → **ΕΝΕΡΓΟ** ✅ `INDEXNOW_KEY` set στο Vercel· κάθε publish ειδοποιεί Bing/Yandex αυτόματα. Google → sitemap + Search Console.
+> - 📧 Email → παραλήπτης **info@amox.gr** (εσύ) προς το παρόν. **Εκκρεμεί:** φρέσκο RESEND key (rotate) + `NOTIFY_FROM=noreply@amox.gr` στα GitHub Secrets για να μη πάει spam.
+
+## Πώς δουλεύει ΤΩΡΑ
+- **Πότε:** κάθε **Δευτέρα 09:00 UTC (~12:00 ώρα Ελλάδας)**, μέσω **GitHub Action** ([weekly-article.yml](.github/workflows/weekly-article.yml)) — + χειροκίνητα με «Run workflow». Φτιάχνει **1 draft/βδομάδα**.
+- **Πώς:** Action → `scripts/generate-article.ts` → παίρνει θέμα από το backlog (`article_topics`) ή το AI προτείνει μόνο του → Claude (`claude-sonnet-4-6`) γράφει πλήρες άρθρο (structured output) → **insert ως draft** → email ειδοποίηση.
+- **Human-in-the-loop:** τίποτα δεν δημοσιεύεται αυτόματα. Ο πελάτης μπαίνει (password login) → **Προβολή** (draft preview ✅) → **Έγκριση & Δημοσίευση**.
+- **Στη δημοσίευση:** καλείται ήδη `revalidateTag("articles")` + `pingIndexNow(...)` ([article-actions.ts](src/lib/article-actions.ts)).
+
+## 1. 🖼️ Εικόνα — ΤΩΡΑ χειροκίνητη, τη θέλουμε αυτόματη
+**Κατάσταση:** το AI **δεν** βάζει εικόνα (το schema/insert δεν έχει `image`) → τα drafts έρχονται **χωρίς cover** → ο πελάτης πρέπει να ανεβάσει εικόνα χειροκίνητα στον editor (Supabase Storage `article-images`). ⚠️ Αν δημοσιεύσει χωρίς, το `<Image>` βγαίνει κενό.
+
+**Επιλογές αυτοματοποίησης:**
+| | Προσέγγιση | Pros | Cons |
+|---|---|---|---|
+| **A** | **Unsplash auto-fetch** (το AI βγάζει `image_query` → script τραβά σχετική φωτό· το unsplash είναι ήδη allow-listed στο next.config) | Μηδέν δουλειά, δωρεάν, ποικιλία | Generic stock — ίδιο ρίσκο «μέτριας φωτό» |
+| **B** ⭐ | **Curated pool ανά κατηγορία** (AMOX/πελάτης δίνει 4-5 καλές φωτό/υπηρεσία μία φορά· script επιλέγει με rotation/hash ανά slug) | Ποιότητα + συνέπεια + brand + αυτόματο + ποικιλία | Θέλει αρχικό υλικό μία φορά |
+| **C** | **AI-generated** (DALL·E/Gemini) | Μοναδικές | Κόστος/εικόνα, ρίσκο ιατρικής ακρίβειας — **όχι** για κλινικά |
+
+→ **Πρόταση: B** (curated pool) — αυτόματο + ποιοτικό, με **πάντα** δυνατότητα override στον editor. (A ως γρήγορο fallback αν δεν υπάρχει pool.)
+**Τι χρειάζεται:** (dev) πεδίο `image_query`/`category` στο prompt + λογική επιλογής στο `scripts/generate-article.ts`· (owner) το pool εικόνων ανά κατηγορία.
+
+## 2. 🔎 Indexing — wired αλλά ΑΝΕΝΕΡΓΟ
+**Κατάσταση:** `pingIndexNow` καλείται **ήδη στη δημοσίευση** (Bing/Yandex), αλλά **no-op χωρίς `INDEXNOW_KEY`**. Στο Vercel δεν είναι σετ → δεν χτυπάει.
+**Τι χρειάζεται:**
+- (dev/owner) Δημιουργία IndexNow key (GUID) + set **`INDEXNOW_KEY` στο Vercel** → το `/indexnow.txt` το σερβίρει αυτόματα → κάθε publish ειδοποιεί Bing/Yandex **αυτόματα**. *(Μπορώ να το κάνω τώρα μέσω CLI.)*
+- **Google:** δεν χρησιμοποιεί IndexNow → καλύπτεται από το **δυναμικό sitemap** (ήδη περιλαμβάνει νέα άρθρα) + **Search Console** (submit sitemap μία φορά· ο Google ξανα-crawl-άρει). 
+
+## 3. 📧 Email ειδοποίησης (κάθε νέο blog) — τι μένει
+**Κατάσταση:** στέλνεται σε κάθε νέο draft, αλλά από `onboarding@resend.dev` (test → spam) προς `info@amox.gr`. Το περιεχόμενο λέει «μπες να ελέγξεις» με link στο `/admin/articles/{id}` → password login (όχι magic link ✅).
+**Τι χρειάζεται:**
+- (owner) **Φρέσκο RESEND_API_KEY** (rotate το εκτεθειμένο) → set σε **GitHub Secrets** (το Action) **+ Vercel**.
+- (dev) `NOTIFY_FROM=PhysioDanali <noreply@amox.gr>` (amox.gr ✅ verified) → GitHub Secrets + Vercel.
+- (απόφαση) `NOTIFY_TO`: `info@physiodanali.gr` (πελάτης) ή `info@amox.gr` (εσύ) προς το παρόν.
+- **Supabase custom SMTP** (Resend) — δεν χρειάζεται πια για login (password), αλλά καλό για τυχόν μελλοντικά auth emails.
+
+## 4. 🗂️ Topic backlog — να μη στερέψει
+Αν αδειάσει το `article_topics`, το AI διαλέγει μόνο του θέμα (ΟΚ, αλλά λιγότερος έλεγχος). **Πρόταση:** προφόρτωση **15-20 SEO θεμάτων** (φυσικοθεραπευτής Γλυφάδα/Βούλα × παθήσεις) → ξέρεις τι θα βγαίνει + στοχευμένο SEO.
+
+## 5. 🔔 Monitoring
+Αν αποτύχει το GitHub Action, το GitHub στέλνει email στον owner του repo by default. *(Καλό να επιβεβαιωθεί ότι φτάνει.)*
+
+## ✅ Checklist για 100% blog automation
+**Dev (εγώ):**
+- [ ] Auto-εικόνα (επιλογή B ή A) στο `scripts/generate-article.ts` + prompt
+- [ ] (γρήγορο) Generate + set `INDEXNOW_KEY` στο Vercel
+- [ ] `NOTIFY_FROM` amox.gr στα env
+- [ ] Προφόρτωση topic backlog (15-20)
+
+**Owner:**
+- [ ] Φρέσκο RESEND_API_KEY → GitHub Secrets + Vercel
+- [ ] Απόφαση `NOTIFY_TO` (πελάτης/εσύ)
+- [ ] (επιλογή B) pool εικόνων ανά κατηγορία
+- [ ] Search Console: submit sitemap (για Google indexing)
+
+---
+
 # 🟡 POLISH — Nice to have (ποιοτικό φινίρισμα)
 
 | # | Θέμα | Λεπτομέρεια | Effort |

@@ -26,6 +26,11 @@ export const ARTICLE_SCHEMA = {
     category: { type: "string" },
     excerpt: { type: "string" },
     read_time: { type: "string", description: 'π.χ. "7 λεπτά"' },
+    image_query: {
+      type: "string",
+      description:
+        "2-4 ΑΓΓΛΙΚΕΣ λέξεις για σχετική, επαγγελματική, μη-γραφική φωτογραφία (Unsplash). Π.χ. 'physiotherapy back treatment', 'senior balance exercise', 'office posture desk'. Χωρίς κείμενο/λογότυπα/αίμα.",
+    },
     sections: {
       type: "array",
       items: {
@@ -60,6 +65,7 @@ export const ARTICLE_SCHEMA = {
     "category",
     "excerpt",
     "read_time",
+    "image_query",
     "sections",
     "meta_title",
     "meta_description",
@@ -90,6 +96,7 @@ SEO/GEO:
 - Έπειτα 5-9 ενότητες με heading + body.
 - Στο body: παράγραφοι χωρισμένες με κενή γραμμή. Για λίστες, κάθε γραμμή ξεκινά με «• ».
 - slug: αγγλικά kebab-case, σχετικό με το θέμα.
+- image_query: 2-4 αγγλικές λέξεις για σχετική, επαγγελματική, μη-γραφική φωτογραφία (όχι αίμα/χειρουργείο/κείμενο).
 Επέστρεψε ΜΟΝΟ το δομημένο αντικείμενο.`;
 
 export type GeneratedArticle = {
@@ -98,6 +105,7 @@ export type GeneratedArticle = {
   category: string;
   excerpt: string;
   read_time: string;
+  image_query: string;
   sections: { heading: string; body: string }[];
   meta_title: string;
   meta_description: string;
@@ -126,6 +134,32 @@ ${routes}
 
 Υπάρχοντα άρθρα — ΜΗΝ επαναλάβεις θέμα/slug, αλλά μπορείς να συνδέσεις σε σχετικά με [κείμενο](/articles/<slug>):
 ${titles || "  (κανένα ακόμα)"}`;
+}
+
+/**
+ * Fetch a relevant landscape photo from Unsplash for the article cover.
+ * Returns the image URL (hot-linked CDN) or null. Never throws — if the key
+ * is missing or the search fails, the draft simply has no cover (the client
+ * can upload one in the editor). Plain fetch so it runs in Node (CI) + Next.
+ */
+export async function unsplashImage(query: string): Promise<string | null> {
+  const key = process.env.UNSPLASH_ACCESS_KEY;
+  if (!key || !query?.trim()) return null;
+  try {
+    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+      query,
+    )}&orientation=landscape&per_page=1&content_filter=high`;
+    const res = await fetch(url, {
+      headers: { Authorization: `Client-ID ${key}` },
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      results?: { urls?: { regular?: string } }[];
+    };
+    return data.results?.[0]?.urls?.regular ?? null;
+  } catch {
+    return null;
+  }
 }
 
 /** Slugify + de-duplicate against existing slugs. */

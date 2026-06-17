@@ -29,4 +29,5 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           NOTIFY_TO: ${{ secrets.NOTIFY_TO }}
           NOTIFY_FROM: ${{ secrets.NOTIFY_FROM }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
           SITE_URL: https://physiodanali.vercel.app

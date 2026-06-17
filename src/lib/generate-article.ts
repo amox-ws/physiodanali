@@ -8,6 +8,7 @@ import {
   ARTICLE_SCHEMA,
   buildPrompt,
   uniqueSlug,
+  unsplashImage,
   type GeneratedArticle,
 } from "@/lib/article-prompt";
 
@@ -66,7 +67,10 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
   }
   const article = JSON.parse(textBlock.text) as GeneratedArticle;
 
-  // 4. Unique slug + insert as DRAFT (never auto-published).
+  // 4. Auto cover image (Unsplash; null if no key / no match → client uploads).
+  const image = await unsplashImage(article.image_query);
+
+  // 5. Unique slug + insert as DRAFT (never auto-published).
   const candidate = uniqueSlug(article.slug, existingSlugs);
   const { data: inserted, error } = await supabase
     .from("articles")
@@ -76,6 +80,7 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
       category: article.category,
       excerpt: article.excerpt,
       read_time: article.read_time,
+      image,
       sections: article.sections,
       meta_title: article.meta_title,
       meta_description: article.meta_description,
