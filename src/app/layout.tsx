@@ -54,6 +54,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description,
     metadataBase: new URL("https://physiodanali.gr"),
+    // Google Search Console ownership (HTML-tag method). Set the token in the
+    // GOOGLE_SITE_VERIFICATION env var when the property is created.
+    verification: process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : undefined,
     openGraph: {
       title: defaultTitle,
       description: ogDescription,
