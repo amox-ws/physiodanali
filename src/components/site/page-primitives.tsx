@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { localeHref } from "@/lib/i18n";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check, Phone } from "lucide-react";
@@ -333,7 +334,8 @@ export function PractitionerCard({
 }: {
   image?: string;
 }) {
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   return (
     <Reveal className="overflow-hidden rounded-[28px] border border-stone bg-snow lg:grid lg:grid-cols-12">
       <div className="relative aspect-[4/5] bg-stone lg:col-span-5 lg:aspect-auto">
@@ -363,7 +365,7 @@ export function PractitionerCard({
         </p>
         <div className="mt-8 flex items-center gap-3">
           <Link
-            href="/contact"
+            href={localeHref("/contact", locale)}
             className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-snow transition-all hover:bg-cobalt"
           >
             {tx.book}
@@ -396,7 +398,8 @@ export function FinalCTA({
   titleAccent,
   lead,
 }: FinalCTAProps) {
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   const _title = title ?? tx.finalCtaTitle;
   const _accent = titleAccent ?? tx.finalCtaAccent;
   const _lead = lead ?? tx.finalCtaLead;
@@ -433,7 +436,7 @@ export function FinalCTA({
             </div>
             <div className="flex flex-col gap-3 lg:col-span-5">
               <Link
-                href="/contact"
+                href={localeHref("/contact", locale)}
                 className="group flex items-center justify-between rounded-2xl bg-cobalt px-6 py-5 transition-all hover:bg-azure"
               >
                 <span className="display text-2xl tracking-tight">

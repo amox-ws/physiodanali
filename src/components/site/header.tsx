@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { localeHref } from "@/lib/i18n";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -70,7 +71,7 @@ export function Header() {
         )}
       >
         <Link
-          href="/"
+          href={localeHref("/", locale)}
           aria-label={tx.homeAria}
           className="group relative z-50 flex items-center"
         >
@@ -234,7 +235,7 @@ export function Header() {
             </span>
           </a>
           <Link
-            href="/contact"
+            href={localeHref("/contact", locale)}
             className="hidden sm:inline-flex items-center rounded-full bg-ink px-5 py-2.5 text-sm text-snow transition-all duration-300 hover:bg-cobalt"
           >
             {tx.book}
@@ -452,7 +453,7 @@ export function Header() {
                 >
                   <LocaleToggle />
                   <Link
-                    href="/contact"
+                    href={localeHref("/contact", locale)}
                     className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-colors hover:bg-cobalt"
                   >
                     <span>{tx.book}</span>

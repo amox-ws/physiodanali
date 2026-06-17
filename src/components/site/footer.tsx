@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { localeHref } from "@/lib/i18n";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
@@ -135,7 +136,7 @@ export function Footer() {
               </p>
               <div className="mt-7 flex gap-3">
                 <Link
-                  href="/contact"
+                  href={localeHref("/contact", locale)}
                   className="inline-flex items-center rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
                 >
                   {tx.book}
@@ -254,7 +255,7 @@ export function Footer() {
             {footer.links.map((link) => (
               <li key={link.href}>
                 <Link
-                  href={link.href}
+                  href={localeHref(link.href, locale)}
                   className="transition-colors hover:text-snow"
                 >
                   {link.label}

@@ -21,3 +21,15 @@ export function isLocale(v: unknown): v is Locale {
 export function toLocale(v: unknown): Locale {
   return isLocale(v) ? v : DEFAULT_LOCALE;
 }
+
+/**
+ * Prefix an internal route with `/en` for the English locale, so navigation
+ * stays on the crawlable English URLs (strong internal linking + clean URLs).
+ * Leaves external links, /admin, /api and already-prefixed paths untouched.
+ */
+export function localeHref(href: string, locale: Locale): string {
+  if (locale !== "en" || !href.startsWith("/")) return href;
+  if (href === "/en" || href.startsWith("/en/")) return href;
+  if (href.startsWith("/admin") || href.startsWith("/api")) return href;
+  return href === "/" ? "/en" : `/en${href}`;
+}

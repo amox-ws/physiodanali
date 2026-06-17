@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { localeHref } from "@/lib/i18n";
 import { ArrowUpRight } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { ArticleGrid } from "@/components/site/article-grid";
@@ -9,7 +10,8 @@ import { useLocale } from "@/components/site/locale-provider";
 import { t } from "@/lib/translations";
 
 export function LatestArticles({ posts }: { posts: Article[] }) {
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   return (
     <section
       aria-labelledby="latest-articles-heading"
@@ -34,7 +36,7 @@ export function LatestArticles({ posts }: { posts: Article[] }) {
               {tx.latestIntro}
             </p>
             <Link
-              href="/articles"
+              href={localeHref("/articles", locale)}
               className="mt-7 inline-flex items-center gap-2 text-sm text-cobalt transition-colors hover:text-ink"
             >
               {tx.latestSeeAll}
