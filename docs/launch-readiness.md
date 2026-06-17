@@ -276,8 +276,9 @@ Structured data (LocalBusiness/MedicalBusiness/Person/FAQ/Article/Breadcrumb), g
 
 > **Αποφάσεις & πρόοδος (2026-06-17):**
 > - 🖼️ Εικόνα → **Unsplash auto-fetch** επιλέχθηκε. Κώδικας ΕΓΙΝΕ (AI βγάζει `image_query` → script τραβά Unsplash → μπαίνει στο draft). **Εκκρεμεί:** δωρεάν `UNSPLASH_ACCESS_KEY` (owner) → GitHub Secrets + Vercel. Χωρίς key → draft χωρίς cover (όπως τώρα), override στον editor.
-> - 🔎 Indexing → **ΕΝΕΡΓΟ** ✅ `INDEXNOW_KEY` set στο Vercel· κάθε publish ειδοποιεί Bing/Yandex αυτόματα. Google → sitemap + Search Console.
-> - 📧 Email → παραλήπτης **info@amox.gr** (εσύ) προς το παρόν. **Εκκρεμεί:** φρέσκο RESEND key (rotate) + `NOTIFY_FROM=noreply@amox.gr` στα GitHub Secrets για να μη πάει spam.
+> - 🖼️ Unsplash key → **ΜΠΗΚΕ & TESTED** ✅ (.env.local + Vercel + GitHub Secrets)· auto-image **ενεργό**. (Σε λίστα rotation μαζί με Resend.)
+> - 🔎 Indexing → **Bing/Yandex ΕΝΕΡΓΟ** ✅ (IndexNow). **Google ≠ IndexNow** — ο Google βρίσκει μέσω **sitemap** (✅ δυναμικό) + **Search Console** (ΟΧΙ στημένο ακόμα). Google verification **wired** (env `GOOGLE_SITE_VERIFICATION`)· χρειάζεται property (ιδανικά **μετά** το domain switch σε physiodanali.gr) + submit sitemap. Δεν υπάρχει νόμιμο «auto-ping Google» (το Indexing API είναι μόνο για job postings).
+> - 📧 Email → `NOTIFY_FROM=noreply@amox.gr` **μπήκε** στα GitHub Secrets ✅· παραλήπτης info@amox.gr. **Εκκρεμεί:** φρέσκο RESEND key (rotate).
 
 ## Πώς δουλεύει ΤΩΡΑ
 - **Πότε:** κάθε **Δευτέρα 09:00 UTC (~12:00 ώρα Ελλάδας)**, μέσω **GitHub Action** ([weekly-article.yml](.github/workflows/weekly-article.yml)) — + χειροκίνητα με «Run workflow». Φτιάχνει **1 draft/βδομάδα**.
