@@ -25,12 +25,16 @@ async function googleFont(
         "User-Agent":
           "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)",
       },
+      // Never hang a build/render on the font fetch — fall back to default.
+      signal: AbortSignal.timeout(5000),
     }).then((r) => r.text());
     const url = css.match(
       /src:\s*url\(([^)]+)\)\s*format\('(?:woff|truetype|opentype)'\)/,
     )?.[1];
     if (!url) return null;
-    return await fetch(url).then((r) => r.arrayBuffer());
+    return await fetch(url, { signal: AbortSignal.timeout(5000) }).then((r) =>
+      r.arrayBuffer(),
+    );
   } catch {
     return null;
   }
