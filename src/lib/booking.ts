@@ -264,6 +264,45 @@ export async function listAppointments(): Promise<Appointment[]> {
   return (data ?? []) as Appointment[];
 }
 
+// Email the patient when the practice confirms or cancels (best-effort).
+async function emailPatientStatus(a: Appointment, status: string): Promise<void> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !a.patient_email) return;
+  const from = process.env.NOTIFY_FROM || "PhysioDanali <noreply@amox.gr>";
+  const when = new Intl.DateTimeFormat("el-GR", {
+    timeZone: "Europe/Athens",
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(a.starts_at));
+
+  let subject: string;
+  let html: string;
+  if (status === "confirmed") {
+    subject = `Επιβεβαίωση ραντεβού — ${when}`;
+    html = `<h2>Το ραντεβού σας επιβεβαιώθηκε ✓</h2>
+      <p><strong>${a.service_name}</strong><br>${when}<br>Περιοχή: ${a.area}</p>
+      <p>Τα λέμε εκεί! Αν χρειαστεί να ακυρώσετε: <a href="${bookingManageUrl(a.id)}">εδώ</a>. Τηλέφωνο: <a href="tel:+306944344342">+30 6944 344 342</a>.</p>
+      <p>— PhysioDanali</p>`;
+  } else if (status === "cancelled") {
+    subject = `Ακύρωση ραντεβού — ${when}`;
+    html = `<h2>Το ραντεβού σας ακυρώθηκε</h2>
+      <p>${a.service_name} — ${when}</p>
+      <p>Λυπούμαστε για την αναστάτωση. Για νέο ραντεβού καλέστε <a href="tel:+306944344342">+30 6944 344 342</a> ή κλείστε online.</p>
+      <p>— PhysioDanali</p>`;
+  } else {
+    return;
+  }
+
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from, to: a.patient_email, subject, html }),
+  }).catch(() => {});
+}
+
 export async function setAppointmentStatus(id: string, status: string): Promise<void> {
   const db = createServiceClient();
   const { data: a } = await db.from("booking_appointments").select("*").eq("id", id).maybeSingle();
@@ -291,6 +330,7 @@ export async function setAppointmentStatus(id: string, status: string): Promise<
 
   const { error } = await db.from("booking_appointments").update(patch).eq("id", id);
   if (error) throw error;
+  await emailPatientStatus(a as Appointment, status);
 }
 
 // ── Self-service cancel (signed link, no auth) ────────────────────────
@@ -325,16 +365,42 @@ export async function cancelByToken(id: string, token: string): Promise<boolean>
   const db = createServiceClient();
   const { data: a } = await db
     .from("booking_appointments")
-    .select("gcal_event_id,status")
+    .select("*")
     .eq("id", id)
     .maybeSingle();
-  if (a?.gcal_event_id) await deleteCalendarEvent(a.gcal_event_id);
+  if (!a) return false;
+  if (a.gcal_event_id) await deleteCalendarEvent(a.gcal_event_id);
   const { error } = await db
     .from("booking_appointments")
     .update({ status: "cancelled", gcal_event_id: null })
     .eq("id", id)
     .in("status", ["pending", "confirmed"]);
-  return !error;
+  if (error) return false;
+
+  // Notify the practice that the patient cancelled (best-effort).
+  const key = process.env.RESEND_API_KEY;
+  if (key) {
+    const appt = a as Appointment;
+    const when = new Intl.DateTimeFormat("el-GR", {
+      timeZone: "Europe/Athens",
+      weekday: "short",
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(appt.starts_at));
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from: process.env.NOTIFY_FROM || "PhysioDanali <noreply@amox.gr>",
+        to: process.env.BOOKING_NOTIFY_TO || process.env.NOTIFY_TO || "info@amox.gr",
+        subject: `Ακύρωση από ασθενή — ${appt.patient_name} (${when})`,
+        html: `<p>Ο/Η <strong>${appt.patient_name}</strong> ακύρωσε το ραντεβού:</p><p>${appt.service_name} — ${when} · ${appt.area}</p>`,
+      }),
+    }).catch(() => {});
+  }
+  return true;
 }
 
 // ── Deposit (Viva) ────────────────────────────────────────────────────
