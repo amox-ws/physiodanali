@@ -24,7 +24,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: kyphosis.meta.title,
     description: kyphosis.meta.description,
-    alternates: { canonical: "/kyphosis" },
   };
 }
 

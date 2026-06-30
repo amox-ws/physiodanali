@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import { localeHref, type Locale } from "@/lib/i18n";
 import type { NavItem } from "@/lib/content";
 
 // ─────────────────────────────────────────────────────────────────────
@@ -500,5 +500,16 @@ const NAV: Record<Locale, NavItem[]> = {
 };
 
 export function getNav(locale: Locale): NavItem[] {
-  return NAV[locale];
+  const nav = NAV[locale];
+  if (locale !== "en") return nav;
+  // Keep English navigation on the crawlable /en/* URLs.
+  return nav.map((item) => ({
+    ...item,
+    href: localeHref(item.href, locale),
+    children: item.children?.map((c) => ({
+      ...c,
+      href: localeHref(c.href, locale),
+    })),
+  }));
 }
+

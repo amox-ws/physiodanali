@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { localeHref } from "@/lib/i18n";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
@@ -10,7 +11,8 @@ import { Reveal, stagger, staggerItem } from "@/components/motion/reveal";
 
 export function Bio() {
   const { home } = useContent();
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   const { bio } = home;
 
   // Split the name so the surname can carry an italic cobalt accent.
@@ -153,7 +155,7 @@ export function Bio() {
 
             <Reveal delay={0.25}>
               <Link
-                href="/about"
+                href={localeHref("/about", locale)}
                 className="group mt-8 inline-flex items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-base text-snow transition-colors duration-500 hover:bg-cobalt"
               >
                 {tx.bioFullCv}

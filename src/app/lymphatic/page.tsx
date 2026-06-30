@@ -22,7 +22,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: lymphatic.meta.title,
     description: lymphatic.meta.description,
-    alternates: { canonical: "/lymphatic" },
   };
 }
 

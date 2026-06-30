@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { localeHref } from "@/lib/i18n";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -111,7 +112,7 @@ export default async function ArticlePage({
         <div className="mx-auto max-w-[1100px] px-6 lg:px-10">
           <Reveal>
             <Link
-              href="/articles"
+              href={localeHref("/articles", locale)}
               className="inline-flex items-center gap-2 text-base text-ink-muted transition-colors hover:text-cobalt"
             >
               <ArrowLeft className="size-4" strokeWidth={1.5} />
@@ -177,7 +178,7 @@ export default async function ArticlePage({
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/contact"
+                  href={localeHref("/contact", locale)}
                   className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-all hover:bg-cobalt"
                 >
                   {tx.book}
@@ -207,7 +208,7 @@ export default async function ArticlePage({
             {others.map((p) => (
               <Reveal key={p.slug}>
                 <Link
-                  href={`/articles/${p.slug}`}
+                  href={localeHref(`/articles/${p.slug}`, locale)}
                   className="group block rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)] lg:p-10"
                 >
                   <span className="text-[11px] uppercase tracking-[0.22em] text-ink-muted">

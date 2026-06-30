@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { localeHref } from "@/lib/i18n";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Phone, MessageCircle } from "lucide-react";
 import { useContent, useLocale } from "@/components/site/locale-provider";
@@ -9,7 +10,8 @@ import { Reveal } from "@/components/motion/reveal";
 
 export function BookingBand() {
   const { site } = useContent();
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   return (
     <section
       id="contact"
@@ -47,7 +49,7 @@ export function BookingBand() {
               {tx.bookingLead}
             </p>
             <Link
-              href="/contact"
+              href={localeHref("/contact", locale)}
               className="mt-10 inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
             >
               {tx.contactForm}

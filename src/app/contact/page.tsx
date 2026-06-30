@@ -12,7 +12,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: contact.meta.title,
     description: contact.meta.description,
-    alternates: { canonical: "/contact" },
   };
 }
 

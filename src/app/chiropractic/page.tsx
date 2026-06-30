@@ -43,7 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: chiropractic.meta.title,
     description: chiropractic.meta.description,
-    alternates: { canonical: "/chiropractic" },
   };
 }
 

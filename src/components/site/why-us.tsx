@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { localeHref } from "@/lib/i18n";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
@@ -111,7 +112,8 @@ function buildSegments(
 
 export function WhyUs() {
   const { home } = useContent();
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   const { whyUs } = home;
   const segments = buildSegments(whyUs.points);
 
@@ -186,7 +188,7 @@ export function WhyUs() {
                 {whyUs.title}
               </p>
               <Link
-                href="/about"
+                href={localeHref("/about", locale)}
                 className="group mt-5 inline-flex items-center gap-2 text-base text-cobalt transition-colors hover:text-navy"
               >
                 {tx.whyBioLink}
