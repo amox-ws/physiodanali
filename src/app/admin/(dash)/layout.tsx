@@ -41,6 +41,20 @@ export default async function AdminDashLayout({
               Διαχείριση
             </span>
           </Link>
+          <nav className="flex items-center gap-1 text-sm">
+            <Link
+              href="/admin"
+              className="rounded-full px-3 py-1.5 text-ink-muted transition-colors hover:bg-stone hover:text-ink"
+            >
+              Άρθρα
+            </Link>
+            <Link
+              href="/admin/bookings"
+              className="rounded-full px-3 py-1.5 text-ink-muted transition-colors hover:bg-stone hover:text-ink"
+            >
+              Ραντεβού
+            </Link>
+          </nav>
           <div className="flex items-center gap-5">
             <span className="hidden text-sm text-ink-muted sm:inline">
               {user?.email}
