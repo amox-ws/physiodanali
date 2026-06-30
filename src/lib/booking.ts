@@ -1,6 +1,7 @@
 import "server-only";
 import { createHmac } from "crypto";
 import { createServiceClient } from "@/lib/supabase/service";
+import { createCalendarEvent, deleteCalendarEvent } from "@/lib/google-calendar";
 
 // ─────────────────────────────────────────────────────────────────────
 // Booking data access + availability engine (home-visit physiotherapy).
@@ -25,6 +26,8 @@ export type BookingSettings = {
   min_notice_hours: number;
   booking_horizon_days: number;
   mode: "request" | "instant";
+  deposit_enabled: boolean;
+  deposit_amount: number;
 };
 
 export type Slot = { startUtc: string; label: string }; // ISO + "HH:MM"
@@ -120,7 +123,9 @@ export async function getSettings(): Promise<BookingSettings> {
   const db = createServiceClient();
   const { data } = await db
     .from("booking_settings")
-    .select("travel_buffer_min,min_notice_hours,booking_horizon_days,mode")
+    .select(
+      "travel_buffer_min,min_notice_hours,booking_horizon_days,mode,deposit_enabled,deposit_amount",
+    )
     .eq("id", 1)
     .maybeSingle();
   return (
@@ -129,6 +134,8 @@ export async function getSettings(): Promise<BookingSettings> {
       min_notice_hours: 4,
       booking_horizon_days: 30,
       mode: "request",
+      deposit_enabled: false,
+      deposit_amount: 15,
     }
   );
 }
@@ -259,7 +266,30 @@ export async function listAppointments(): Promise<Appointment[]> {
 
 export async function setAppointmentStatus(id: string, status: string): Promise<void> {
   const db = createServiceClient();
-  const { error } = await db.from("booking_appointments").update({ status }).eq("id", id);
+  const { data: a } = await db.from("booking_appointments").select("*").eq("id", id).maybeSingle();
+  if (!a) return;
+  const patch: Record<string, unknown> = { status };
+
+  // Google Calendar sync (no-op without creds).
+  if (status === "confirmed" && !a.gcal_event_id) {
+    const eventId = await createCalendarEvent({
+      serviceName: a.service_name,
+      startUtc: a.starts_at,
+      durationMin: a.duration_min,
+      area: a.area,
+      address: a.address,
+      patientName: a.patient_name,
+      patientPhone: a.patient_phone,
+      notes: a.notes,
+    });
+    if (eventId) patch.gcal_event_id = eventId;
+  }
+  if (status === "cancelled" && a.gcal_event_id) {
+    await deleteCalendarEvent(a.gcal_event_id);
+    patch.gcal_event_id = null;
+  }
+
+  const { error } = await db.from("booking_appointments").update(patch).eq("id", id);
   if (error) throw error;
 }
 
@@ -293,10 +323,44 @@ export async function getAppointmentByToken(
 export async function cancelByToken(id: string, token: string): Promise<boolean> {
   if (!id || token !== cancelToken(id)) return false;
   const db = createServiceClient();
+  const { data: a } = await db
+    .from("booking_appointments")
+    .select("gcal_event_id,status")
+    .eq("id", id)
+    .maybeSingle();
+  if (a?.gcal_event_id) await deleteCalendarEvent(a.gcal_event_id);
   const { error } = await db
     .from("booking_appointments")
-    .update({ status: "cancelled" })
+    .update({ status: "cancelled", gcal_event_id: null })
     .eq("id", id)
     .in("status", ["pending", "confirmed"]);
   return !error;
+}
+
+// ── Deposit (Viva) ────────────────────────────────────────────────────
+export async function getAppointment(id: string): Promise<Appointment | null> {
+  const db = createServiceClient();
+  const { data } = await db.from("booking_appointments").select("*").eq("id", id).maybeSingle();
+  return (data as Appointment) ?? null;
+}
+
+/** Attach a Viva order to an appointment (deposit pending). */
+export async function setDepositOrder(id: string, orderCode: string, amount: number): Promise<void> {
+  const db = createServiceClient();
+  await db
+    .from("booking_appointments")
+    .update({ viva_order_code: orderCode, deposit_status: "pending", deposit_amount: amount })
+    .eq("id", id);
+}
+
+/** Mark deposit paid after a verified Viva transaction. */
+export async function markDepositPaidByOrder(orderCode: string): Promise<boolean> {
+  const db = createServiceClient();
+  const { data, error } = await db
+    .from("booking_appointments")
+    .update({ deposit_status: "paid" })
+    .eq("viva_order_code", orderCode)
+    .select("id")
+    .maybeSingle();
+  return !error && !!data;
 }

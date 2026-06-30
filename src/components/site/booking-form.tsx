@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, Clock, MapPin } from "lucide-react";
 import { site } from "@/lib/content";
-import { slotsAction, submitBookingAction } from "@/app/booking/actions";
+import { slotsAction, submitBookingAction, startDepositAction } from "@/app/booking/actions";
 import type { Slot } from "@/lib/booking";
 
 type Service = {
@@ -83,7 +83,20 @@ export function BookingForm({
   const [loadingSlots, startSlots] = useTransition();
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errMsg, setErrMsg] = useState("");
+  const [booking, setBooking] = useState<{
+    id: string;
+    deposit: { enabled: boolean; amount: number };
+  } | null>(null);
+  const [depositLoading, setDepositLoading] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+
+  async function payDeposit() {
+    if (!booking) return;
+    setDepositLoading(true);
+    const res = await startDepositAction(booking.id);
+    if ("url" in res) window.location.href = res.url;
+    else setDepositLoading(false);
+  }
 
   // On success, bring the confirmation into view (no jarring jump).
   useEffect(() => {
@@ -132,6 +145,7 @@ export function BookingForm({
       consent: form.consent,
     });
     if (res.ok) {
+      setBooking({ id: res.id, deposit: res.deposit });
       setStatus("success");
     } else {
       setStatus("error");
@@ -168,6 +182,18 @@ export function BookingForm({
           </a>
           .
         </p>
+        {booking?.deposit.enabled && (
+          <button
+            type="button"
+            onClick={payDeposit}
+            disabled={depositLoading}
+            className="inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-sm font-medium text-snow transition-colors hover:bg-azure disabled:opacity-60"
+          >
+            {depositLoading
+              ? "Μεταφορά…"
+              : `Εξασφαλίστε το ραντεβού με προκαταβολή €${booking.deposit.amount}`}
+          </button>
+        )}
       </motion.div>
     );
   }

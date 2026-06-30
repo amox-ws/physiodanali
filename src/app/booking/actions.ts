@@ -5,8 +5,11 @@ import {
   createAppointment,
   getSettings,
   bookingManageUrl,
+  getAppointment,
+  setDepositOrder,
   type Slot,
 } from "@/lib/booking";
+import { createDepositCheckout, vivaConfigured } from "@/lib/viva";
 
 // Public booking server actions (called from the client form).
 
@@ -26,7 +29,12 @@ export async function slotsAction(input: {
 }
 
 export type BookingResult =
-  | { ok: true; mode: "request" | "instant" }
+  | {
+      ok: true;
+      mode: "request" | "instant";
+      id: string;
+      deposit: { enabled: boolean; amount: number };
+    }
   | { ok: false; error: string };
 
 export async function submitBookingAction(input: {
@@ -82,7 +90,35 @@ export async function submitBookingAction(input: {
 
   const settings = await getSettings();
   await sendBookingEmails(input, id);
-  return { ok: true, mode: settings.mode };
+  return {
+    ok: true,
+    mode: settings.mode,
+    id,
+    deposit: {
+      enabled: settings.deposit_enabled && vivaConfigured(),
+      amount: settings.deposit_amount,
+    },
+  };
+}
+
+/** Optional: create a Viva deposit checkout for a just-created appointment. */
+export async function startDepositAction(
+  appointmentId: string,
+): Promise<{ url: string } | { error: string }> {
+  const appt = await getAppointment(appointmentId);
+  if (!appt) return { error: "notfound" };
+  const settings = await getSettings();
+  if (!settings.deposit_enabled || !vivaConfigured()) return { error: "unavailable" };
+  const checkout = await createDepositCheckout({
+    amountEur: settings.deposit_amount,
+    appointmentId,
+    name: appt.patient_name,
+    phone: appt.patient_phone,
+    email: appt.patient_email ?? undefined,
+  });
+  if (!checkout) return { error: "viva" };
+  await setDepositOrder(appointmentId, checkout.orderCode, settings.deposit_amount);
+  return { url: checkout.url };
 }
 
 // ── Email (Resend, best-effort — never blocks the booking) ────────────
