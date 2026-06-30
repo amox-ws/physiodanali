@@ -1,4 +1,5 @@
 import "server-only";
+import { createHmac } from "crypto";
 import { createServiceClient } from "@/lib/supabase/service";
 
 // ─────────────────────────────────────────────────────────────────────
@@ -164,7 +165,7 @@ export async function getAvailableSlots(opts: {
   const [{ data: appts }, { data: offs }] = await Promise.all([
     db
       .from("booking_appointments")
-      .select("starts_at,duration_min")
+      .select("starts_at,duration_min,area")
       .neq("status", "cancelled")
       .gte("starts_at", new Date(dayStart.getTime() - 6 * 3600 * 1000).toISOString())
       .lte("starts_at", dayEnd.toISOString()),
@@ -175,13 +176,16 @@ export async function getAvailableSlots(opts: {
       .gt("ends_at", dayStart.toISOString()),
   ]);
 
-  const buffer = settings.travel_buffer_min * 60000;
+  // Area-aware travel buffer: same area = half the buffer, different area = full.
+  const crossBuf = settings.travel_buffer_min * 60000;
+  const sameBuf = Math.round(settings.travel_buffer_min / 2) * 60000;
   const dur = opts.durationMin * 60000;
   const minBookable = Date.now() + settings.min_notice_hours * 3600 * 1000;
 
   const booked = (appts ?? []).map((a) => ({
     s: new Date(a.starts_at).getTime(),
     e: new Date(a.starts_at).getTime() + a.duration_min * 60000,
+    sameArea: a.area === opts.area,
   }));
   const timeoff = (offs ?? []).map((o) => ({
     s: new Date(o.starts_at).getTime(),
@@ -197,8 +201,11 @@ export async function getAvailableSlots(opts: {
       const s = start.getTime();
       const e = s + dur;
       if (s < minBookable) continue;
-      // travel-buffer conflict with any booked visit
-      const clash = booked.some((b) => s < b.e + buffer && e + buffer > b.s);
+      // area-aware travel-buffer conflict with any booked visit
+      const clash = booked.some((b) => {
+        const buf = b.sameArea ? sameBuf : crossBuf;
+        return s < b.e + buf && e + buf > b.s;
+      });
       if (clash) continue;
       // time-off overlap
       const off = timeoff.some((o) => s < o.e && e > o.s);
@@ -254,4 +261,42 @@ export async function setAppointmentStatus(id: string, status: string): Promise<
   const db = createServiceClient();
   const { error } = await db.from("booking_appointments").update({ status }).eq("id", id);
   if (error) throw error;
+}
+
+// ── Self-service cancel (signed link, no auth) ────────────────────────
+const BOOKING_SECRET =
+  process.env.BOOKING_SECRET || process.env.CRON_SECRET || "physiodanali-dev";
+
+/** Tamper-proof token for a patient cancel/manage link (no login needed). */
+export function cancelToken(id: string): string {
+  return createHmac("sha256", BOOKING_SECRET).update(`cancel:${id}`).digest("hex").slice(0, 32);
+}
+
+/** Full URL the patient gets in emails to manage their appointment. */
+export function bookingManageUrl(id: string): string {
+  const site = process.env.SITE_URL || "https://physiodanali.vercel.app";
+  return `${site}/booking/manage?id=${id}&t=${cancelToken(id)}`;
+}
+
+/** Fetch an appointment for the manage page — only with a valid token. */
+export async function getAppointmentByToken(
+  id: string,
+  token: string,
+): Promise<Appointment | null> {
+  if (!id || token !== cancelToken(id)) return null;
+  const db = createServiceClient();
+  const { data } = await db.from("booking_appointments").select("*").eq("id", id).maybeSingle();
+  return (data as Appointment) ?? null;
+}
+
+/** Patient self-cancel via token (only pending/confirmed). */
+export async function cancelByToken(id: string, token: string): Promise<boolean> {
+  if (!id || token !== cancelToken(id)) return false;
+  const db = createServiceClient();
+  const { error } = await db
+    .from("booking_appointments")
+    .update({ status: "cancelled" })
+    .eq("id", id)
+    .in("status", ["pending", "confirmed"]);
+  return !error;
 }

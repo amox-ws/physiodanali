@@ -4,6 +4,7 @@ import {
   getAvailableSlots,
   createAppointment,
   getSettings,
+  bookingManageUrl,
   type Slot,
 } from "@/lib/booking";
 
@@ -140,6 +141,7 @@ async function sendBookingEmails(
        <p>Λάβαμε το αίτημα ραντεβού σας:</p>
        <p><strong>${input.serviceName}</strong><br>${when}<br>Περιοχή: ${input.area}</p>
        <p>Θα επικοινωνήσουμε σύντομα για <strong>επιβεβαίωση</strong>. Για άμεση εξυπηρέτηση καλέστε <a href="tel:+306944344342">+30 6944 344 342</a>.</p>
+       <p style="font-size:13px;color:#666">Διαχείριση / ακύρωση ραντεβού: <a href="${bookingManageUrl(id)}">εδώ</a>.</p>
        <p>— PhysioDanali</p>`,
     );
   }

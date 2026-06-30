@@ -2,6 +2,12 @@
 
 > Online ραντεβού **φτιαγμένο από εμάς** (όχι SimplyBook), πάνω στο υπάρχον Next.js + Supabase + /admin + Resend. Σχεδιασμένο για τη **μοναδική** φύση του business: **σόλο επαγγελματίας που πάει κατ' οίκον**.
 
+> **🚧 Κατάσταση (branch `feature/booking-system`):**
+> - ✅ **Phase 1 (MVP)**: DB schema · availability engine (Athens TZ) · `/booking` flow · emails · `/admin/bookings` (confirm/cancel). Mode = **προς-έγκριση**· placeholder ωράρια/διάρκειες (ο πελάτης επιβεβαιώνει).
+> - ✅ **Phase 2**: **area-aware travel buffer** · **self-service ακύρωση** (signed link `/booking/manage`, no login) · **auto-υπενθυμίσεις** (daily GitHub Action ~24h πριν, με cancel link).
+> - ⏳ **Phase 3 / config**: Google Calendar sync · area-days · σειρές/πακέτα · SMS/Viber · deposit (Viva). Client decisions (§ τέλος).
+> - 🔌 **Wiring**: τα «Κλείστε ραντεβού» CTAs → `/booking` (όταν δοθεί ΟΚ).
+
 ---
 
 ## 0. Γιατί ΔΕΝ είναι «κλασικό» booking (η ιδιαιτερότητα)
