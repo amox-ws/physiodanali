@@ -136,7 +136,7 @@ export function Footer() {
               </p>
               <div className="mt-7 flex gap-3">
                 <Link
-                  href={localeHref("/contact", locale)}
+                  href={localeHref("/booking", locale)}
                   className="inline-flex items-center rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
                 >
                   {tx.book}

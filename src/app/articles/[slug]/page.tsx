@@ -178,7 +178,7 @@ export default async function ArticlePage({
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href={localeHref("/contact", locale)}
+                  href={localeHref("/booking", locale)}
                   className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-all hover:bg-cobalt"
                 >
                   {tx.book}

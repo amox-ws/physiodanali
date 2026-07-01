@@ -142,7 +142,7 @@ export default async function HomeCarePage() {
                 WhatsApp
               </a>
               <Link
-                href={localeHref("/contact", locale)}
+                href={localeHref("/booking", locale)}
                 className="group inline-flex items-center justify-center gap-2 rounded-full border border-ink/15 bg-snow/40 px-7 py-4 text-base text-ink transition-colors hover:border-ink/50"
               >
                 {tx.homeCareHeroForm}
