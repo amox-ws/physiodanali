@@ -235,7 +235,7 @@ export function Header() {
             </span>
           </a>
           <Link
-            href={localeHref("/contact", locale)}
+            href={localeHref("/booking", locale)}
             className="hidden sm:inline-flex items-center rounded-full bg-ink px-5 py-2.5 text-sm text-snow transition-all duration-300 hover:bg-cobalt"
           >
             {tx.book}
@@ -453,7 +453,7 @@ export function Header() {
                 >
                   <LocaleToggle />
                   <Link
-                    href={localeHref("/contact", locale)}
+                    href={localeHref("/booking", locale)}
                     className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-colors hover:bg-cobalt"
                   >
                     <span>{tx.book}</span>

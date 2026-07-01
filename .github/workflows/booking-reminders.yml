@@ -1,0 +1,29 @@
+name: Booking reminders
+
+# Emails patients a reminder ~24h before their confirmed appointment, with a
+# self-service cancel link. Runs once a day; trigger manually via "Run workflow".
+
+on:
+  schedule:
+    - cron: "0 17 * * *" # 17:00 UTC daily (evening before, Greece time)
+  workflow_dispatch: {}
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22 # supabase-js needs native WebSocket
+      - run: npm ci
+      - name: Send reminders
+        run: npx --yes tsx scripts/booking-reminders.ts
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_FROM: ${{ secrets.NOTIFY_FROM }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          SITE_URL: https://physiodanali.vercel.app

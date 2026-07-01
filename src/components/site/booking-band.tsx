@@ -49,7 +49,7 @@ export function BookingBand() {
               {tx.bookingLead}
             </p>
             <Link
-              href={localeHref("/contact", locale)}
+              href={localeHref("/booking", locale)}
               className="mt-10 inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-sm text-snow transition-all hover:bg-azure"
             >
               {tx.contactForm}

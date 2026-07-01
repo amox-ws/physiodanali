@@ -214,7 +214,7 @@ export default async function AboutPage() {
               </div>
               <div className="flex flex-col gap-3 lg:col-span-5">
                 <Link
-                  href={localeHref("/contact", locale)}
+                  href={localeHref("/booking", locale)}
                   className="group flex items-center justify-between rounded-2xl bg-ink px-7 py-6 text-snow transition-all hover:bg-cobalt"
                 >
                   <span className="display text-2xl tracking-tight lg:text-3xl">

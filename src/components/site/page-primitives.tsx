@@ -365,7 +365,7 @@ export function PractitionerCard({
         </p>
         <div className="mt-8 flex items-center gap-3">
           <Link
-            href={localeHref("/contact", locale)}
+            href={localeHref("/booking", locale)}
             className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm text-snow transition-all hover:bg-cobalt"
           >
             {tx.book}
@@ -436,7 +436,7 @@ export function FinalCTA({
             </div>
             <div className="flex flex-col gap-3 lg:col-span-5">
               <Link
-                href={localeHref("/contact", locale)}
+                href={localeHref("/booking", locale)}
                 className="group flex items-center justify-between rounded-2xl bg-cobalt px-6 py-5 transition-all hover:bg-azure"
               >
                 <span className="display text-2xl tracking-tight">
