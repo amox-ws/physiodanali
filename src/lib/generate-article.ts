@@ -10,6 +10,7 @@ import {
   uniqueSlug,
   unsplashImage,
   type GeneratedArticle,
+  type UnsplashPick,
 } from "@/lib/article-prompt";
 
 // AI article generation (Phase 5). Picks the next backlog topic, asks Claude to
@@ -67,11 +68,20 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
   }
   const article = JSON.parse(textBlock.text) as GeneratedArticle;
 
-  // 4. Auto cover image (Unsplash; null if no key / no match → client uploads).
-  const image = await unsplashImage(article.image_query);
-
-  // 5. Unique slug + insert as DRAFT (never auto-published).
+  // 4. Unique slug (also used as the cover-image filename).
   const candidate = uniqueSlug(article.slug, existingSlugs);
+
+  // 5. Auto cover: pick a free Unsplash photo, download it compressed to webp,
+  //    and re-host it in our own Storage so the article self-hosts the image
+  //    instead of hotlinking Unsplash (null if no key / no match → client
+  //    uploads one in the editor).
+  const image = await storeCover(
+    supabase,
+    await unsplashImage(article.image_query),
+    candidate,
+  );
+
+  // 6. Insert as DRAFT (never auto-published).
   const { data: inserted, error } = await supabase
     .from("articles")
     .insert({
@@ -93,7 +103,7 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
     .single();
   if (error) throw new Error(error.message);
 
-  // 5. Mark topic drafted + notify the owner (never throws).
+  // 7. Mark topic drafted + notify the owner (never throws).
   if (topic) {
     await supabase.from("article_topics").update({ status: "drafted" }).eq("id", topic.id);
   }
@@ -105,4 +115,46 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
     title: inserted.title as string,
     usedTopicId: topic?.id ?? null,
   };
+}
+
+/**
+ * Download the picked Unsplash photo compressed to WebP (via Imgix params) and
+ * re-host it in the `article-images` Storage bucket, returning our own public
+ * URL. Best-effort: on any failure it falls back to the compressed hotlink,
+ * then to null — a broken cover must never fail article generation. Also pings
+ * Unsplash's download endpoint per their API guidelines.
+ */
+async function storeCover(
+  supabase: ReturnType<typeof createServiceClient>,
+  pick: UnsplashPick | null,
+  slug: string,
+): Promise<string | null> {
+  if (!pick) return null;
+
+  // Imgix: auto format, cap width at 1600, quality 70, force WebP.
+  const sep = pick.raw.includes("?") ? "&" : "?";
+  const compressed = `${pick.raw}${sep}auto=format&fit=max&w=1600&q=70&fm=webp`;
+
+  // Unsplash API guideline: trigger the download endpoint on use (fire-and-forget).
+  const key = process.env.UNSPLASH_ACCESS_KEY;
+  if (pick.downloadLocation && key) {
+    fetch(pick.downloadLocation, {
+      headers: { Authorization: `Client-ID ${key}` },
+    }).catch(() => {});
+  }
+
+  try {
+    const res = await fetch(compressed, { signal: AbortSignal.timeout(15000) });
+    if (!res.ok) return compressed;
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    const path = `covers/${slug}-${Date.now()}.webp`;
+    const { error } = await supabase.storage
+      .from("article-images")
+      .upload(path, bytes, { contentType: "image/webp", upsert: true });
+    if (error) return compressed; // fall back to the compressed hotlink
+    return supabase.storage.from("article-images").getPublicUrl(path).data
+      .publicUrl;
+  } catch {
+    return compressed;
+  }
 }

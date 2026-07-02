@@ -142,7 +142,9 @@ ${titles || "  (κανένα ακόμα)"}`;
  * is missing or the search fails, the draft simply has no cover (the client
  * can upload one in the editor). Plain fetch so it runs in Node (CI) + Next.
  */
-export async function unsplashImage(query: string): Promise<string | null> {
+export type UnsplashPick = { raw: string; downloadLocation: string | null };
+
+export async function unsplashImage(query: string): Promise<UnsplashPick | null> {
   const key = process.env.UNSPLASH_ACCESS_KEY;
   if (!key || !query?.trim()) return null;
   try {
@@ -154,9 +156,16 @@ export async function unsplashImage(query: string): Promise<string | null> {
     });
     if (!res.ok) return null;
     const data = (await res.json()) as {
-      results?: { urls?: { regular?: string } }[];
+      results?: {
+        urls?: { raw?: string; regular?: string };
+        links?: { download_location?: string };
+      }[];
     };
-    return data.results?.[0]?.urls?.regular ?? null;
+    const hit = data.results?.[0];
+    // `raw` is the Imgix base URL — accepts ?w=&q=&fm=webp for compression.
+    const raw = hit?.urls?.raw ?? hit?.urls?.regular;
+    if (!raw) return null;
+    return { raw, downloadLocation: hit?.links?.download_location ?? null };
   } catch {
     return null;
   }
