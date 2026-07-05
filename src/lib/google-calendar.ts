@@ -7,7 +7,8 @@ import { createSign } from "crypto";
 //
 // Env: GOOGLE_SA_EMAIL, GOOGLE_SA_PRIVATE_KEY (PEM, \n-escaped), GOOGLE_CALENDAR_ID.
 
-const SCOPE = "https://www.googleapis.com/auth/calendar.events";
+// Full calendar scope: events (write) + freeBusy (read, for two-way sync).
+const SCOPE = "https://www.googleapis.com/auth/calendar";
 
 function creds() {
   const email = process.env.GOOGLE_SA_EMAIL;
@@ -88,6 +89,72 @@ export async function createCalendarEvent(a: CalEvent): Promise<string | null> {
     return j.id ?? null;
   } catch {
     return null;
+  }
+}
+
+/** Update an existing event's time/details (on reschedule). Returns id or null. */
+export async function updateCalendarEvent(
+  eventId: string,
+  a: CalEvent,
+): Promise<string | null> {
+  const c = creds();
+  if (!c || !eventId) return null;
+  try {
+    const token = await accessToken(c.email, c.key);
+    if (!token) return null;
+    const end = new Date(new Date(a.startUtc).getTime() + a.durationMin * 60000).toISOString();
+    const res = await fetch(
+      `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(c.calendarId)}/events/${eventId}`,
+      {
+        method: "PATCH",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          summary: `${a.serviceName} — ${a.patientName}`,
+          location: `${a.area}${a.address ? `, ${a.address}` : ""}`,
+          description: `Τηλ: ${a.patientPhone}${a.notes ? `\n${a.notes}` : ""}`,
+          start: { dateTime: a.startUtc, timeZone: "Europe/Athens" },
+          end: { dateTime: end, timeZone: "Europe/Athens" },
+        }),
+      },
+    );
+    return res.ok ? eventId : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Two-way sync: read the practitioner's busy intervals in [startUtc, endUtc)
+ * so the availability engine can also block time he booked directly in Google
+ * (not through the site). Empty array when unconfigured or on any error, so it
+ * can only ever remove slots — never crash availability.
+ */
+export async function getBusyTimes(
+  startUtc: string,
+  endUtc: string,
+): Promise<{ start: string; end: string }[]> {
+  const c = creds();
+  if (!c) return [];
+  try {
+    const token = await accessToken(c.email, c.key);
+    if (!token) return [];
+    const res = await fetch("https://www.googleapis.com/calendar/v3/freeBusy", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        timeMin: startUtc,
+        timeMax: endUtc,
+        items: [{ id: c.calendarId }],
+      }),
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return [];
+    const j = (await res.json()) as {
+      calendars?: Record<string, { busy?: { start: string; end: string }[] }>;
+    };
+    return j.calendars?.[c.calendarId]?.busy ?? [];
+  } catch {
+    return [];
   }
 }
 

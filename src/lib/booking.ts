@@ -1,7 +1,12 @@
 import "server-only";
 import { createHmac } from "crypto";
 import { createServiceClient } from "@/lib/supabase/service";
-import { createCalendarEvent, deleteCalendarEvent } from "@/lib/google-calendar";
+import {
+  createCalendarEvent,
+  updateCalendarEvent,
+  deleteCalendarEvent,
+  getBusyTimes,
+} from "@/lib/google-calendar";
 
 // ─────────────────────────────────────────────────────────────────────
 // Booking data access + availability engine (home-visit physiotherapy).
@@ -45,12 +50,16 @@ export type NewAppointment = {
   notes?: string;
   firstVisit?: boolean;
   priceEur?: number;
+  status?: string; // default "pending"; admin manual entry passes "confirmed"
+  adminNote?: string;
 };
 
 export type Appointment = {
   id: string;
   service_name: string;
   price_eur: number | null;
+  admin_note: string | null;
+  gcal_event_id: string | null;
   patient_name: string;
   patient_phone: string;
   patient_email: string | null;
@@ -84,6 +93,12 @@ function athensToUtc(date: string, hour: number, min: number): Date {
     `${date}T${String(hour).padStart(2, "0")}:${String(min).padStart(2, "0")}:00Z`,
   );
   return new Date(naive.getTime() - athensOffsetMin(naive) * 60000);
+}
+
+/** Athens wall-clock (date=YYYY-MM-DD, time="HH:MM") → UTC ISO string. */
+export function athensWallToUtc(date: string, time: string): string {
+  const [h, m] = time.split(":").map((x) => parseInt(x, 10));
+  return athensToUtc(date, h || 0, m || 0).toISOString();
 }
 
 /** UTC Date → "HH:MM" in Athens. */
@@ -171,7 +186,7 @@ export async function getAvailableSlots(opts: {
   const dayStart = athensToUtc(opts.date, 0, 0);
   const dayEnd = new Date(dayStart.getTime() + 24 * 3600 * 1000);
 
-  const [{ data: appts }, { data: offs }] = await Promise.all([
+  const [{ data: appts }, { data: offs }, busy] = await Promise.all([
     db
       .from("booking_appointments")
       .select("starts_at,duration_min,area")
@@ -183,6 +198,8 @@ export async function getAvailableSlots(opts: {
       .select("starts_at,ends_at")
       .lt("starts_at", dayEnd.toISOString())
       .gt("ends_at", dayStart.toISOString()),
+    // Two-way Google Calendar: busy intervals block slots too ([] if no creds).
+    getBusyTimes(dayStart.toISOString(), dayEnd.toISOString()),
   ]);
 
   // Area-aware travel buffer: same area = half the buffer, different area = full.
@@ -196,10 +213,17 @@ export async function getAvailableSlots(opts: {
     e: new Date(a.starts_at).getTime() + a.duration_min * 60000,
     sameArea: a.area === opts.area,
   }));
-  const timeoff = (offs ?? []).map((o) => ({
-    s: new Date(o.starts_at).getTime(),
-    e: new Date(o.ends_at).getTime(),
-  }));
+  const timeoff = (offs ?? [])
+    .map((o) => ({
+      s: new Date(o.starts_at).getTime(),
+      e: new Date(o.ends_at).getTime(),
+    }))
+    .concat(
+      busy.map((b) => ({
+        s: new Date(b.start).getTime(),
+        e: new Date(b.end).getTime(),
+      })),
+    );
 
   const slots: Slot[] = [];
   for (const w of windows) {
@@ -232,6 +256,7 @@ export async function getAvailableSlots(opts: {
 // ── Writes ────────────────────────────────────────────────────────────
 export async function createAppointment(a: NewAppointment): Promise<{ id: string }> {
   const db = createServiceClient();
+  const status = a.status ?? "pending";
   const { data, error } = await db
     .from("booking_appointments")
     .insert({
@@ -246,13 +271,79 @@ export async function createAppointment(a: NewAppointment): Promise<{ id: string
       patient_email: a.patientEmail ?? null,
       address: a.address ?? null,
       notes: a.notes ?? null,
+      admin_note: a.adminNote ?? null,
       first_visit: a.firstVisit ?? true,
-      status: "pending",
+      status,
     })
     .select("id")
     .single();
   if (error) throw error;
-  return { id: data.id as string };
+  const id = data.id as string;
+
+  // Admin-created (already confirmed) → push to Google Calendar (no-op w/o creds).
+  if (status === "confirmed") {
+    const eventId = await createCalendarEvent({
+      serviceName: a.serviceName,
+      startUtc: a.startUtc,
+      durationMin: a.durationMin,
+      area: a.area,
+      address: a.address,
+      patientName: a.patientName,
+      patientPhone: a.patientPhone,
+      notes: a.notes,
+    });
+    if (eventId) await db.from("booking_appointments").update({ gcal_event_id: eventId }).eq("id", id);
+  }
+  return { id };
+}
+
+/**
+ * Admin reschedule/edit: change time/duration/area + attach a note, flag the
+ * appointment as "rescheduled" (orange), sync the calendar event, and email the
+ * patient a one-way "your appointment changed" notice (no accept/decline loop).
+ */
+export async function updateAppointment(
+  id: string,
+  changes: {
+    startUtc?: string;
+    durationMin?: number;
+    area?: string;
+    adminNote?: string;
+  },
+): Promise<void> {
+  const db = createServiceClient();
+  const { data: a } = await db.from("booking_appointments").select("*").eq("id", id).maybeSingle();
+  if (!a) return;
+
+  const patch: Record<string, unknown> = { status: "rescheduled" };
+  if (changes.startUtc) patch.starts_at = changes.startUtc;
+  if (changes.durationMin) patch.duration_min = changes.durationMin;
+  if (changes.area) patch.area = changes.area;
+  if (changes.adminNote !== undefined) patch.admin_note = changes.adminNote || null;
+
+  const merged = { ...a, ...patch } as Appointment & { gcal_event_id: string | null };
+
+  // Sync Google Calendar to the new time (no-op without creds).
+  const cal = {
+    serviceName: merged.service_name,
+    startUtc: merged.starts_at,
+    durationMin: merged.duration_min,
+    area: merged.area,
+    address: merged.address,
+    patientName: merged.patient_name,
+    patientPhone: merged.patient_phone,
+    notes: merged.notes,
+  };
+  if (a.gcal_event_id) {
+    await updateCalendarEvent(a.gcal_event_id, cal);
+  } else {
+    const eventId = await createCalendarEvent(cal);
+    if (eventId) patch.gcal_event_id = eventId;
+  }
+
+  const { error } = await db.from("booking_appointments").update(patch).eq("id", id);
+  if (error) throw error;
+  await emailPatientUpdated(merged, changes.adminNote);
 }
 
 // ── Admin ─────────────────────────────────────────────────────────────
@@ -305,6 +396,41 @@ async function emailPatientStatus(a: Appointment, status: string): Promise<void>
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({ from, to: a.patient_email, subject, html }),
+  }).catch(() => {});
+}
+
+// One-way "your appointment changed" email after an admin reschedule/edit.
+async function emailPatientUpdated(a: Appointment, adminNote?: string): Promise<void> {
+  const key = process.env.RESEND_API_KEY;
+  if (!key || !a.patient_email) return;
+  const from = process.env.NOTIFY_FROM || "PhysioDanali <noreply@amox.gr>";
+  const when = new Intl.DateTimeFormat("el-GR", {
+    timeZone: "Europe/Athens",
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(a.starts_at));
+
+  const html = `<h2>Το ραντεβού σας ενημερώθηκε</h2>
+    <p>Νέα λεπτομέρεια ραντεβού:</p>
+    <p><strong>${a.service_name}</strong> (${a.duration_min}′)<br>${when}<br>Περιοχή: ${a.area}${
+      a.price_eur ? `<br>Κόστος: €${a.price_eur} — δεκτά μετρητά &amp; κάρτα` : ""
+    }</p>
+    ${adminNote ? `<p><strong>Σημείωση:</strong> ${adminNote}</p>` : ""}
+    <p>Αν δεν σας βολεύει, καλέστε <a href="tel:+306944344342">+30 6944 344 342</a> ή ακυρώστε: <a href="${bookingManageUrl(a.id)}">εδώ</a>.</p>
+    <p>— PhysioDanali</p>`;
+
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: a.patient_email,
+      subject: `Αλλαγή ραντεβού — ${when}`,
+      html,
+    }),
   }).catch(() => {});
 }
 
