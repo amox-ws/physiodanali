@@ -63,6 +63,9 @@ export default async function BookingsAdminPage() {
                   <span className="inline-flex items-center gap-1 text-xs text-ink-muted">
                     <Clock className="size-3.5" strokeWidth={1.5} /> {a.duration_min}′
                   </span>
+                  {a.price_eur ? (
+                    <span className="text-xs font-medium text-ink-muted">€{a.price_eur}</span>
+                  ) : null}
                   <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${st.cls}`}>
                     {st.label}
                   </span>

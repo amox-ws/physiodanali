@@ -16,6 +16,13 @@ type Service = {
 
 const AREAS = ["Γλυφάδα", "Βούλα", "Βουλιαγμένη", "Βάρη", "Άλιμο"];
 
+// Every service is bookable at 30′ or 60′; price follows the duration.
+const DURATIONS = [
+  { min: 30, price: 50 },
+  { min: 60, price: 100 },
+] as const;
+const priceFor = (min: number) => (min === 60 ? 100 : 50);
+
 function todayAthens(offsetDays = 0): string {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Athens",
@@ -68,6 +75,7 @@ export function BookingForm({
   horizonDays?: number;
 }) {
   const [service, setService] = useState<Service | null>(null);
+  const [duration, setDuration] = useState<number>(60);
   const [area, setArea] = useState("");
   const [date, setDate] = useState("");
   const [slots, setSlots] = useState<Slot[] | null>(null);
@@ -108,7 +116,12 @@ export function BookingForm({
   const set = <K extends keyof typeof form>(k: K, v: (typeof form)[K]) =>
     setForm((f) => ({ ...f, [k]: v }));
 
-  function loadSlots(nextDate: string, nextArea: string, svc: Service | null) {
+  function loadSlots(
+    nextDate: string,
+    nextArea: string,
+    svc: Service | null,
+    dur: number = duration,
+  ) {
     setSlot(null);
     if (!nextDate || !nextArea || !svc) {
       setSlots(null);
@@ -118,7 +131,7 @@ export function BookingForm({
       const s = await slotsAction({
         serviceId: svc.id,
         serviceName: svc.name,
-        durationMin: svc.duration_min,
+        durationMin: dur,
         area: nextArea,
         date: nextDate,
       });
@@ -133,7 +146,8 @@ export function BookingForm({
     const res = await submitBookingAction({
       serviceId: service.id,
       serviceName: service.name,
-      durationMin: service.duration_min,
+      durationMin: duration,
+      priceEur: priceFor(duration),
       area,
       startUtc: slot.startUtc,
       date,
@@ -215,7 +229,7 @@ export function BookingForm({
                 type="button"
                 onClick={() => {
                   setService(s);
-                  loadSlots(date, area, s);
+                  loadSlots(date, area, s, duration);
                 }}
                 className={`rounded-2xl border p-4 text-left transition-all ${
                   service?.id === s.id
@@ -224,12 +238,38 @@ export function BookingForm({
                 }`}
               >
                 <span className="block text-base font-medium text-ink">{s.name}</span>
-                <span className="mt-1 inline-flex items-center gap-1.5 text-xs text-ink-muted">
-                  <Clock className="size-3.5" strokeWidth={1.5} /> {s.duration_min}′
-                </span>
               </button>
             ))}
           </div>
+
+          {/* Duration + price (every service is 30′ or 60′) */}
+          {service && (
+            <div className="mt-5">
+              <p className="mb-2 text-sm font-medium text-ink">Διάρκεια & κόστος</p>
+              <div className="flex flex-wrap gap-2">
+                {DURATIONS.map((d) => (
+                  <button
+                    key={d.min}
+                    type="button"
+                    onClick={() => {
+                      setDuration(d.min);
+                      loadSlots(date, area, service, d.min);
+                    }}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm transition-all ${
+                      duration === d.min
+                        ? "border-cobalt bg-cobalt text-snow"
+                        : "border-stone bg-snow text-ink hover:border-cobalt/40"
+                    }`}
+                  >
+                    <Clock className="size-3.5" strokeWidth={1.5} /> {d.min}′ · €{d.price}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-ink-muted">
+                Δεκτά μετρητά &amp; κάρτα.
+              </p>
+            </div>
+          )}
         </StepSection>
 
         {/* 2. Area */}
@@ -308,7 +348,11 @@ export function BookingForm({
           <StepSection n={4} title="Τα στοιχεία σας">
             {/* Selection summary */}
             <div className="mb-5 rounded-xl border border-cobalt/20 bg-cobalt/5 px-4 py-3 text-sm text-ink">
-              <strong>{service?.name}</strong> · {area} · {slot.label}
+              <strong>{service?.name}</strong> · {duration}′ · €{priceFor(duration)} · {area} ·{" "}
+              {slot.label}
+              <span className="mt-0.5 block text-xs text-ink-muted">
+                Δεκτά μετρητά &amp; κάρτα.
+              </span>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">

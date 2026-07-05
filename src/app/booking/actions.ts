@@ -41,6 +41,7 @@ export async function submitBookingAction(input: {
   serviceId: string;
   serviceName: string;
   durationMin: number;
+  priceEur?: number;
   area: string;
   startUtc: string;
   date: string;
@@ -78,6 +79,7 @@ export async function submitBookingAction(input: {
     serviceId: input.serviceId,
     serviceName: input.serviceName,
     durationMin: input.durationMin,
+    priceEur: input.priceEur,
     area: input.area,
     startUtc: input.startUtc,
     patientName: input.patientName.trim(),
@@ -125,6 +127,8 @@ export async function startDepositAction(
 async function sendBookingEmails(
   input: {
     serviceName: string;
+    durationMin?: number;
+    priceEur?: number;
     area: string;
     startUtc: string;
     patientName: string;
@@ -135,6 +139,11 @@ async function sendBookingEmails(
   },
   id: string,
 ) {
+  const priceLine = input.priceEur
+    ? `<p><strong>Κόστος:</strong> €${input.priceEur}${
+        input.durationMin ? ` (${input.durationMin}′)` : ""
+      } — δεκτά μετρητά &amp; κάρτα</p>`
+    : "";
   const key = process.env.RESEND_API_KEY;
   if (!key) return;
   const from =
@@ -162,6 +171,7 @@ async function sendBookingEmails(
     `Νέο αίτημα ραντεβού — ${input.patientName} (${when})`,
     `<h2>Νέο αίτημα ραντεβού</h2>
      <p><strong>${input.serviceName}</strong> — ${when}</p>
+     ${priceLine}
      <p>Περιοχή: ${input.area}${input.address ? `<br>Διεύθυνση: ${input.address}` : ""}</p>
      <p>Ασθενής: ${input.patientName}<br>Τηλέφωνο: ${input.patientPhone}${input.patientEmail ? `<br>Email: ${input.patientEmail}` : ""}</p>
      ${input.notes ? `<p>Σημείωση: ${input.notes}</p>` : ""}
@@ -176,6 +186,7 @@ async function sendBookingEmails(
       `<h2>Ευχαριστούμε, ${input.patientName}!</h2>
        <p>Λάβαμε το αίτημα ραντεβού σας:</p>
        <p><strong>${input.serviceName}</strong><br>${when}<br>Περιοχή: ${input.area}</p>
+       ${priceLine}
        <p>Θα επικοινωνήσουμε σύντομα για <strong>επιβεβαίωση</strong>. Για άμεση εξυπηρέτηση καλέστε <a href="tel:+306944344342">+30 6944 344 342</a>.</p>
        <p style="font-size:13px;color:#666">Διαχείριση / ακύρωση ραντεβού: <a href="${bookingManageUrl(id)}">εδώ</a>.</p>
        <p>— PhysioDanali</p>`,

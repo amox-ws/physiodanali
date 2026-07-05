@@ -44,11 +44,13 @@ export type NewAppointment = {
   address?: string;
   notes?: string;
   firstVisit?: boolean;
+  priceEur?: number;
 };
 
 export type Appointment = {
   id: string;
   service_name: string;
+  price_eur: number | null;
   patient_name: string;
   patient_phone: string;
   patient_email: string | null;
@@ -236,6 +238,7 @@ export async function createAppointment(a: NewAppointment): Promise<{ id: string
       service_id: a.serviceId,
       service_name: a.serviceName,
       duration_min: a.durationMin,
+      price_eur: a.priceEur ?? null,
       area: a.area,
       starts_at: a.startUtc,
       patient_name: a.patientName,
@@ -283,7 +286,9 @@ async function emailPatientStatus(a: Appointment, status: string): Promise<void>
   if (status === "confirmed") {
     subject = `Επιβεβαίωση ραντεβού — ${when}`;
     html = `<h2>Το ραντεβού σας επιβεβαιώθηκε ✓</h2>
-      <p><strong>${a.service_name}</strong><br>${when}<br>Περιοχή: ${a.area}</p>
+      <p><strong>${a.service_name}</strong> (${a.duration_min}′)<br>${when}<br>Περιοχή: ${a.area}${
+        a.price_eur ? `<br>Κόστος: €${a.price_eur} — δεκτά μετρητά &amp; κάρτα` : ""
+      }</p>
       <p>Τα λέμε εκεί! Αν χρειαστεί να ακυρώσετε: <a href="${bookingManageUrl(a.id)}">εδώ</a>. Τηλέφωνο: <a href="tel:+306944344342">+30 6944 344 342</a>.</p>
       <p>— PhysioDanali</p>`;
   } else if (status === "cancelled") {
