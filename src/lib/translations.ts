@@ -136,6 +136,7 @@ const STRINGS = {
     contactRowWhatsAppValue: "Στείλτε μήνυμα",
     contactRowAddress: "Διεύθυνση",
     contactHoursLabel: "Ωράριο",
+    contactOnlinePayment: "Κάντε online πληρωμή",
     // Therapies page
     therapiesConditionsTitle: "Παθήσεις & καταστάσεις",
     therapiesConditionsIntro:
@@ -341,6 +342,7 @@ const STRINGS = {
     contactRowWhatsAppValue: "Send a message",
     contactRowAddress: "Address",
     contactHoursLabel: "Hours",
+    contactOnlinePayment: "Make an online payment",
     // Therapies page
     therapiesConditionsTitle: "Conditions & cases",
     therapiesConditionsIntro:

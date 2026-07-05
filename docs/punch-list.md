@@ -15,9 +15,9 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 - [x] **8. Χρώματα κατάστασης:** εκκρεμεί=μωβ · επιβεβαιωμένο=**πράσινο** · άλλαξε ώρα=**πορτοκαλί** · ακυρωμένο=κόκκινο · ολοκληρώθηκε=γκρι. ✅
 - [x] **9. Admin έλεγχος ραντεβού** (αντί email negotiation): **Νέο ραντεβού** χειροκίνητα (τηλεφωνικά, confirmed), **Τροποποίηση** ημ/ώρα/διάρκεια/περιοχή + **σχόλιο** → email στον ασθενή + status «άλλαξε ώρα». **Google Calendar two-way** (getBusyTimes) → μηδέν double-booking (ανενεργό μέχρι creds). ✅
 
-## 💳 Πληρωμές (Viva) — ⚠️ χρειάζεται Viva account/creds
-- [ ] **10. Contact** → button που βγάζει **Viva payment link**.
-- [ ] **11. Cash + κάρτα** δεκτά (σημείωση στις τιμές).
+## 💳 Πληρωμές (Viva)
+- [x] **10. Contact** → διακριτικό «Κάντε online πληρωμή» link → Viva **hosted payment** (`vivapayments.com/web2?ref=...`). ✅ *(χωρίς API creds — έτοιμο link)*
+- [x] **11. Cash + κάρτα** στο booking (φόρμα/emails/admin). ⏳ *μένει η σημείωση στις σελίδες υπηρεσιών/τιμών αν υπάρχουν*
 
 ## 🔎 SEO / Domain
 - [ ] **12. SEO για paths** (URLs/metadata ανά σελίδα).

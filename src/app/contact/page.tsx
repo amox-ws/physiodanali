@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CreditCard } from "lucide-react";
 import { getContent } from "@/lib/content-i18n";
 import { getLocale } from "@/lib/i18n-server";
 import { t } from "@/lib/translations";
@@ -81,6 +82,17 @@ export default async function ContactPage() {
                   ))}
                 </ul>
               </div>
+
+              {/* Discreet Viva hosted-payment link (no API creds needed) */}
+              <a
+                href="https://www.vivapayments.com/web2?ref=9361324115972600"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 inline-flex items-center gap-2 text-sm text-ink-muted underline-offset-4 transition-colors hover:text-cobalt hover:underline"
+              >
+                <CreditCard className="size-4" strokeWidth={1.5} />
+                {tx.contactOnlinePayment}
+              </a>
             </Reveal>
 
             <Reveal delay={0.1} className="lg:col-span-7">
