@@ -10,6 +10,7 @@ import {
   type Slot,
 } from "@/lib/booking";
 import { createDepositCheckout, vivaConfigured } from "@/lib/viva";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 // Public booking server actions (called from the client form).
 
@@ -52,7 +53,13 @@ export async function submitBookingAction(input: {
   notes?: string;
   firstVisit?: boolean;
   consent?: boolean;
+  token?: string;
+  hp?: string;
 }): Promise<BookingResult> {
+  // Anti-spam: honeypot (bots fill the hidden field) + Turnstile captcha.
+  if (input.hp && input.hp.trim()) return { ok: false, error: "spam" };
+  if (!(await verifyTurnstile(input.token))) return { ok: false, error: "captcha" };
+
   // Validation
   if (!input.consent) return { ok: false, error: "consent" };
   if (

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, Clock, MapPin } from "lucide-react";
 import { site } from "@/lib/content";
 import { slotsAction, submitBookingAction, startDepositAction } from "@/app/booking/actions";
 import type { Slot } from "@/lib/booking";
+import { Turnstile, turnstileEnabled } from "@/components/site/turnstile";
 
 type Service = {
   id: string;
@@ -96,7 +97,10 @@ export function BookingForm({
     deposit: { enabled: boolean; amount: number };
   } | null>(null);
   const [depositLoading, setDepositLoading] = useState(false);
+  const [captcha, setCaptcha] = useState("");
+  const [hp, setHp] = useState(""); // honeypot — bots fill it, humans never see it
   const rootRef = useRef<HTMLDivElement>(null);
+  const onToken = useCallback((t: string) => setCaptcha(t), []);
 
   async function payDeposit() {
     if (!booking) return;
@@ -142,6 +146,11 @@ export function BookingForm({
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!service || !slot || !form.consent) return;
+    if (turnstileEnabled && !captcha) {
+      setStatus("error");
+      setErrMsg("Παρακαλώ ολοκληρώστε τον έλεγχο ασφαλείας.");
+      return;
+    }
     setStatus("submitting");
     const res = await submitBookingAction({
       serviceId: service.id,
@@ -157,6 +166,8 @@ export function BookingForm({
       address: form.address || undefined,
       notes: form.notes || undefined,
       consent: form.consent,
+      token: captcha,
+      hp,
     });
     if (res.ok) {
       setBooking({ id: res.id, deposit: res.deposit });
@@ -168,7 +179,9 @@ export function BookingForm({
           ? "Η ώρα μόλις κλείστηκε — διαλέξτε άλλη."
           : res.error === "consent"
             ? "Παρακαλώ αποδεχθείτε την επεξεργασία δεδομένων."
-            : "Κάτι πήγε στραβά. Δοκιμάστε ξανά ή καλέστε μας.",
+            : res.error === "captcha"
+              ? "Ο έλεγχος ασφαλείας απέτυχε. Δοκιμάστε ξανά."
+              : "Κάτι πήγε στραβά. Δοκιμάστε ξανά ή καλέστε μας.",
       );
       if (res.error === "taken") loadSlots(date, area, service);
     }
@@ -417,6 +430,21 @@ export function BookingForm({
                 .
               </span>
             </label>
+
+            {/* Honeypot — hidden from humans; bots that fill it are rejected. */}
+            <input
+              type="text"
+              name="company"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              value={hp}
+              onChange={(e) => setHp(e.target.value)}
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
+
+            {/* Cloudflare Turnstile captcha (renders only when configured) */}
+            <Turnstile onToken={onToken} />
 
             {status === "error" && <p className="mt-3 text-sm text-red-600">{errMsg}</p>}
 
