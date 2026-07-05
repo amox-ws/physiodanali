@@ -20,8 +20,8 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 - [x] **11. Cash + κάρτα** στο booking (φόρμα/emails/admin). ⏳ *μένει η σημείωση στις σελίδες υπηρεσιών/τιμών αν υπάρχουν*
 
 ## 🔎 SEO / Domain
-- [ ] **12. SEO για paths** (URLs/metadata ανά σελίδα).
-- [ ] **13. Reviews domain** — ξεχωριστό domain μόνο για reviews (καλύτερο για LLMs/GEO).
+- [ ] **12. SEO migration** → πλήρες πλάνο στο [seo-migration-plan.md](seo-migration-plan.md): 264 παλιά URLs χαρτογραφημένα, 301 map, 12 P0 σελίδες πριν το cutover, runbook. **Επόμενο βήμα: GSC πρόσβαση + υλοποίηση redirects.**
+- [ ] **13. Reviews** → σύσταση στο πλάνο (§8): **ΟΧΙ ξεχωριστό domain** (μηδενικό authority) — `/reviews` στο κύριο site + Review schema + Google Business Profile. Vanity subdomain redirect αν το θέλει οπωσδήποτε.
 
 ## ⏳ Εκκρεμεί από τον πελάτη
 - [ ] **14. Μικροαλλαγές σε TEXT** — τις περιμένουμε.
