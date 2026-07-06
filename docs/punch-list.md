@@ -20,7 +20,7 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 - [x] **11. Cash + κάρτα** στο booking (φόρμα/emails/admin). ⏳ *μένει η σημείωση στις σελίδες υπηρεσιών/τιμών αν υπάρχουν*
 
 ## 🔎 SEO / Domain
-- [ ] **12. SEO migration** → πλήρες πλάνο στο [seo-migration-plan.md](seo-migration-plan.md): 264 παλιά URLs χαρτογραφημένα, 301 map, 12 P0 σελίδες πριν το cutover, runbook. **Επόμενο βήμα: GSC πρόσβαση + υλοποίηση redirects.**
+- [ ] **12. SEO migration** → πλάνο: [seo-migration-plan.md](seo-migration-plan.md). **Πυλώνας 1 ΕΤΟΙΜΟΣ ✅**: 264 URLs → 545 κανόνες 301 (`legacy-redirects.ts` + next.config), legacy sitemap, AI-crawler robots, llms.txt — όλα verified (545/545). **Μένουν:** P0 σελίδες (10 landers + /reviews + /neuro-rehab), GSC πρόσβαση, cutover (DNS).
 - [ ] **13. Reviews** → σύσταση στο πλάνο (§8): **ΟΧΙ ξεχωριστό domain** (μηδενικό authority) — `/reviews` στο κύριο site + Review schema + Google Business Profile. Vanity subdomain redirect αν το θέλει οπωσδήποτε.
 
 ## ⏳ Εκκρεμεί από τον πελάτη
