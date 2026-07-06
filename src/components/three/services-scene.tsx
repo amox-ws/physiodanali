@@ -80,15 +80,26 @@ function Orbits() {
  * Background 3D scene for the Services section.
  * — Mounts only when the parent is in view (handled by the consumer
  *   via IntersectionObserver-gated dynamic import).
+ * — `paused` stops the render loop while the section is off-screen
+ *   (keeps the WebGL context alive; `always` would keep drawing every
+ *   frame for the rest of the session and jank mobile scrolling).
+ * — `dpr` lets the consumer cap the buffer size (the canvas covers the
+ *   whole section, which stacks very tall on mobile).
  * — Throttled DPR + low poly counts for cheap rendering.
  * — Soft radial mask so it fades into the section background.
  */
-export function ServicesScene() {
+export function ServicesScene({
+  paused = false,
+  dpr,
+}: {
+  paused?: boolean;
+  dpr?: number;
+}) {
   return (
     <Canvas
       camera={{ position: [0, 0, 5.4], fov: 45 }}
-      dpr={[1, 1.4]}
-      frameloop="always"
+      dpr={dpr ?? [1, 1.4]}
+      frameloop={paused ? "never" : "always"}
       gl={{
         antialias: true,
         alpha: true,

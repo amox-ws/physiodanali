@@ -157,12 +157,15 @@ function Scene() {
   );
 }
 
-export function WhyUsScene() {
+// `paused` stops the render loop while the section is off-screen (keeps the
+// WebGL context alive; `always` would keep drawing every frame for the rest
+// of the session and jank mobile scrolling).
+export function WhyUsScene({ paused = false }: { paused?: boolean }) {
   return (
     <Canvas
       camera={{ position: [0, 0, 6], fov: 50 }}
       dpr={[1, 1.4]}
-      frameloop="always"
+      frameloop={paused ? "never" : "always"}
       gl={{
         antialias: true,
         alpha: true,

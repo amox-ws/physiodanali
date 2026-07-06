@@ -248,18 +248,20 @@ export function Footer() {
           <span className="uppercase tracking-[0.22em] text-snow/40">
             {locale === "en" ? "Areas" : "Περιοχές"}
           </span>
+          {/* py-1/-my-1: invisible padding widens the tap target on these
+              text-xs links without shifting the layout */}
           {areaLinks.map((a) => (
             <Link
               key={a.href}
               href={localeHref(a.href, locale)}
-              className="text-snow/60 transition-colors hover:text-gold"
+              className="-my-1 py-1 text-snow/60 transition-colors hover:text-gold"
             >
               {locale === "en" ? a.en : a.el}
             </Link>
           ))}
           <Link
             href={localeHref("/reviews", locale)}
-            className="text-snow/60 transition-colors hover:text-gold"
+            className="-my-1 py-1 text-snow/60 transition-colors hover:text-gold"
           >
             {locale === "en" ? "Reviews" : "Αξιολογήσεις"}
           </Link>

@@ -119,19 +119,20 @@ export function WhyUs() {
 
   const sectionRef = useRef<HTMLElement>(null);
   const [mount3D, setMount3D] = useState(false);
+  const [paused3D, setPaused3D] = useState(false);
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Mount once when the section first approaches the viewport, then keep
+    // observing to pause the render loop while it's off-screen (the canvas
+    // would otherwise keep drawing every frame for the rest of the session).
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
-            setMount3D(true);
-            io.disconnect();
-            return;
-          }
+          if (e.isIntersecting) setMount3D(true);
+          setPaused3D(!e.isIntersecting);
         }
       },
       { rootMargin: "300px" },
@@ -164,7 +165,7 @@ export function WhyUs() {
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 opacity-90 [mask-image:radial-gradient(80%_75%_at_50%_50%,transparent_0%,transparent_30%,black_85%)]"
         >
-          <WhyUsScene />
+          <WhyUsScene paused={paused3D} />
         </div>
       )}
 

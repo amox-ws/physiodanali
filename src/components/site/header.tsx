@@ -451,7 +451,9 @@ export function Header() {
                   }}
                   className="mt-12 flex flex-col gap-3"
                 >
-                  <LocaleToggle />
+                  {/* self-start: keep the pill hugging its content — as a
+                      flex-column child it would otherwise stretch full width */}
+                  <LocaleToggle className="self-start" />
                   <Link
                     href={localeHref("/booking", locale)}
                     className="group inline-flex w-fit items-center gap-3 rounded-full bg-ink px-6 py-3 text-sm text-snow transition-colors hover:bg-cobalt"

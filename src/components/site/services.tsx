@@ -25,19 +25,30 @@ export function Services({ title }: { title?: ReactNode } = {}) {
 
   const sectionRef = useRef<HTMLElement>(null);
   const [mount3D, setMount3D] = useState(false);
+  const [paused3D, setPaused3D] = useState(false);
+  const [dpr3D, setDpr3D] = useState<number>();
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Mount once when the section first approaches the viewport, then keep
+    // observing to pause the render loop while it's off-screen (the canvas
+    // would otherwise keep drawing every frame for the rest of the session).
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
+            // The canvas covers the whole section, which stacks ~3800px tall
+            // on mobile — at DPR 1.4 that's a >5000px drawing buffer, past
+            // what mobile GPUs handle comfortably (and some older ones at
+            // all). Cap DPR so no buffer side exceeds 4096px.
+            const maxSide = Math.max(el.offsetWidth, el.offsetHeight);
+            const base = Math.max(1, Math.min(window.devicePixelRatio || 1, 1.4));
+            setDpr3D((d) => d ?? Math.min(base, 4096 / maxSide));
             setMount3D(true);
-            io.disconnect();
-            return;
           }
+          setPaused3D(!e.isIntersecting);
         }
       },
       { rootMargin: "300px" },
@@ -58,7 +69,7 @@ export function Services({ title }: { title?: ReactNode } = {}) {
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 opacity-60 [mask-image:radial-gradient(60%_55%_at_75%_45%,black_0%,black_30%,transparent_85%)]"
         >
-          <ServicesScene />
+          <ServicesScene paused={paused3D} dpr={dpr3D} />
         </div>
       )}
 
