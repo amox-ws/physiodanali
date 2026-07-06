@@ -4,8 +4,8 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 
 ## 🎨 Design / Εμφάνιση
 - [ ] **1. Γραμματοσειρά τίτλων** — δεν του αρέσει στους τίτλους (headings). Αλλαγή heading font.
-- [ ] **2. Chiropractic** → φωτό με γυναίκα.
-- [ ] **3. Brazilian lymphatic** — περιγραφή ΛΑΘΟΣ: γίνεται **με τα χέρια** (manual), όχι μηχάνημα. Διόρθωση κειμένου (content.ts + /lymphatic page).
+- [x] **2. Chiropractic** → νέα stock φωτό (Unsplash): χειροπρακτική ανάταξη σε **γυναίκα**, επαγγελματικό setting. Αντικαθιστά `public/chiropractic.jpg` (ενημερώνει homepage card + detail + landers). ✅
+- [x] **3. Brazilian lymphatic** → νέα φωτό **με τα χέρια** (`public/brazilian.jpg`, manual massage) + κείμενο ρητά «εξ ολοκλήρου με τα χέρια — χειροκίνητη τεχνική, χωρίς μηχανήματα». ✅
 - [x] **4. Mobile** — εξαντλητικός έλεγχος (14 σελίδες × 2 viewports + booking flow): μηδέν overflow, μηδέν console errors. Fixes: **3D backgrounds ΜΟΝΟ σε desktop** (κύριος ένοχος «κολλήματος»), tap targets footer, typo «Πρωτοποριακή». ✅
 
 ## 📅 Booking
