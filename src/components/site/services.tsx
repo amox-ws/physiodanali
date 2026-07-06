@@ -32,6 +32,9 @@ export function Services({ title }: { title?: ReactNode } = {}) {
     const el = sectionRef.current;
     if (!el || typeof IntersectionObserver === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // 3D backgrounds are desktop-only — on phones/tablets they cost GPU for a
+    // decorative layer; mobile gets the static gradient fallback instead.
+    if (!window.matchMedia("(min-width: 1024px) and (pointer: fine)").matches) return;
     // Mount once when the section first approaches the viewport, then keep
     // observing to pause the render loop while it's off-screen (the canvas
     // would otherwise keep drawing every frame for the rest of the session).
@@ -102,7 +105,7 @@ export function Services({ title }: { title?: ReactNode } = {}) {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 lg:gap-6"
+          className="grid grid-cols-2 gap-3 sm:gap-5 lg:gap-6"
         >
           {serviceSummaries.map((service, idx) => (
             <ServiceCard
