@@ -20,7 +20,7 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 - [x] **11. Cash + κάρτα** στο booking (φόρμα/emails/admin). ⏳ *μένει η σημείωση στις σελίδες υπηρεσιών/τιμών αν υπάρχουν*
 
 ## 🔎 SEO / Domain
-- [ ] **12. SEO migration** → πλάνο: [seo-migration-plan.md](seo-migration-plan.md). **Πυλώνας 1 ΕΤΟΙΜΟΣ ✅**: 264 URLs → 545 κανόνες 301 (`legacy-redirects.ts` + next.config), legacy sitemap, AI-crawler robots, llms.txt — όλα verified (545/545). **Μένουν:** P0 σελίδες (10 landers + /reviews + /neuro-rehab), GSC πρόσβαση, cutover (DNS).
+- [ ] **12. SEO migration** — **P0 σελίδες ΕΤΟΙΜΕΣ ✅** (7 area landers + /reviews με τα αληθινά testimonials, redirects repointed στους τελικούς στόχους, sitemap + footer links). Αποφάσεις πελάτη: ΟΧΙ Άλιμος/Ν.Σμύρνη landers, ΟΧΙ neuro/μασάζ/TECAR/telerehab σελίδες (τα παλιά URLs → hubs μόνιμα). Μένουν: GSC + DNS cutover. → πλάνο: [seo-migration-plan.md](seo-migration-plan.md). **Πυλώνας 1 ΕΤΟΙΜΟΣ ✅**: 264 URLs → 545 κανόνες 301 (`legacy-redirects.ts` + next.config), legacy sitemap, AI-crawler robots, llms.txt — όλα verified (545/545). **Μένουν:** P0 σελίδες (10 landers + /reviews + /neuro-rehab), GSC πρόσβαση, cutover (DNS).
 - [ ] **13. Reviews** → σύσταση στο πλάνο (§8): **ΟΧΙ ξεχωριστό domain** (μηδενικό authority) — `/reviews` στο κύριο site + Review schema + Google Business Profile. Vanity subdomain redirect αν το θέλει οπωσδήποτε.
 
 ## ⏳ Εκκρεμεί από τον πελάτη

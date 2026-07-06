@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/reveal";
 import { useContent, useLocale } from "@/components/site/locale-provider";
 import { getNav, t } from "@/lib/translations";
+import { areaLinks } from "@/lib/area-landers";
 
 function InstagramIcon() {
   return (
@@ -240,6 +241,30 @@ export function Footer() {
           </motion.div>
         </div>
       </Reveal>
+
+      {/* Area landers — sitewide internal links for local SEO */}
+      <div className="border-t border-snow/10">
+        <div className="mx-auto flex max-w-[1400px] flex-wrap items-baseline gap-x-4 gap-y-2 px-6 py-4 text-xs lg:px-10">
+          <span className="uppercase tracking-[0.22em] text-snow/40">
+            {locale === "en" ? "Areas" : "Περιοχές"}
+          </span>
+          {areaLinks.map((a) => (
+            <Link
+              key={a.href}
+              href={localeHref(a.href, locale)}
+              className="text-snow/60 transition-colors hover:text-gold"
+            >
+              {locale === "en" ? a.en : a.el}
+            </Link>
+          ))}
+          <Link
+            href={localeHref("/reviews", locale)}
+            className="text-snow/60 transition-colors hover:text-gold"
+          >
+            {locale === "en" ? "Reviews" : "Αξιολογήσεις"}
+          </Link>
+        </div>
+      </div>
 
       <div className="border-t border-snow/10">
         <div className="mx-auto flex max-w-[1400px] flex-col items-start justify-between gap-4 px-6 py-6 text-xs text-snow/50 lg:flex-row lg:items-center lg:px-10">
