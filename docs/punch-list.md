@@ -6,7 +6,7 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 - [ ] **1. Γραμματοσειρά τίτλων** — δεν του αρέσει στους τίτλους (headings). Αλλαγή heading font.
 - [ ] **2. Chiropractic** → φωτό με γυναίκα.
 - [ ] **3. Brazilian lymphatic** — περιγραφή ΛΑΘΟΣ: γίνεται **με τα χέρια** (manual), όχι μηχάνημα. Διόρθωση κειμένου (content.ts + /lymphatic page).
-- [ ] **4. Mobile** — έλεγχος/διόρθωση responsive.
+- [x] **4. Mobile** — εξαντλητικός έλεγχος (14 σελίδες × 2 viewports + booking flow): μηδέν overflow, μηδέν console errors. Fixes: **3D backgrounds ΜΟΝΟ σε desktop** (κύριος ένοχος «κολλήματος»), tap targets footer, typo «Πρωτοποριακή». ✅
 
 ## 📅 Booking
 - [x] **5. Και τις 8 υπηρεσίες** (από homepage): Φυσικοθεραπεία κατ' οίκον, Χειροπρακτική, Κύφωση, Brazilian lymphatic drainage, Clinical Pilates, Αυχεναλγία, Οσφυαλγία, Ισχιαλγία. ✅ (migration 0003)
