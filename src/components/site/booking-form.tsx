@@ -7,15 +7,32 @@ import { site } from "@/lib/content";
 import { slotsAction, submitBookingAction, startDepositAction } from "@/app/booking/actions";
 import type { Slot } from "@/lib/booking";
 import { Turnstile, turnstileEnabled } from "@/components/site/turnstile";
+import { useLocale } from "@/components/site/locale-provider";
+import { localeHref } from "@/lib/i18n";
+import { tBooking } from "@/lib/translations";
 
 type Service = {
   id: string;
+  slug: string;
   name: string;
   duration_min: number;
   description: string | null;
 };
 
 const AREAS = ["Γλυφάδα", "Βούλα", "Βουλιαγμένη", "Βάρη", "Άλιμο"];
+
+// English display names for the DB service list (keyed by slug). The stored
+// snapshot always uses the canonical Greek name, so the admin stays consistent.
+const SERVICE_EN: Record<string, string> = {
+  "home-care": "Home-visit physiotherapy",
+  chiropractic: "Chiropractic",
+  kyphosis: "Kyphosis correction",
+  lymphatic: "Brazilian lymphatic drainage",
+  "clinical-pilates": "Clinical Pilates",
+  "neck-pain": "Neck pain",
+  "low-back-pain": "Low-back pain",
+  "hip-pain": "Hip pain",
+};
 
 // Every service is bookable at 30′ or 60′; price follows the duration.
 const DURATIONS = [
@@ -75,6 +92,11 @@ export function BookingForm({
   services: Service[];
   horizonDays?: number;
 }) {
+  const locale = useLocale();
+  const tx = tBooking(locale);
+  const areaLabel = (a: string) => tx.areas[AREAS.indexOf(a)] ?? a;
+  const svcLabel = (s: Service) =>
+    locale === "en" ? (SERVICE_EN[s.slug] ?? s.name) : s.name;
   const [service, setService] = useState<Service | null>(null);
   const [duration, setDuration] = useState<number>(60);
   const [area, setArea] = useState("");
@@ -148,7 +170,7 @@ export function BookingForm({
     if (!service || !slot || !form.consent) return;
     if (turnstileEnabled && !captcha) {
       setStatus("error");
-      setErrMsg("Παρακαλώ ολοκληρώστε τον έλεγχο ασφαλείας.");
+      setErrMsg(tx.errIncomplete);
       return;
     }
     setStatus("submitting");
@@ -176,12 +198,12 @@ export function BookingForm({
       setStatus("error");
       setErrMsg(
         res.error === "taken"
-          ? "Η ώρα μόλις κλείστηκε — διαλέξτε άλλη."
+          ? tx.errTaken
           : res.error === "consent"
-            ? "Παρακαλώ αποδεχθείτε την επεξεργασία δεδομένων."
+            ? tx.errConsent
             : res.error === "captcha"
-              ? "Ο έλεγχος ασφαλείας απέτυχε. Δοκιμάστε ξανά."
-              : "Κάτι πήγε στραβά. Δοκιμάστε ξανά ή καλέστε μας.",
+              ? tx.errCaptcha
+              : tx.errGeneric,
       );
       if (res.error === "taken") loadSlots(date, area, service);
     }
@@ -199,11 +221,12 @@ export function BookingForm({
           <Check className="size-6 text-cobalt" strokeWidth={2} />
         </span>
         <h3 className="display text-3xl leading-tight tracking-tight text-ink">
-          Λάβαμε το αίτημά σας!
+          {tx.successTitle}
         </h3>
         <p className="max-w-[46ch] text-base leading-relaxed text-ink-muted">
-          Θα επικοινωνήσουμε σύντομα για <strong>επιβεβαίωση</strong> του ραντεβού.
-          Για άμεση εξυπηρέτηση καλέστε{" "}
+          {tx.successPre}
+          <strong>{tx.successBold}</strong>
+          {tx.successMid}
           <a href={`tel:${site.phone}`} className="text-cobalt underline-offset-4 hover:underline">
             {site.phoneDisplay}
           </a>
@@ -217,8 +240,8 @@ export function BookingForm({
             className="inline-flex items-center gap-2 rounded-full bg-cobalt px-6 py-3 text-sm font-medium text-snow transition-colors hover:bg-azure disabled:opacity-60"
           >
             {depositLoading
-              ? "Μεταφορά…"
-              : `Εξασφαλίστε το ραντεβού με προκαταβολή €${booking.deposit.amount}`}
+              ? tx.depositLoading
+              : `${tx.depositPre}${booking.deposit.amount}${tx.depositPost}`}
           </button>
         )}
       </motion.div>
@@ -234,7 +257,7 @@ export function BookingForm({
         className="rounded-[28px] border border-stone bg-porcelain p-6 lg:p-10"
       >
         {/* 1. Service */}
-        <StepSection n={1} title="Υπηρεσία" done={!!service}>
+        <StepSection n={1} title={tx.svc} done={!!service}>
           <div className="grid gap-3 sm:grid-cols-2">
             {services.map((s) => (
               <button
@@ -250,7 +273,7 @@ export function BookingForm({
                     : "border-stone bg-snow/60 hover:border-cobalt/40"
                 }`}
               >
-                <span className="block text-base font-medium text-ink">{s.name}</span>
+                <span className="block text-base font-medium text-ink">{svcLabel(s)}</span>
               </button>
             ))}
           </div>
@@ -258,7 +281,7 @@ export function BookingForm({
           {/* Duration + price (every service is 30′ or 60′) */}
           {service && (
             <div className="mt-5">
-              <p className="mb-2 text-sm font-medium text-ink">Διάρκεια & κόστος</p>
+              <p className="mb-2 text-sm font-medium text-ink">{tx.duration}</p>
               <div className="flex flex-wrap gap-2">
                 {DURATIONS.map((d) => (
                   <button
@@ -278,15 +301,13 @@ export function BookingForm({
                   </button>
                 ))}
               </div>
-              <p className="mt-2 text-xs text-ink-muted">
-                Δεκτά μετρητά &amp; κάρτα.
-              </p>
+              <p className="mt-2 text-xs text-ink-muted">{tx.cashCard}</p>
             </div>
           )}
         </StepSection>
 
         {/* 2. Area */}
-        <StepSection n={2} title="Περιοχή" done={!!area}>
+        <StepSection n={2} title={tx.area} done={!!area}>
           <div className="flex flex-wrap gap-2">
             {AREAS.map((a) => (
               <button
@@ -302,14 +323,14 @@ export function BookingForm({
                     : "border-stone bg-snow text-ink hover:border-cobalt/40"
                 }`}
               >
-                <MapPin className="size-3.5" strokeWidth={1.5} /> {a}
+                <MapPin className="size-3.5" strokeWidth={1.5} /> {areaLabel(a)}
               </button>
             ))}
           </div>
         </StepSection>
 
         {/* 3. Date + slots */}
-        <StepSection n={3} title="Ημέρα & ώρα" done={!!slot}>
+        <StepSection n={3} title={tx.dateTime} done={!!slot}>
           <input
             type="date"
             min={todayAthens(0)}
@@ -322,14 +343,12 @@ export function BookingForm({
             className={`${inputCls} sm:w-auto`}
           />
           {(!service || !area || !date) && (
-            <p className="mt-3 text-sm text-ink-muted">
-              Διαλέξτε υπηρεσία, περιοχή και ημέρα για να δείτε ώρες.
-            </p>
+            <p className="mt-3 text-sm text-ink-muted">{tx.pickAll}</p>
           )}
           {service && area && date && (
             <div className="mt-4 min-h-[2.5rem]">
               {loadingSlots ? (
-                <p className="text-sm text-ink-muted">Φόρτωση διαθέσιμων ωρών…</p>
+                <p className="text-sm text-ink-muted">{tx.loading}</p>
               ) : slots && slots.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {slots.map((s) => (
@@ -348,9 +367,7 @@ export function BookingForm({
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-ink-muted">
-                  Δεν υπάρχουν διαθέσιμες ώρες αυτή την ημέρα. Δοκιμάστε άλλη.
-                </p>
+                <p className="text-sm text-ink-muted">{tx.noSlots}</p>
               )}
             </div>
           )}
@@ -358,20 +375,18 @@ export function BookingForm({
 
         {/* 4. Details — always rendered once a slot is chosen (no remounts) */}
         {slot && (
-          <StepSection n={4} title="Τα στοιχεία σας">
+          <StepSection n={4} title={tx.details}>
             {/* Selection summary */}
             <div className="mb-5 rounded-xl border border-cobalt/20 bg-cobalt/5 px-4 py-3 text-sm text-ink">
-              <strong>{service?.name}</strong> · {duration}′ · €{priceFor(duration)} · {area} ·{" "}
-              {slot.label}
-              <span className="mt-0.5 block text-xs text-ink-muted">
-                Δεκτά μετρητά &amp; κάρτα.
-              </span>
+              <strong>{service ? svcLabel(service) : ""}</strong> · {duration}′ · €
+              {priceFor(duration)} · {areaLabel(area)} · {slot.label}
+              <span className="mt-0.5 block text-xs text-ink-muted">{tx.cashCard}</span>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <input
                 required
-                placeholder="Ονοματεπώνυμο*"
+                placeholder={tx.name}
                 autoComplete="name"
                 value={form.name}
                 onChange={(e) => set("name", e.target.value)}
@@ -380,7 +395,7 @@ export function BookingForm({
               <input
                 required
                 type="tel"
-                placeholder="Τηλέφωνο*"
+                placeholder={tx.phone}
                 autoComplete="tel"
                 value={form.phone}
                 onChange={(e) => set("phone", e.target.value)}
@@ -388,20 +403,20 @@ export function BookingForm({
               />
               <input
                 type="email"
-                placeholder="Email (για επιβεβαίωση)"
+                placeholder={tx.email}
                 autoComplete="email"
                 value={form.email}
                 onChange={(e) => set("email", e.target.value)}
                 className={inputCls}
               />
               <input
-                placeholder="Διεύθυνση (για το κατ' οίκον)"
+                placeholder={tx.address}
                 value={form.address}
                 onChange={(e) => set("address", e.target.value)}
                 className={inputCls}
               />
               <textarea
-                placeholder="Σύντομη περιγραφή του προβλήματος"
+                placeholder={tx.notes}
                 rows={3}
                 value={form.notes}
                 onChange={(e) => set("notes", e.target.value)}
@@ -418,16 +433,16 @@ export function BookingForm({
                 className="mt-0.5 size-4 shrink-0 accent-cobalt"
               />
               <span className="text-xs leading-relaxed text-ink-muted">
-                Αποδέχομαι την επεξεργασία των στοιχείων μου για το ραντεβού, σύμφωνα με την{" "}
+                {tx.consentPre}
                 <a
-                  href="/privacy"
+                  href={localeHref("/privacy", locale)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-cobalt underline underline-offset-2"
                 >
-                  Πολιτική Απορρήτου
+                  {tx.consentLink}
                 </a>
-                .
+                {tx.consentPost}
               </span>
             </label>
 
@@ -453,15 +468,13 @@ export function BookingForm({
               disabled={status === "submitting" || !ready || !form.consent}
               className="group mt-5 inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-sm font-medium text-snow transition-all hover:bg-cobalt disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {status === "submitting" ? "Αποστολή…" : "Αίτημα ραντεβού"}
+              {status === "submitting" ? tx.submitting : tx.submit}
               <ArrowRight
                 className="size-4 transition-transform group-hover:translate-x-1"
                 strokeWidth={1.5}
               />
             </button>
-            <p className="mt-3 text-xs text-ink-muted">
-              Το ραντεβού επιβεβαιώνεται από τον φυσικοθεραπευτή — θα ειδοποιηθείτε.
-            </p>
+            <p className="mt-3 text-xs text-ink-muted">{tx.confirmNote}</p>
           </StepSection>
         )}
       </form>

@@ -422,10 +422,113 @@ const STRINGS = {
   },
 } as const;
 
+// Booking page + form strings — kept outside the `as const` STRINGS so
+// values widen to string/string[] and el/en share one shape (tBooking).
+const BOOKING = {
+  el: {
+      metaTitle: "Κλείστε ραντεβού",
+      metaDesc:
+        "Κλείστε online ραντεβού για φυσικοθεραπεία & χειροπρακτική κατ' οίκον σε Γλυφάδα, Βούλα, Βουλιαγμένη, Βάρη, Άλιμο. Επιλέξτε υπηρεσία, περιοχή και ώρα.",
+      crumb: "Ραντεβού",
+      eyebrow: "Online κράτηση",
+      title: "Κλείστε ραντεβού.",
+      titleAccent: "ραντεβού",
+      lead: "Επιλέξτε υπηρεσία, περιοχή και ώρα — έρχομαι σπίτι σας σε Γλυφάδα, Βούλα, Βουλιαγμένη, Βάρη και Άλιμο. Το ραντεβού επιβεβαιώνεται από εμένα.",
+      callNow: "Καλέστε τώρα",
+      whatsapp: "Στείλτε WhatsApp",
+      areas: ["Γλυφάδα", "Βούλα", "Βουλιαγμένη", "Βάρη", "Άλιμο"],
+      svc: "Υπηρεσία",
+      duration: "Διάρκεια & κόστος",
+      cashCard: "Δεκτά μετρητά & κάρτα.",
+      area: "Περιοχή",
+      dateTime: "Ημέρα & ώρα",
+      pickAll: "Διαλέξτε υπηρεσία, περιοχή και ημέρα για να δείτε ώρες.",
+      loading: "Φόρτωση διαθέσιμων ωρών…",
+      noSlots: "Δεν υπάρχουν διαθέσιμες ώρες αυτή την ημέρα. Δοκιμάστε άλλη.",
+      details: "Τα στοιχεία σας",
+      name: "Ονοματεπώνυμο*",
+      phone: "Τηλέφωνο*",
+      email: "Email (για επιβεβαίωση)",
+      address: "Διεύθυνση (για το κατ' οίκον)",
+      notes: "Σύντομη περιγραφή του προβλήματος",
+      consentPre:
+        "Αποδέχομαι την επεξεργασία των στοιχείων μου για το ραντεβού, σύμφωνα με την ",
+      consentLink: "Πολιτική Απορρήτου",
+      consentPost: ".",
+      submit: "Αίτημα ραντεβού",
+      submitting: "Αποστολή…",
+      confirmNote:
+        "Το ραντεβού επιβεβαιώνεται από τον φυσικοθεραπευτή — θα ειδοποιηθείτε.",
+      successTitle: "Λάβαμε το αίτημά σας!",
+      successPre: "Θα επικοινωνήσουμε σύντομα για ",
+      successBold: "επιβεβαίωση",
+      successMid: " του ραντεβού. Για άμεση εξυπηρέτηση καλέστε ",
+      depositPre: "Εξασφαλίστε το ραντεβού με προκαταβολή €",
+      depositPost: "",
+      depositLoading: "Μεταφορά…",
+      errTaken: "Η ώρα μόλις κλείστηκε — διαλέξτε άλλη.",
+      errConsent: "Παρακαλώ αποδεχθείτε την επεξεργασία δεδομένων.",
+      errCaptcha: "Ο έλεγχος ασφαλείας απέτυχε. Δοκιμάστε ξανά.",
+      errIncomplete: "Παρακαλώ ολοκληρώστε τον έλεγχο ασφαλείας.",
+      errGeneric: "Κάτι πήγε στραβά. Δοκιμάστε ξανά ή καλέστε μας.",
+  },
+  en: {
+      metaTitle: "Book an appointment",
+      metaDesc:
+        "Book an online appointment for at-home physiotherapy & chiropractic care in Glyfada, Voula, Vouliagmeni, Vari, Alimos. Choose a service, area and time.",
+      crumb: "Booking",
+      eyebrow: "Online booking",
+      title: "Book an appointment.",
+      titleAccent: "appointment",
+      lead: "Choose a service, area and time — I come to your home in Glyfada, Voula, Vouliagmeni, Vari and Alimos. The appointment is confirmed by me.",
+      callNow: "Call now",
+      whatsapp: "Send a WhatsApp",
+      areas: ["Glyfada", "Voula", "Vouliagmeni", "Vari", "Alimos"],
+      svc: "Service",
+      duration: "Duration & price",
+      cashCard: "Cash & card accepted.",
+      area: "Area",
+      dateTime: "Day & time",
+      pickAll: "Choose a service, area and day to see available times.",
+      loading: "Loading available times…",
+      noSlots: "No available times on this day. Try another.",
+      details: "Your details",
+      name: "Full name*",
+      phone: "Phone*",
+      email: "Email (for confirmation)",
+      address: "Address (for the home visit)",
+      notes: "Brief description of the problem",
+      consentPre:
+        "I consent to the processing of my data for the appointment, in accordance with the ",
+      consentLink: "Privacy Policy",
+      consentPost: ".",
+      submit: "Request appointment",
+      submitting: "Sending…",
+      confirmNote:
+        "The appointment is confirmed by the physiotherapist — you'll be notified.",
+      successTitle: "We got your request!",
+      successPre: "We'll contact you shortly to ",
+      successBold: "confirm",
+      successMid: " the appointment. For immediate service call ",
+      depositPre: "Secure your appointment with a €",
+      depositPost: " deposit",
+      depositLoading: "Redirecting…",
+      errTaken: "That time was just taken — pick another.",
+      errConsent: "Please accept the data processing.",
+      errCaptcha: "Security check failed. Please try again.",
+      errIncomplete: "Please complete the security check.",
+      errGeneric: "Something went wrong. Try again or call us.",
+  },
+};
+
 export type UIStrings = Record<keyof (typeof STRINGS)["el"], string>;
 
 export function t(locale: Locale): UIStrings {
   return STRINGS[locale];
+}
+
+export function tBooking(locale: Locale) {
+  return BOOKING[locale];
 }
 
 // ─────────────────────────────────────────────────────────────────────
