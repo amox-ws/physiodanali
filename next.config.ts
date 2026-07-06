@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { legacyRedirects } from "./src/lib/legacy-redirects";
 
 // Security headers applied to every response. These are safe, high-value
 // defaults with zero risk of breaking the app.
@@ -51,6 +52,41 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
+  },
+  // Legacy 301s from the old static site (SEO migration — docs/seo-migration-plan.md).
+  // Lives HERE, not in src/proxy.ts: the proxy matcher excludes dotted paths
+  // (*.html), so legacy redirects placed there would never fire. Each mapping
+  // expands to .html + extensionless (old Apache MultiViews served both) and a
+  // lowercase variant for mixed-case slugs (matching is case-sensitive).
+  // permanent: true → 308, equivalent to 301 for search engines. These rules
+  // must never be removed (NFC cards, indexed URLs, old backlinks).
+  async redirects() {
+    const seen = new Set<string>();
+    const rules: { source: string; destination: string; permanent: true }[] = [];
+    const add = (source: string, destination: string) => {
+      if (source === destination || seen.has(source)) return;
+      seen.add(source);
+      rules.push({ source, destination, permanent: true });
+    };
+
+    for (const { old, target } of legacyRedirects) {
+      add(old, target);
+      if (old.endsWith(".html")) add(old.slice(0, -5), target);
+      const lower = old.toLowerCase();
+      if (lower !== old) {
+        add(lower, target);
+        if (lower.endsWith(".html")) add(lower.slice(0, -5), target);
+      }
+    }
+
+    // Old language roots + old XML sitemaps (→ legacy sitemap so Google
+    // re-crawls every old URL and discovers the 301s fast).
+    add("/el", "/");
+    add("/en/index-eng", "/en");
+    add("/el/sitemap-gr.xml", "/sitemap-legacy.xml");
+    add("/en/sitemap-eng.xml", "/sitemap-legacy.xml");
+
+    return rules;
   },
 };
 
