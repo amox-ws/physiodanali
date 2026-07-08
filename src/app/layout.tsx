@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
-import { EB_Garamond, Inter } from "next/font/google";
+import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteChrome } from "@/components/site/site-chrome";
 import { LocaleProvider } from "@/components/site/locale-provider";
@@ -8,15 +8,12 @@ import { getLocale } from "@/lib/i18n-server";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema, personSchema } from "@/lib/seo";
 
-// EB Garamond — Garamond-style serif with full Greek support (Cormorant
-// Garamond has no Greek subset). Keeps the --font-cormorant variable so the
-// design system (globals.css) is unchanged. Swap here for another Greek serif
-// (Literata, Noto Serif Display, GFS Didot) if the brand prefers.
-const cormorant = EB_Garamond({
+// Manrope — minimal geometric sans for display headings, with full Greek
+// support. Keeps the --font-cormorant variable name so the design system
+// (globals.css → --font-serif → .display/.display-italic) is unchanged.
+const cormorant = Manrope({
   variable: "--font-cormorant",
   subsets: ["greek", "latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 

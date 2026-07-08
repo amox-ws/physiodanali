@@ -194,7 +194,7 @@ const el: Record<string, AreaLander> = {
   "chiropractic-glyfada": {
     slug: "chiropractic-glyfada",
     service: "chiro",
-    bgImage: "/chiropractic.jpg",
+    bgImage: "/xiropraktik.jpg",
     meta: {
       title: "Χειροπρακτική κατ' οίκον στη Γλυφάδα — PhysioDanali",
       description:
@@ -231,7 +231,7 @@ const el: Record<string, AreaLander> = {
   "chiropractic-vari": {
     slug: "chiropractic-vari",
     service: "chiro",
-    bgImage: "/chiropractic.jpg",
+    bgImage: "/xiropraktik.jpg",
     meta: {
       title: "Χειροπρακτική κατ' οίκον σε Βάρη & Βάρκιζα — PhysioDanali",
       description:
@@ -268,7 +268,7 @@ const el: Record<string, AreaLander> = {
   "chiropractic-vouliagmeni": {
     slug: "chiropractic-vouliagmeni",
     service: "chiro",
-    bgImage: "/chiropractic.jpg",
+    bgImage: "/xiropraktik.jpg",
     meta: {
       title: "Χειροπρακτική κατ' οίκον στη Βουλιαγμένη — PhysioDanali",
       description:

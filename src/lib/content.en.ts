@@ -236,7 +236,7 @@ export const serviceSummaries: ServiceSummary[] = [
     ],
     "gradient": "linear-gradient(150deg, #2563b0 0%, #1e4d8b 60%, #0f2540 100%)",
     "monogram": "ΧΡ",
-    "image": "/chiropractic.jpg"
+    "image": "/xiropraktik.jpg"
   },
   {
     "slug": "kyphosis",

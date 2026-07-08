@@ -26,8 +26,9 @@
   --color-stone: #dde3ea;
   --color-stone-dark: #a8b0bb;
 
-  /* Typography */
-  --font-serif: var(--font-cormorant), "EB Garamond", Georgia, serif;
+  /* Typography — display headings use Manrope (minimal geometric sans) */
+  --font-serif: var(--font-cormorant), "Manrope", ui-sans-serif, system-ui,
+    sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --tracking-tightest: -0.04em;
@@ -102,15 +103,14 @@ body {
 /* Typography presets */
 .display {
   font-family: var(--font-serif);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: var(--tracking-display);
   line-height: 0.95;
 }
 
 .display-italic {
   font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: var(--tracking-display);
 }
 
