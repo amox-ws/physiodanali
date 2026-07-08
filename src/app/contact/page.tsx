@@ -31,6 +31,7 @@ export default async function ContactPage() {
         lead={contact.hero.lead}
         primaryCta={{ label: tx.contactCallNow, href: `tel:${site.phone}` }}
         secondaryCta={{ label: tx.contactWhatsApp, href: site.whatsapp }}
+        bgImage="/rantevu.jpg"
       />
 
       <section className="bg-snow py-28 lg:py-36">

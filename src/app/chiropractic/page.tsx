@@ -75,7 +75,7 @@ export default async function ChiropracticPage() {
         lead={chiropractic.hero.lead}
         primaryCta={chiropractic.hero.primaryCta}
         secondaryCta={chiropractic.hero.secondaryCta}
-        bgImage="/xiropraktik.jpg"
+        bgImage="/xiropraktikks.jpg"
       />
 
       {/* Conditions */}

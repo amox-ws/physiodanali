@@ -33,6 +33,7 @@ export default async function BookingPage() {
         lead={tx.lead}
         primaryCta={{ label: tx.callNow, href: `tel:${site.phone}` }}
         secondaryCta={{ label: tx.whatsapp, href: site.whatsapp }}
+        bgImage="/rantevu.jpg"
       />
 
       <section className="bg-snow py-16 lg:py-24">
