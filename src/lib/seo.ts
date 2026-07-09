@@ -46,8 +46,8 @@ export const localBusinessSchema = {
       "Saturday",
       "Sunday",
     ],
-    opens: "10:00",
-    closes: "22:00",
+    opens: "08:00",
+    closes: "23:00",
   },
   sameAs: [
     site.social.instagram,
@@ -58,7 +58,7 @@ export const localBusinessSchema = {
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "5.0",
-    reviewCount: "100",
+    reviewCount: "122",
     bestRating: "5",
     worstRating: "1",
   },

@@ -10,6 +10,8 @@ import { PageHero } from "@/components/site/page-primitives";
 import { TrustBar } from "@/components/site/trust-bar";
 import { Reveal } from "@/components/motion/reveal";
 import { CountUp } from "@/components/motion/count-up";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -25,8 +27,17 @@ export default async function AboutPage() {
   const tx = t(locale);
   const { about: aboutContent, home, site } = getContent(locale);
   const about = aboutContent;
+  const en = locale === "en";
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbSchema([
+            { name: en ? "Home" : "Αρχική", url: "/" },
+            { name: en ? "About" : "Σχετικά", url: "/about" },
+          ]),
+        ]}
+      />
       <PageHero
         breadcrumb={about.breadcrumb}
         eyebrow={about.hero.eyebrow}

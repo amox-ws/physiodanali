@@ -5,6 +5,8 @@ import { getLocale } from "@/lib/i18n-server";
 import { t } from "@/lib/translations";
 import { PageHero } from "@/components/site/page-primitives";
 import { ContactForm } from "@/components/site/contact-form";
+import { JsonLd } from "@/components/seo/json-ld";
+import { breadcrumbSchema } from "@/lib/seo";
 import { Reveal } from "@/components/motion/reveal";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,8 +23,17 @@ export default async function ContactPage() {
   const tx = t(locale);
   const { contact: contactContent, site } = getContent(locale);
   const contact = contactContent;
+  const en = locale === "en";
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbSchema([
+            { name: en ? "Home" : "Αρχική", url: "/" },
+            { name: en ? "Contact" : "Επικοινωνία", url: "/contact" },
+          ]),
+        ]}
+      />
       <PageHero
         breadcrumb={contact.breadcrumb}
         eyebrow={contact.hero.eyebrow}

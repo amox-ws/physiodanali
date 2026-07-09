@@ -38,8 +38,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
   // Long-form marketing description (homepage / OG).
   const description = isEn
-    ? "Evidence-based pain treatment and rehabilitation in your own home. Voula, Vouliagmeni, Vari, Glyfada. Every day, Sundays and holidays."
-    : "Επιστημονική αντιμετώπιση πόνου και αποκατάσταση στο σπίτι σας. Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα. Καθημερινά, Κυριακές και αργίες.";
+    ? "Evidence-based pain treatment and rehabilitation in your own home. Voula, Vouliagmeni, Vari, Glyfada. Until 23:00, Sundays and holidays."
+    : "Επιστημονική αντιμετώπιση πόνου και αποκατάσταση στο σπίτι σας. Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα. Έως τις 23:00, Κυριακές και αργίες.";
 
   const ogDescription = isEn
     ? "Evidence-based pain treatment and rehabilitation in your own home. Fast, effective, every day of the week."

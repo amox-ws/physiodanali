@@ -12,6 +12,13 @@ import { updateSession } from "@/lib/supabase/proxy-session";
 //  3. Keep guarding /admin (Supabase session refresh).
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // Keep the Vercel preview host out of Google's index — canonicals point to
+  // physiodanali.gr, so an indexable *.vercel.app copy would be a duplicate.
+  const isPreview = (request.headers.get("host") || "").endsWith(".vercel.app");
+  const noindex = (res: NextResponse) => {
+    if (isPreview) res.headers.set("X-Robots-Tag", "noindex, nofollow");
+    return res;
+  };
 
   // 1. English locale routing: /en/about → render /about with locale=en.
   if (pathname === "/en" || pathname.startsWith("/en/")) {
@@ -28,7 +35,7 @@ export async function proxy(request: NextRequest) {
       maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",
     });
-    return res;
+    return noindex(res);
   }
 
   // 2. Admin guard (unchanged behaviour).
@@ -39,7 +46,7 @@ export async function proxy(request: NextRequest) {
   // 3. Greek (or cookie-based) routes — just expose the path for hreflang.
   const headers = new Headers(request.headers);
   headers.set("x-pathname", pathname);
-  return NextResponse.next({ request: { headers } });
+  return noindex(NextResponse.next({ request: { headers } }));
 }
 
 export const config = {
