@@ -7,7 +7,7 @@
 ## ✅ Αποφάσεις κλειδωμένες (2026-07-09)
 
 - [x] **Άλιμος / Νέα Σμύρνη landers → ΔΕΝ χτίζονται** (δεν εξυπηρετούνται). Τα παλιά τους URLs μένουν να προωθούν στα γενικά hubs — αποδεκτό.
-- [x] **Ωράριο = 10:00–22:00** (επιβεβαιωμένο από το παλιό site: «Δευτέρα-Κυριακή 10:00-22:00»). → Διορθώνουμε το schema να το λέει κι αυτό.
+- [x] **Ωράριο = 10:00–22:00 (formal) + «έως 23:00» availability** — ΑΚΡΙΒΩΣ όπως το παλιό site. Εφαρμόστηκε παντού (schema, footer, contact, FAQ, booking)· τα marketing «έως 23:00» κρατήθηκαν. ✅ *(GBP: ο πελάτης να βάλει 10:00-22:00.)*
 - [x] **ΑΦΜ / αρ. άδειας → μένουν ΚΕΝΑ** (το παλιό site δεν τα έδειχνε — δεν είναι blocker).
 - [x] **Google Search Console → αργότερα** (μελλοντικά, όχι τώρα).
 
@@ -17,24 +17,24 @@
 
 ## 🔴 SEO fixes — ΑΟΡΑΤΑ (μηδέν αλλαγή εμφάνισης, το μεγαλύτερο κέρδος)
 
-- [ ] **Repoint 15 blog redirects** → στο συγκεκριμένο `/articles/<slug>` (όχι στη λίστα). *Το μεγαλύτερο bang-for-effort.*
-- [ ] **Repoint shoulder/knee** head-terms + sub-clusters → `/articles/shoulder-pain` & `/articles/knee-pain` (υπάρχουν ήδη, 4-6χιλ. λέξεις).
-- [ ] **Repoint condition pages** που πάνε στο γενικό `/therapies` → στο **κοντινότερο υπαρκτό** (π.χ. σκολίωση→/kyphosis, γόνατο-παθήσεις→/articles/knee-pain). *Χωρίς GSC, με best-judgment τώρα· επανέλεγχος όταν έρθει το GSC.*
-- [ ] **Fix** `/en/physical-therapy-at-home-gr.html` → `/en/home-care` (μία γραμμή, τώρα δείχνει σε ελληνική).
-- [ ] **Ενοποίηση neuro redirects** σε ΕΝΑ προορισμό (τώρα σκορπίζονται σε /home-care + /therapies).
-- [ ] **Ωράριο στο schema** → άλλαξε `seo.ts` openingHours σε **10:00-22:00** (να ταιριάζει με booking/llms/FAQ/παλιό site).
-- [ ] **EN area-landers JSON-LD** → χρήση `getLocale()` αντί hardcoded `'el'` (τώρα βγάζει ελληνικό schema σε αγγλικές σελίδες).
+- [x] **Repoint 15 blog redirects** → στο συγκεκριμένο `/articles/<slug>` (όχι στη λίστα). *Το μεγαλύτερο bang-for-effort.*
+- [x] **Repoint shoulder/knee** head-terms + sub-clusters → `/articles/shoulder-pain` & `/articles/knee-pain` (υπάρχουν ήδη, 4-6χιλ. λέξεις).
+- [x] **Repoint condition pages** που πάνε στο γενικό `/therapies` → στο **κοντινότερο υπαρκτό** (π.χ. σκολίωση→/kyphosis, γόνατο-παθήσεις→/articles/knee-pain). *Χωρίς GSC, με best-judgment τώρα· επανέλεγχος όταν έρθει το GSC.*
+- [x] **Fix** `/en/physical-therapy-at-home-gr.html` → `/en/home-care` (μία γραμμή, τώρα δείχνει σε ελληνική).
+- [x] **Ενοποίηση neuro redirects** σε ΕΝΑ προορισμό (τώρα σκορπίζονται σε /home-care + /therapies).
+- [x] **Ωράριο στο schema** → άλλαξε `seo.ts` openingHours σε **10:00-22:00** (να ταιριάζει με booking/llms/FAQ/παλιό site).
+- [x] **EN area-landers JSON-LD** → χρήση `getLocale()` αντί hardcoded `'el'` (τώρα βγάζει ελληνικό schema σε αγγλικές σελίδες).
 - [ ] **Review objects** στο schema από τα testimonials + **ένας** αριθμός reviews παντού (τώρα 100 vs 121 vs 122).
-- [ ] **noindex στο preview** `*.vercel.app` (τώρα indexable = duplicate).
-- [ ] **Homepage title** → επαναφορά τοποθεσίας «…στη Γλυφάδα & Βούλα» (χάθηκε ο CTR hook· μόνο ο τίτλος καρτέλας/Google, όχι η σελίδα).
-- [ ] **Area-lander titles** → fix διπλό brand («…Γλυφάδα — PhysioDanali · PhysioDanali»).
+- [x] **noindex στο preview** `*.vercel.app` (τώρα indexable = duplicate).
+- [x] **Homepage title** → επαναφορά τοποθεσίας «…στη Γλυφάδα & Βούλα» (χάθηκε ο CTR hook· μόνο ο τίτλος καρτέλας/Google, όχι η σελίδα).
+- [x] **Area-lander titles** → fix διπλό brand («…Γλυφάδα — PhysioDanali · PhysioDanali»).
 - [ ] **Cacheability** → βγάλε `headers()/cookies()` από το root layout (edge-cache, ταχύτητα/LCP).
-- [ ] **Breadcrumb/ContactPoint schema** σε /about, /contact.
+- [x] **Breadcrumb/ContactPoint schema** σε /about, /contact.
 - [ ] **hreflang** σε /articles·/privacy·/cookies·/terms (τώρα το ρίχνουν).
 
 ## 👁️ Ορατές διορθώσεις (μικρές, factual — έγκριση πριν)
 
-- [ ] **Αριθμός reviews** στο `/reviews`: «121» → σωστός αριθμός *(πες μου τον πραγματικό)*.
+- [x] **Αριθμός reviews** στο `/reviews`: «121» → σωστός αριθμός *(πες μου τον πραγματικό)*.
 - [ ] **Ωράριο**: αν κάπου στο site φαίνεται 08:00-23:00 → 10:00-22:00 (ορατό μόνο αν εμφανίζεται σε σελίδα).
 
 ## 🏗️ Νέες σελίδες — θέλουν την απόφασή σου (ΔΕΝ αλλάζουν υπάρχουσες)

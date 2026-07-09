@@ -10,15 +10,15 @@ export const site = {
   "phoneDisplay": "+30 6944 344 342",
   "email": "info@physiodanali.gr",
   "address": "58 Agiou Nektariou, 16562, Glyfada",
-  "hoursShort": "Daily 08:00 — 23:00 · Weekends & holidays",
+  "hoursShort": "Daily 10:00 — 22:00 · Weekends & holidays",
   "hoursList": [
     {
       "label": "Monday — Friday",
-      "value": "08:00 — 23:00"
+      "value": "10:00 — 22:00"
     },
     {
       "label": "Saturday — Sunday",
-      "value": "08:00 — 23:00"
+      "value": "10:00 — 22:00"
     },
     {
       "label": "Holidays",
@@ -1104,7 +1104,7 @@ export const homeCare = {
   "availability": {
     "eyebrow": "Availability",
     "title": "Weekdays. Weekends. Public holidays.",
-    "body": "Weekdays and weekends from 08:00 to 23:00, and on all public holidays. Same-day appointments are also available, subject to availability."
+    "body": "Weekdays and weekends from 10:00 to 22:00, and on all public holidays. Same-day appointments are also available, subject to availability."
   },
   "heroBadges": [
     "100+ five-star reviews",
@@ -1522,7 +1522,7 @@ export const homecareFaq = [
   },
   {
     "question": "When can I book an appointment?",
-    "answer": "Weekdays and weekends from 08:00 to 23:00, and on all public holidays. Same-day appointments are often possible."
+    "answer": "Weekdays and weekends from 10:00 to 22:00, and on all public holidays. Same-day appointments are often possible."
   },
   {
     "question": "How long does a session last?",

@@ -25,7 +25,7 @@ const STRINGS = {
     colContact: "Επικοινωνία",
     colSocial: "Social",
     // Site facts that contain words
-    hoursShort: "Καθημερινά 08:00 — 23:00 · Σ/Κ & αργίες",
+    hoursShort: "Καθημερινά 10:00 — 22:00 · Σ/Κ & αργίες",
     address: "Αγίου Νεκταρίου 58, 16562, Γλυφάδα",
     // Article cards
     readArticle: "Διαβάστε το άρθρο",
@@ -232,7 +232,7 @@ const STRINGS = {
     colContact: "Contact",
     colSocial: "Social",
     // Site facts that contain words
-    hoursShort: "Daily 08:00 — 23:00 · Weekends & holidays",
+    hoursShort: "Daily 10:00 — 22:00 · Weekends & holidays",
     address: "58 Agiou Nektariou St., 16562, Glyfada",
     // Article cards
     readArticle: "Read article",
