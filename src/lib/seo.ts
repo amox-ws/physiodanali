@@ -46,8 +46,8 @@ export const localBusinessSchema = {
       "Saturday",
       "Sunday",
     ],
-    opens: "08:00",
-    closes: "23:00",
+    opens: "10:00",
+    closes: "22:00",
   },
   sameAs: [
     site.social.instagram,

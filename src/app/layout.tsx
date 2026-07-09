@@ -33,13 +33,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const enPath = path === "/" ? "/en" : `/en${path}`;
 
   const defaultTitle = isEn
-    ? "PhysioDanali — Chiropractic & Physiotherapy at home"
-    : "PhysioDanali — Χειροπρακτική και Φυσικοθεραπεία κατ' οίκον";
+    ? "PhysioDanali — At-Home Chiropractic & Physiotherapy in Glyfada & Voula"
+    : "PhysioDanali — Χειροπρακτική & Φυσικοθεραπεία κατ' οίκον σε Γλυφάδα & Βούλα";
 
   // Long-form marketing description (homepage / OG).
   const description = isEn
-    ? "Evidence-based pain treatment and rehabilitation in your own home. Voula, Vouliagmeni, Vari, Glyfada. Until 23:00, Sundays and holidays."
-    : "Επιστημονική αντιμετώπιση πόνου και αποκατάσταση στο σπίτι σας. Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα. Έως τις 23:00, Κυριακές και αργίες.";
+    ? "Evidence-based pain treatment and rehabilitation in your own home. Voula, Vouliagmeni, Vari, Glyfada. Every day, Sundays and holidays."
+    : "Επιστημονική αντιμετώπιση πόνου και αποκατάσταση στο σπίτι σας. Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα. Καθημερινά, Κυριακές και αργίες.";
 
   const ogDescription = isEn
     ? "Evidence-based pain treatment and rehabilitation in your own home. Fast, effective, every day of the week."

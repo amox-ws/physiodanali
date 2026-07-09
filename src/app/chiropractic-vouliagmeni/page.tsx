@@ -9,11 +9,11 @@ const SLUG = "chiropractic-vouliagmeni";
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = getAreaLander(await getLocale(), SLUG);
-  return { title: data.meta.title, description: data.meta.description };
+  return { title: { absolute: data.meta.title }, description: data.meta.description };
 }
 
 export default async function Page() {
-  const data = getAreaLander("el", SLUG);
+  const data = getAreaLander(await getLocale(), SLUG);
   return (
     <>
       <JsonLd
