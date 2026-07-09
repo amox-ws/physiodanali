@@ -7,8 +7,9 @@ import { ArrowRight, Check } from "lucide-react";
 import { site } from "@/lib/content";
 import { useContent, useLocale } from "@/components/site/locale-provider";
 import { t } from "@/lib/translations";
+import { sendContactMessage } from "@/app/contact/actions";
 
-type Status = "idle" | "submitting" | "success";
+type Status = "idle" | "submitting" | "success" | "error";
 
 export function ContactForm() {
   const locale = useLocale();
@@ -21,23 +22,23 @@ export function ContactForm() {
     email: "",
     phone: "",
     message: "",
+    company: "", // honeypot
   });
 
   function update<K extends keyof typeof form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
   }
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!consent) return;
     setStatus("submitting");
-    // No backend yet — open mail client with the message prefilled.
-    const subject = encodeURIComponent(`${tx.cfSubjectPrefix}${form.name}`);
-    const body = encodeURIComponent(
-      `${tx.cfBodyName}: ${form.name}\nEmail: ${form.email}\n${tx.cfBodyPhone}: ${form.phone}\n\n${form.message}`,
-    );
-    window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
-    setTimeout(() => setStatus("success"), 600);
+    try {
+      const res = await sendContactMessage({ ...form, consent });
+      setStatus(res.ok ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
   }
 
   if (status === "success") {
@@ -69,6 +70,18 @@ export function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="grid gap-6">
+      {/* Honeypot — hidden from users, catches bots */}
+      <input
+        type="text"
+        name="company"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        value={form.company}
+        onChange={(e) => update("company", e.target.value)}
+        className="sr-only"
+        style={{ position: "absolute", left: "-9999px" }}
+      />
       <Field label={contact.fields.name} name="name">
         <input
           required
@@ -131,6 +144,19 @@ export function ContactForm() {
           {tx.cfConsent2}
         </span>
       </label>
+
+      {status === "error" && (
+        <p className="text-sm text-red-600" role="alert">
+          {tx.cfError}{" "}
+          <a
+            href={`tel:${site.phone}`}
+            className="underline underline-offset-4"
+          >
+            {site.phoneDisplay}
+          </a>
+          .
+        </p>
+      )}
 
       <div className="mt-2 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <p className="text-xs text-ink-muted">
