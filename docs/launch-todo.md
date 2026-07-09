@@ -1,86 +1,55 @@
-# PhysioDanali — Master Launch TODO (SEO-safe go-live)
+# PhysioDanali — Launch TODO (μόνο όσα πρέπει να γίνουν)
 
-Πλήρης λίστα από το audit ([seo-launch-audit.md](seo-launch-audit.md)), με τις **αποφάσεις πελάτη** κλειδωμένες. Τσεκάρουμε ένα-ένα.
+> **Ετυμηγορία SEO (2026-07-09, full audit + ανεξάρτητη επαλήθευση):**
+> **ΔΕΝ χάνουμε SEO στο cutover** — υπό έναν όρο: να γίνει **ατομικά** (όλα μαζί σε ένα παράθυρο).
+> Είναι same-domain migration με μόνιμα 301/308 (το ασφαλέστερο σενάριο).
+
+## 🟢 Γιατί είμαστε ασφαλείς (επαληθευμένο, όχι θεωρία)
+
+- **260 / 260** πραγματικά indexed old URLs (από τα `/el/sitemap-gr.xml` = 131 + `/en/sitemap-eng.xml` = 129) → **308 → target 200**. Μηδέν 404, μηδέν soft-404, μηδέν redirect chains. *(Δοκιμάστηκαν ΟΛΑ live, όχι δείγμα.)*
+- Ο χάρτης `legacy-redirects.ts` (264 rows) καλύπτει **100%** του πραγματικού old sitemap (0 orphans· 4 bonus rows παραπάνω). Καλύπτει και τα 4 legacy shapes: `.html`, extensionless, lowercase, mixed-case.
+- **canonical / sitemap / hreflang** δείχνουν ήδη στο `physiodanali.gr` — **μηδενική διαρροή vercel.app**.
+- **Preview noindex** host-gated στο `proxy.ts` (μόνο σε `*.vercel.app`) → μετά το flip το `.gr` γίνεται κανονικά index. Επαληθεύτηκε ότι δεν υπάρχει άλλο global noindex.
+- Πλήρες JSON-LD (MedicalBusiness/Physiotherapist/LocalBusiness + Person + AggregateRating), **13 Review objects** στο /reviews, el/en/x-default hreflang σε όλες τις σελίδες (συμπ. legal/articles).
+- 301 = **περνάει link equity**. Ακόμη κι αν το recrawl είναι αργό (χωρίς GSC), τίποτα δεν χάνεται — απλώς αργεί.
+
+**Ο μόνος πραγματικός εναπομείνας κίνδυνος:** να μη γίνει το cutover ατομικά. Όλα τα υπόλοιπα «SEO fixes» έχουν κλείσει.
 
 ---
 
-## ✅ Αποφάσεις κλειδωμένες (2026-07-09)
+## 🔴 MUST-DO — cutover (SEO-blocking)
 
-- [x] **Άλιμος / Νέα Σμύρνη landers → ΔΕΝ χτίζονται** (δεν εξυπηρετούνται). Τα παλιά τους URLs μένουν να προωθούν στα γενικά hubs — αποδεκτό.
-- [x] **Ωράριο = 10:00–22:00 (formal) + «έως 23:00» availability** — ΑΚΡΙΒΩΣ όπως το παλιό site. Εφαρμόστηκε παντού (schema, footer, contact, FAQ, booking)· τα marketing «έως 23:00» κρατήθηκαν. ✅ *(GBP: ο πελάτης να βάλει 10:00-22:00.)*
-- [x] **ΑΦΜ / αρ. άδειας → μένουν ΚΕΝΑ** (το παλιό site δεν τα έδειχνε — δεν είναι blocker).
-- [x] **Google Search Console → αργότερα** (μελλοντικά, όχι τώρα).
+- [ ] **Atomic cutover σε ΕΝΑ παράθυρο:** attach `physiodanali.gr` (apex) + `www` στο Vercel project → ένα canonical redirect (www→apex) → flip DNS (A/CNAME → Vercel).
+- [ ] **Μετά το flip:** `curl -I https://physiodanali.gr/` → **200** από το ΝΕΟ app + self-referential canonical στο `physiodanali.gr` (όχι vercel.app).
+- [ ] **Μετά το flip:** επιβεβαίωση ότι το `physiodanali.gr` **ΔΕΝ** στέλνει `X-Robots-Tag: noindex` (το noindex να μείνει μόνο στο preview host).
+- [ ] **Spot-check 15-20 legacy URLs live στο `.gr`** μετά το flip → 308 → σωστό target 200 (ήδη 260/260 σωστά στο vercel.app· απλή επιβεβαίωση στο νέο host).
+- [ ] **Ο παλιός WordPress host μένει live 2-4 εβδομάδες** (rollback safety net· τώρα σερβίρει Apache/PHP στο 31.22.114.153).
 
-⚠️ **ΝΑ ΑΠΟΦΑΣΙΣΤΕΙ:** Το site αυτή τη στιγμή **διαφημίζει τον Άλιμο** (στο booking ως περιοχή, homepage, schema, llms.txt). Αφού δεν τον εξυπηρετείς — να τον **βγάλω από παντού**; (booking area + κείμενα + schema)
+## 🔴 MUST-DO — λειτουργικά (launch blockers, όχι SEO)
+
+- [ ] **Contact form → πραγματικό backend.** Τώρα είναι `mailto` hack → **χάνονται leads**. Ίδια εμφάνιση.
+- [ ] **Email deliverability:** `RESEND_API_KEY` + `NOTIFY_TO`/`BOOKING_NOTIFY_TO` στο Vercel **+ DKIM/DMARC για physiodanali.gr** (αλλιώς spam/bounce στα emails ραντεβού/φόρμας).
+
+## 🟡 ΕΝΤΟΝΑ ΣΥΝΙΣΤΩΜΕΝΑ (όχι για αποφυγή απώλειας — για ταχύτητα & ορατότητα)
+
+- [ ] **GSC:** verify property (ιδανικά πριν το flip) → submit `sitemap.xml` + `sitemap-legacy.xml` → force-recrawl των 264 redirects + monitoring Coverage/404 στο κρίσιμο παράθυρο.
+- [ ] **Analytics** (Plausible / Vercel Analytics / GA4) + **baseline πριν το flip** → όργανο για να δεις τυχόν traffic cliff.
+
+## ⚪ Μικρά / αποφάσεις (χαμηλή προτεραιότητα)
+
+- [ ] **GBP ωράριο:** το Google δείχνει «έως 23:00», το site 10:00-22:00 — ο πελάτης να ευθυγραμμίσει το Google Business Profile.
+- [ ] **reviewCount=100:** επιβεβαίωση ότι ταιριάζει με το πραγματικό σύνολο Google (13 marked-up vs «100+»).
+- [ ] **AI-crawler policy** (robots.ts): απόφαση owner — το νέο robots καλωσορίζει AI bots (GEO)· δεν μπλοκάρει CCBot/Bytespider, χρησιμοποιεί deprecated `Claude-Web`. GEO policy, όχι ranking loss.
+- [ ] **Data-quality στο `legacy-redirects.ts`** (αβλαβή, όλα 308→200 ήδη): mislabeled EN comment στο row `/en/physical-therapy-at-home-gr.html`, ασύμμετρη ορθογραφία `electro(a)cupuncture`.
+- [ ] Επιβεβαίωση ότι **δεν** έμεινε ορατό «08:00-23:00» πουθενά (schema/footer/contact = 10:00-22:00 ✅).
 
 ---
 
-## 🔴 SEO fixes — ΑΟΡΑΤΑ (μηδέν αλλαγή εμφάνισης, το μεγαλύτερο κέρδος)
+## ✅ Ολοκληρωμένα (η SEO βάση — γιατί το verdict είναι «no-loss»)
 
-- [x] **Repoint 15 blog redirects** → στο συγκεκριμένο `/articles/<slug>` (όχι στη λίστα). *Το μεγαλύτερο bang-for-effort.*
-- [x] **Repoint shoulder/knee** head-terms + sub-clusters → `/articles/shoulder-pain` & `/articles/knee-pain` (υπάρχουν ήδη, 4-6χιλ. λέξεις).
-- [x] **Repoint condition pages** που πάνε στο γενικό `/therapies` → στο **κοντινότερο υπαρκτό** (π.χ. σκολίωση→/kyphosis, γόνατο-παθήσεις→/articles/knee-pain). *Χωρίς GSC, με best-judgment τώρα· επανέλεγχος όταν έρθει το GSC.*
-- [x] **Fix** `/en/physical-therapy-at-home-gr.html` → `/en/home-care` (μία γραμμή, τώρα δείχνει σε ελληνική).
-- [x] **Ενοποίηση neuro redirects** σε ΕΝΑ προορισμό (τώρα σκορπίζονται σε /home-care + /therapies).
-- [x] **Ωράριο στο schema** → άλλαξε `seo.ts` openingHours σε **10:00-22:00** (να ταιριάζει με booking/llms/FAQ/παλιό site).
-- [x] **EN area-landers JSON-LD** → χρήση `getLocale()` αντί hardcoded `'el'` (τώρα βγάζει ελληνικό schema σε αγγλικές σελίδες).
-- [x] **Review objects** στο /reviews (13 πραγματικά testimonials ως `Review` schema) + **ενιαίος** αριθμός «100+» παντού (schema reviewCount=100).
-- [x] **noindex στο preview** `*.vercel.app` (τώρα indexable = duplicate).
-- [x] **Homepage title** → επαναφορά τοποθεσίας «…στη Γλυφάδα & Βούλα» (χάθηκε ο CTR hook· μόνο ο τίτλος καρτέλας/Google, όχι η σελίδα).
-- [x] **Area-lander titles** → fix διπλό brand («…Γλυφάδα — PhysioDanali · PhysioDanali»).
-- [ ] **Cacheability** → *(αναβάλλεται)* το `headers()` στο root layout ΤΡΟΦΟΔΟΤΕΙ το hreflang/locale (x-pathname). Αφαίρεσή του σπάει το i18n — re-architecture, όχι μικρό fix. Όχι πριν το launch.
-- [x] **Breadcrumb/ContactPoint schema** σε /about, /contact.
-- [x] **hreflang** σε /articles·/privacy·/cookies·/terms — αφαιρέθηκε το page-level `alternates` override που έριχνε το languages cluster· τώρα κληρονομούν el/en/x-default από το layout.
+Redirects repointed (120 rows → σχετικά articles/hubs) · 260/260 old URLs verified · noindex preview · hreflang παντού (+legal/articles fix) · schema hours 10:00-22:00 · EN area-landers JSON-LD locale-fix · homepage/area-lander titles · Review objects στο /reviews · breadcrumb/ContactPoint σε about/contact · Reviews «100+» ενιαία · «εντός ωρών» → «σύντομα» παντού · βελτιωμένη 404 · skip-to-content (a11y) · reviews microsite live.
 
-## 👁️ Ορατές διορθώσεις (μικρές, factual — έγκριση πριν)
+## ❌ Κλειδωμένες αποφάσεις — ΔΕΝ γίνονται (μην τα ξαναβγάλεις ως TODO)
 
-- [x] **Αριθμός reviews** στο `/reviews`: «121» → σωστός αριθμός *(πες μου τον πραγματικό)*.
-- [ ] **Ωράριο**: αν κάπου στο site φαίνεται 08:00-23:00 → 10:00-22:00 (ορατό μόνο αν εμφανίζεται σε σελίδα).
-
-## 🏗️ Νέες σελίδες — ❌ ΔΕΝ χτίζονται (απόφαση)
-
-~~/neuro-rehab, /shoulder-pain, /knee-pain, /lymphatic-glyfada, Άλιμος/Ν.Σμύρνη~~ — **καμία νέα σελίδα**.
-**Τι χάνουμε:** αντί για δικές τους σελίδες, τα παλιά URLs προωθούνται στα **σχετικά άρθρα/hubs** (ήδη έγινε). Χάνουμε κάποιο *hyper-targeted* ranking για συγκεκριμένους όρους (π.χ. «νευρολογική φυσικοθεραπεία», «φυσικοθεραπεία Άλιμος»), αλλά **όχι** την επισκεψιμότητα — πάει σε σχετικό, υπαρκτό περιεχόμενο. Μικρή απώλεια, αποδεκτή.
-
-
-## 🔧 Λειτουργικότητα (backend)
-
-- [ ] **Contact form** → πραγματικό backend (τώρα είναι mailto «μαϊμού» — χάνονται μηνύματα). Ίδια εμφάνιση.
-- [ ] **Emails**: RESEND_API_KEY/NOTIFY_TO/BOOKING_NOTIFY_TO στο Vercel + DKIM/DMARC για physiodanali.gr (αλλιώς spam/bounce).
-- [ ] **Analytics** (Plausible ή GA4) — τώρα ΜΗΔΕΝ· χρειάζεται για να βλέπουμε αν πέσει η επισκεψιμότητα στο cutover.
-- [ ] **Cookie policy vs analytics**: το κείμενο περιγράφει banner/analytics που δεν υπάρχουν — ευθυγράμμιση.
-
-## ⚖️ Legal / λοιπά
-
-- [x] ~~ΑΦΜ + άδεια~~ — **κενά** (το παλιό site δεν τα είχε)
-- [x] **skip-to-content** link (WCAG 2.4.1, sr-only μέχρι keyboard focus) + `<main id="main">`. Αόρατο.
-- [x] ~~PWA icons/manifest~~ — **δεν χρειάζεται**: κανένα reference στο site → κανένα 404 (το favicon.ico σερβίρεται κανονικά).
-
-## 🚀 Cutover Runbook (ημέρα go-live)
-
-**Πριν:**
-- [ ] Όλα τα παραπάνω αόρατα SEO fixes deployed & live
-- [ ] Backup/rollback του παλιού WordPress έτοιμο
-- [ ] Analytics ενεργό (baseline)
-- [ ] *(GSC: όταν αποκτηθεί — ιδανικά πριν, για monitoring)*
-
-**Ημέρα Χ (όλα μαζί, μια κίνηση):**
-- [ ] Domain (apex + www) στο Vercel, ένα canonical redirect
-- [ ] Αλλαγή DNS → Vercel
-- [ ] Έλεγχος: physiodanali.gr = ΝΕΟ site (200), canonical self-referential
-- [ ] Spot-check 15-20 παλιά URLs → 308 → σωστός στόχος
-- [ ] Υποβολή `sitemap.xml` + `sitemap-legacy.xml` (όταν υπάρχει GSC)
-- [ ] Παλιό hosting ΜΕΝΕΙ ζωντανό 2-4 εβδομάδες (rollback)
-
-**Μετά:**
-- [ ] Monitoring 404/rankings (GSC + analytics), test booking + contact email
-
-## 🔑 Χρειαζόμαστε από πελάτη
-
-- [ ] **GSC πρόσβαση** (μελλοντικά — αλλά όσο πιο νωρίς, τόσο ασφαλέστερα)
-- [ ] **DNS πρόσβαση** για το cutover + DKIM/DMARC
-- [ ] **Πραγματικός αριθμός Google reviews** (για ενοποίηση)
-- [ ] **Google Business Profile link** (για schema/χάρτη/directions)
-- [ ] **Απόφαση Άλιμος**: να τον βγάλω από τη διαφήμιση του site;
-- [ ] **Απόφαση**: /neuro-rehab, /shoulder-pain, /knee-pain, /lymphatic-glyfada — να χτιστούν;
-- [ ] ⚠️ **GBP ωράριο**: το Google σου δείχνει «έως 23:00» αλλά το site 10:00-22:00 — ή διόρθωσε το GBP σε 22:00, ή πες μου αν όντως δουλεύεις έως 23:00.
+Καμία νέα σελίδα (/neuro-rehab, /shoulder-pain, /knee-pain, /lymphatic) · κανένας Άλιμος/Ν.Σμύρνη lander (301→γενικά, αποδεκτό) · ωράριο 10:00-22:00 + «έως 23:00» marketing · «100+» reviews · ΑΦΜ/άδεια κενά.
+*(Σημ.: οδηγίες σε `seo-launch-audit.md` appendix για 08:00-23:00 και `seo-migration-plan.md` Appendix A για build 12 σελίδων είναι **stale** — αγνόησέ τες.)*
