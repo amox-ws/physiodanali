@@ -28,18 +28,13 @@
 - [ ] Spot-check 15-20 παλιά URLs live στο `.gr` → 308 → σωστό target 200.
 - [ ] **Ο παλιός WordPress μένει live 2-4 εβδομάδες** (rollback δίχτυ).
 
-### 2. Φόρμα επικοινωνίας → πραγματικό backend
-**Τι είναι:** Η φόρμα στο `/contact` **ΔΕΝ στέλνει email**. Ο κώδικας ([contact-form.tsx:34](../src/components/site/contact-form.tsx)) λέει *«No backend yet»* και απλώς ανοίγει το mail client του επισκέπτη με προ-συμπληρωμένο μήνυμα (`mailto:`).
-**Το πρόβλημα:** Οι μισοί χρήστες (κινητό, webmail, κανένα configured mail app) πατάνε «Αποστολή», βλέπουν «success» — αλλά **το μήνυμα δεν φεύγει ποτέ**. **Χαμένα leads σιωπηλά.**
-**Η λύση:** Server action / API route που στέλνει το μήνυμα μέσω **Resend** στο email του Δανάλη (η υποδομή Resend υπάρχει ήδη από το booking — μισή δουλειά). Ίδια ακριβώς εμφάνιση.
-- [ ] Wire τη φόρμα `/contact` σε πραγματικό send (Resend) + πραγματικό success/error state.
+### 2. ✅ Φόρμα επικοινωνίας → πραγματικό backend — **ΕΓΙΝΕ (2026-07-09, live)**
+Η φόρμα `/contact` στέλνει τώρα μέσω **Resend** (server action [contact/actions.ts](../src/app/contact/actions.ts)): **to** `info@physiodanali.gr`, **cc** `info@amox.gr`, **reply_to** = ο επισκέπτης (απαντάς κατευθείαν). Honeypot + validation + πραγματικό success/error (σε αποτυχία δείχνει τηλέφωνο, ποτέ fake success). Επαληθεύτηκε: Resend send → 200 από `noreply@amox.gr`, `RESEND_API_KEY` υπάρχει στο Vercel → δουλεύει live.
 
-### 3. Email deliverability
-**Τι είναι:** Για να **φτάνουν** τα emails (ραντεβού + φόρμα) στα εισερχόμενα και όχι στα spam, το domain πρέπει να είναι «πιστοποιημένο» ως αποστολέας.
-**Τι χρειάζεται:**
-- [ ] Φρέσκο `RESEND_API_KEY` στο Vercel (το παλιό εκτέθηκε → rotate).
-- [ ] **DKIM + DMARC** DNS records για το `physiodanali.gr` (μέσω Resend dashboard) — αλλιώς Gmail/Outlook τα κόβουν ή τα βάζουν spam.
-- [ ] `NOTIFY_TO` / `BOOKING_NOTIFY_TO` = το σωστό email παραλήπτη.
+### 3. Email deliverability — **σχεδόν κλειστό**
+Στέλνουμε από **`noreply@amox.gr`** (ήδη verified με DKIM στο AMOX Resend) → deliverability **εντάξει** για ειδοποιήσεις. Μένουν:
+- [ ] **Rotate** το `RESEND_API_KEY` (το τρέχον είχε εκτεθεί σε chat) + update Vercel/GitHub Secret.
+- [ ] (προαιρετικό, branding) DKIM/DMARC για `physiodanali.gr` **μόνο** αν θες τα mails να φαίνονται από `@physiodanali.gr` αντί για `@amox.gr`.
 
 ---
 
