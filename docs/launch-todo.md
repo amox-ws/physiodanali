@@ -73,7 +73,7 @@
 
 ## ✍️ Content — μικρές συνέπειες
 
-- [ ] **2 αγγλικά titles στο ελληνικό homepage grid:** «Brazilian lymphatic drainage» & «Clinical Pilates» ([content.ts:314/331](../src/lib/content.ts)) φαίνονται αγγλικά δίπλα σε Αυχεναλγία/Οσφυαλγία/Ισχιαλγία. **Απόφαση:** Ελληνικά («Βραζιλιάνικη λεμφική παροχέτευση») ή κράτημα ως brand terms; *(Το «Clinical Pilates» συνήθως μένει αγγλικά — είναι διεθνής όρος.)*
+- [x] ~~2 αγγλικά titles («Brazilian lymphatic drainage», «Clinical Pilates»)~~ → **μένουν αγγλικά** ως brand terms (απόφαση πελάτη 2026-07-09).
 - [ ] (προαιρετικό) Εικόνες: κάποιες μέτριας ανάλυσης — αναβάθμιση αν υπάρχει χρόνος.
 
 ---
