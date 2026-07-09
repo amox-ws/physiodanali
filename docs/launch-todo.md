@@ -1,8 +1,8 @@
 # PhysioDanali — Τι μένει για 100% (Definition of Done)
 
 > **Πού είμαστε (2026-07-09):** Το **SEO είναι ασφαλές** (δεν χάνουμε τίποτα στο flip — δες κάτω).
-> Το site δουλεύει: booking, blog CMS, legal, design, EL/EN. Για να είμαστε **10000% έτοιμοι**
-> μένουν **3 launch blockers** + 3 λειτουργικά που «ανάβουν με creds» + 2 συνιστώμενα.
+> Το site δουλεύει: booking, φόρμα, blog CMS, legal, design, EL/EN. **Απομένει ουσιαστικά ΕΝΑ πράγμα
+> για launch: το cutover** (θέλει DNS από τον Δανάλη). Όλα τα άλλα είναι έτοιμα ή προαιρετικά.
 
 ---
 
@@ -19,7 +19,7 @@
 
 ---
 
-## 🔴 MUST — πριν το launch (3 μόνο)
+## 🔴 MUST — πριν το launch (μόνο το cutover μένει)
 
 ### 1. Cutover (domain flip)
 - [ ] Σύνδεση `physiodanali.gr` (apex) + `www` στο Vercel project, ένα canonical redirect (www→apex).
@@ -31,10 +31,8 @@
 ### 2. ✅ Φόρμα επικοινωνίας → πραγματικό backend — **ΕΓΙΝΕ (2026-07-09, live)**
 Η φόρμα `/contact` στέλνει τώρα μέσω **Resend** (server action [contact/actions.ts](../src/app/contact/actions.ts)): **to** `info@physiodanali.gr`, **cc** `info@amox.gr`, **reply_to** = ο επισκέπτης (απαντάς κατευθείαν). Honeypot + validation + πραγματικό success/error (σε αποτυχία δείχνει τηλέφωνο, ποτέ fake success). Επαληθεύτηκε: Resend send → 200 από `noreply@amox.gr`, `RESEND_API_KEY` υπάρχει στο Vercel → δουλεύει live.
 
-### 3. Email deliverability — **σχεδόν κλειστό**
-Στέλνουμε από **`noreply@amox.gr`** (ήδη verified με DKIM στο AMOX Resend) → deliverability **εντάξει** για ειδοποιήσεις. Μένουν:
-- [ ] **Rotate** το `RESEND_API_KEY` (το τρέχον είχε εκτεθεί σε chat) + update Vercel/GitHub Secret.
-- [ ] (προαιρετικό, branding) DKIM/DMARC για `physiodanali.gr` **μόνο** αν θες τα mails να φαίνονται από `@physiodanali.gr` αντί για `@amox.gr`.
+### 3. ✅ Email deliverability — **κλειστό (απόφαση: δεν κάνουμε άλλο)**
+Στέλνουμε από **`noreply@amox.gr`** (verified DKIM στο AMOX Resend) → δουλεύει. **Δεν κάνουμε rotate ούτε DKIM/DMARC στο physiodanali.gr** (απόφαση 2026-07-09). *Σημ.: το τρέχον key εκτέθηκε σε chat — throwaway risk, μένει ως έχει με δική σου ευθύνη.*
 
 ---
 
@@ -48,14 +46,12 @@
 - **Λύση:** Google service account creds ([google-calendar.ts](../src/lib/google-calendar.ts) έτοιμο, two-way freeBusy). Needs: `GOOGLE_SA_EMAIL`, `GOOGLE_SA_PRIVATE_KEY`, `GOOGLE_CALENDAR_ID`.
 - [ ] Δημιουργία Google service account + share ημερολογίου Δανάλη + env vars στο Vercel.
 
-### Β. Viva online προκαταβολή (προαιρετικό)
-- **Τώρα:** πληρωμή με **μετρητά** στο ραντεβού (η προκαταβολή είναι optional/off).
-- **Λύση:** [viva.ts](../src/lib/viva.ts) έτοιμο για Smart Checkout. Needs: `VIVA_CLIENT_ID`, `VIVA_CLIENT_SECRET`, `VIVA_SOURCE_CODE`.
-- [ ] **Απόφαση Δανάλη:** θέλει online προκαταβολή ή μένουμε μετρητά; (αν όχι → δεν κάνουμε τίποτα)
+### Β. ✅ Viva online πληρωμή — **υπάρχει ήδη**
+Στο `/contact` υπάρχει hosted Viva link ([page.tsx:100](../src/app/contact/page.tsx) → `vivapayments.com/web2?ref=…`) — online πληρωμή **χωρίς API**. **Δεν χρειάζεται** Smart Checkout / creds. *(Το booking μένει μετρητά/optional προκαταβολή.)*
 
-### Γ. Captcha φόρμας booking (anti-spam)
-- Το Turnstile είναι env-gated· χωρίς κλειδιά μένει μόνο το honeypot. Μικρό.
-- [ ] (προαιρετικό) Cloudflare Turnstile keys για ισχυρό anti-spam στη φόρμα κράτησης.
+### Γ. ✅ Captcha στις φόρμες — **μπήκε (2026-07-09)**
+Honeypot **πάντα ενεργό** + **Cloudflare Turnstile** wired σε **booking + φόρμα επικοινωνίας** (graceful: χωρίς keys → honeypot· με keys → visible challenge).
+- [ ] (προαιρετικό) Δωρεάν Cloudflare Turnstile keys (`NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`) στο Vercel για να ανάψει το ορατό challenge.
 
 ---
 
@@ -66,17 +62,13 @@
 
 ---
 
-## ✍️ Content — μικρές συνέπειες
-
-- [x] ~~2 αγγλικά titles («Brazilian lymphatic drainage», «Clinical Pilates»)~~ → **μένουν αγγλικά** ως brand terms (απόφαση πελάτη 2026-07-09).
-- [ ] (προαιρετικό) Εικόνες: κάποιες μέτριας ανάλυσης — αναβάθμιση αν υπάρχει χρόνος.
-
----
-
 ## ✅ Ήδη ολοκληρωμένα (μη τα ξανασκέφτεσαι)
 
 - **SEO (ασφαλές):** 260/260 παλιά indexed URLs → 308→200 (verified όλα)· χάρτης καλύπτει 100%· canonical/sitemap/hreflang στο .gr (0 vercel.app leak)· preview noindex· JSON-LD (business+person+aggregateRating)· 13 Review objects· hreflang σε όλες (legal/articles fix)· redirects repointed· «100+» reviews· 404 βελτιωμένη· skip-to-content.
 - **Booking:** live custom σύστημα (Supabase, availability engine, admin, self-cancel, emails, ωράριο).
+- **Φόρμα επικοινωνίας:** live backend (Resend → info@physiodanali.gr + cc AMOX, reply_to=επισκέπτης).
+- **Anti-spam:** honeypot (πάντα) + Cloudflare Turnstile wired σε booking + φόρμα (ready για keys).
+- **Viva πληρωμή:** hosted link στο /contact (χωρίς API).
 - **Blog CMS:** 7 phases, εβδομαδιαία AI παραγωγή (GitHub Action), /admin, magic-link/password, draft preview, IndexNow.
 - **Legal/GDPR:** /privacy /cookies /terms + cookie consent + consent checkbox.
 - **Design / χρώματα / font:** ✅ **καμία αλλαγή** (απόφασή σου — no redesign). Font EB Garamond (ελληνικό subset).
@@ -90,4 +82,4 @@
 
 ## 🔑 Χρειαζόμαστε από τον Δανάλη
 
-DNS access (cutover) · Resend domain verify (DKIM/DMARC) · Google service account + κοινή χρήση ημερολογίου (calendar sync) · απόφαση Viva προκαταβολή ή μετρητά · απόφαση για τα 2 αγγλικά titles · GBP ωράριο→10:00-22:00 · (μελλοντικά) GSC access.
+**DNS access (cutover — το μόνο πραγματικά κρίσιμο)** · Google service account + κοινή χρήση ημερολογίου (calendar sync — αν το θέλει) · GBP ωράριο→10:00-22:00 · (προαιρετικά) Cloudflare Turnstile keys · (μελλοντικά) GSC access.

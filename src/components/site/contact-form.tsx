@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Check } from "lucide-react";
@@ -8,6 +8,7 @@ import { site } from "@/lib/content";
 import { useContent, useLocale } from "@/components/site/locale-provider";
 import { t } from "@/lib/translations";
 import { sendContactMessage } from "@/app/contact/actions";
+import { Turnstile, turnstileEnabled } from "@/components/site/turnstile";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -16,7 +17,10 @@ export function ContactForm() {
   const { contact } = useContent();
   const tx = t(locale);
   const [status, setStatus] = useState<Status>("idle");
+  const [errKind, setErrKind] = useState<"send" | "captcha">("send");
   const [consent, setConsent] = useState(false);
+  const [captcha, setCaptcha] = useState("");
+  const onToken = useCallback((tok: string) => setCaptcha(tok), []);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -32,11 +36,22 @@ export function ContactForm() {
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!consent) return;
+    if (turnstileEnabled && !captcha) {
+      setErrKind("captcha");
+      setStatus("error");
+      return;
+    }
     setStatus("submitting");
     try {
-      const res = await sendContactMessage({ ...form, consent });
-      setStatus(res.ok ? "success" : "error");
+      const res = await sendContactMessage({ ...form, consent, token: captcha });
+      if (res.ok) {
+        setStatus("success");
+        return;
+      }
+      setErrKind(res.error === "captcha" ? "captcha" : "send");
+      setStatus("error");
     } catch {
+      setErrKind("send");
       setStatus("error");
     }
   }
@@ -145,7 +160,15 @@ export function ContactForm() {
         </span>
       </label>
 
-      {status === "error" && (
+      {/* Cloudflare Turnstile captcha — renders only when configured */}
+      <Turnstile onToken={onToken} />
+
+      {status === "error" && errKind === "captcha" && (
+        <p className="text-sm text-red-600" role="alert">
+          {tx.cfCaptcha}
+        </p>
+      )}
+      {status === "error" && errKind === "send" && (
         <p className="text-sm text-red-600" role="alert">
           {tx.cfError}{" "}
           <a

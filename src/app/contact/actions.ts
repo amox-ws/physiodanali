@@ -1,6 +1,7 @@
 "use server";
 
 import "server-only";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 /**
  * Contact-form backend. Sends the message via Resend to the practice (with a
@@ -21,6 +22,7 @@ export type ContactInput = {
   message: string;
   consent: boolean;
   company?: string; // honeypot — real users leave it empty
+  token?: string; // Cloudflare Turnstile token
 };
 
 export type ContactResult = { ok: true } | { ok: false; error: string };
@@ -46,6 +48,9 @@ export async function sendContactMessage(
   if (!name || !email || !phone || !message) return { ok: false, error: "missing" };
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return { ok: false, error: "email" };
   if (message.length > 5000) return { ok: false, error: "too_long" };
+
+  // Captcha (graceful: passes through when Turnstile isn't configured).
+  if (!(await verifyTurnstile(input.token))) return { ok: false, error: "captcha" };
 
   const key = process.env.RESEND_API_KEY;
   const from = process.env.NOTIFY_FROM || "PhysioDanali <noreply@amox.gr>";
