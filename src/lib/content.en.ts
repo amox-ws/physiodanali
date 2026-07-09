@@ -1166,7 +1166,7 @@ export const contact = {
     "lead": "Get in touch by phone, WhatsApp or email. We reply the same day — and appointments are available even on the same day, subject to availability."
   },
   "formHeading": "Ask the Physiotherapist now.",
-  "formIntro": "Fill out the form or call directly. We'll get back to you within a few hours.",
+  "formIntro": "Fill out the form or call directly. We'll get back to you soon.",
   "fields": {
     "name": "Name",
     "email": "Email",

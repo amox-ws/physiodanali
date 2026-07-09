@@ -41,7 +41,7 @@ const STRINGS = {
     condSymptomsIntro:
       "Αναγνωρίστε αν τα συμπτώματά σας ταιριάζουν — η πρώιμη παρέμβαση φέρνει ταχύτερη ανακούφιση.",
     condFaqIntro:
-      "Αν η ερώτησή σας δεν απαντιέται εδώ, καλέστε ή στείλτε μήνυμα — απαντάμε εντός λίγων ωρών.",
+      "Αν η ερώτησή σας δεν απαντιέται εδώ, καλέστε ή στείλτε μήνυμα — απαντάμε σύντομα.",
     condCtaTitle: "Ραντεβού αξιολόγησης. Άμεσα.",
     condCtaAccent: "Άμεσα.",
     condCtaLead:
@@ -105,13 +105,13 @@ const STRINGS = {
     cfBodyName: "Όνομα",
     cfBodyPhone: "Τηλέφωνο",
     cfSuccessTitle: "Ευχαριστούμε για την επικοινωνία.",
-    cfSuccessBody1: "Ανοίξαμε τον email client σας με προσυμπληρωμένο μήνυμα. Θα απαντήσουμε εντός λίγων ωρών — για άμεσο ραντεβού καλέστε",
+    cfSuccessBody1: "Ανοίξαμε τον email client σας με προσυμπληρωμένο μήνυμα. Θα απαντήσουμε σύντομα — για άμεσο ραντεβού καλέστε",
     cfPlaceholderName: "Το όνομά σας",
     cfPlaceholderMessage: "Περιγράψτε σύντομα την κατάστασή σας.",
     cfConsent1: "Έχω διαβάσει και αποδέχομαι την",
     cfPrivacy: "Πολιτική Απορρήτου",
     cfConsent2: "και συναινώ στην επεξεργασία των στοιχείων μου για την απάντηση στο αίτημά μου.",
-    cfFootnote: "Απαντάμε εντός λίγων ωρών. Δωρεάν αξιολόγηση μέσω τηλεφώνου.",
+    cfFootnote: "Απαντάμε σύντομα. Δωρεάν αξιολόγηση μέσω τηλεφώνου.",
     scrollTop: "Επιστροφή στην κορυφή",
     // About page
     aboutPractitionerName: "Κωνσταντίνος Δανάλης",
@@ -248,7 +248,7 @@ const STRINGS = {
     condSymptomsIntro:
       "See whether your symptoms match — early intervention brings faster relief.",
     condFaqIntro:
-      "If your question isn't answered here, call or send a message — we reply within a few hours.",
+      "If your question isn't answered here, call or send a message — we reply soon.",
     condCtaTitle: "Assessment appointment. Right away.",
     condCtaAccent: "Right away.",
     condCtaLead:
@@ -312,13 +312,13 @@ const STRINGS = {
     cfBodyName: "Name",
     cfBodyPhone: "Phone",
     cfSuccessTitle: "Thank you for reaching out.",
-    cfSuccessBody1: "We opened your email client with a prefilled message. We will reply within a few hours — for an immediate appointment call",
+    cfSuccessBody1: "We opened your email client with a prefilled message. We will reply soon — for an immediate appointment call",
     cfPlaceholderName: "Your name",
     cfPlaceholderMessage: "Briefly describe your condition.",
     cfConsent1: "I have read and accept the",
     cfPrivacy: "Privacy Policy",
     cfConsent2: "and consent to the processing of my details in order to respond to my request.",
-    cfFootnote: "We reply within a few hours. Free phone assessment.",
+    cfFootnote: "We reply soon. Free phone assessment.",
     scrollTop: "Back to top",
     // About page
     aboutPractitionerName: "Konstantinos Danalis",

@@ -9,7 +9,7 @@ import { breadcrumbSchema } from "@/lib/seo";
 
 // Patient reviews — migrated from the old site's testimonials page (real
 // quotes, kept anonymous as originally published). The 5.0★ aggregate lives
-// on Google Business Profile (121 reviews); the sitewide LocalBusiness schema
+// on Google Business Profile (100+ reviews); the sitewide LocalBusiness schema
 // already carries the aggregateRating, so this page renders content only.
 
 const QUOTES_EL = [
@@ -50,12 +50,12 @@ export async function generateMetadata(): Promise<Metadata> {
     ? {
         title: "Patient Reviews — PhysioDanali",
         description:
-          "What patients say about at-home physiotherapy and chiropractic care with Konstantinos Danalis — 5.0★ on Google with 121 reviews.",
+          "What patients say about at-home physiotherapy and chiropractic care with Konstantinos Danalis — 5.0★ on Google with 100+ reviews.",
       }
     : {
         title: "Αξιολογήσεις ασθενών — PhysioDanali",
         description:
-          "Τι λένε οι ασθενείς για τη φυσικοθεραπεία και χειροπρακτική κατ' οίκον με τον Κωνσταντίνο Δανάλη — 5.0★ στο Google με 121 αξιολογήσεις.",
+          "Τι λένε οι ασθενείς για τη φυσικοθεραπεία και χειροπρακτική κατ' οίκον με τον Κωνσταντίνο Δανάλη — 5.0★ στο Google με 100+ αξιολογήσεις.",
       };
 }
 
@@ -81,8 +81,8 @@ export default async function ReviewsPage() {
         titleAccent={en ? "patients say." : "οι ασθενείς."}
         lead={
           en
-            ? "5.0★ on Google from 121 reviews. Real experiences from home-visit physiotherapy and chiropractic care across Athens' southern suburbs."
-            : "5.0★ στο Google από 121 αξιολογήσεις. Πραγματικές εμπειρίες από φυσικοθεραπεία και χειροπρακτική κατ' οίκον στα νότια προάστια."
+            ? "5.0★ on Google from 100+ reviews. Real experiences from home-visit physiotherapy and chiropractic care across Athens' southern suburbs."
+            : "5.0★ στο Google από 100+ αξιολογήσεις. Πραγματικές εμπειρίες από φυσικοθεραπεία και χειροπρακτική κατ' οίκον στα νότια προάστια."
         }
         primaryCta={{
           label: en ? "Book an appointment" : "Κλείστε ραντεβού",
@@ -104,7 +104,7 @@ export default async function ReviewsPage() {
                 ))}
               </span>
               <span className="text-sm text-ink-muted">
-                {en ? "5.0 · 121 Google reviews" : "5.0 · 121 αξιολογήσεις Google"}
+                {en ? "5.0 · 100+ Google reviews" : "5.0 · 100+ αξιολογήσεις Google"}
               </span>
             </div>
           </Reveal>
