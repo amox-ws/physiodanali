@@ -2,6 +2,17 @@
 
 *Multi-agent adversarial audit — 40 findings, 0 refuted, **40 verified**. Focus: μηδενική απώλεια SEO στο cutover.*
 
+## ✅ Αποφάσεις πελάτη (2026-07-09) — ισχύουν πάνω από το audit
+
+- **Άλιμος / Νέα Σμύρνη landers → ΔΕΝ χτίζονται** (δεν εξυπηρετούνται). Τα risks #8 & τα σχετικά items ΑΚΥΡΩΝΟΝΤΑΙ. *(Εκκρεμεί: να βγει ο Άλιμος και από τη διαφήμιση του site;)*
+- **Ωράριο = 10:00–22:00** (επιβεβαιωμένο από παλιό site). Άρα το **schema** (seo.ts, τώρα 08:00-23:00) είναι το λάθος → διορθώνεται σε 10:00-22:00. Το llms.txt/FAQ ήδη σωστά. *(Το GBP δείχνει 23:00 — ο πελάτης να το ευθυγραμμίσει.)*
+- **ΑΦΜ / αρ. άδειας → ΚΕΝΑ** (το παλιό site δεν τα έδειχνε — ΔΕΝ είναι blocker). Το legal item #1 υποβαθμίζεται.
+- **Google Search Console → αργότερα** (μελλοντικά). Το triage των condition-pages γίνεται τώρα με best-judgment, επανέλεγχος όταν έρθει το GSC.
+
+👉 **Actionable checklist:** [launch-todo.md](launch-todo.md)
+
+---
+
 ## 🎯 Ετυμηγορία
 
 Honest answer: the migration foundation is strong, but as configured TODAY you WOULD lose meaningful SEO at cutover — not from hard breakage (the 264-URL redirect map resolves, nothing 404s, dual sitemaps + a legacy sitemap for fast recrawl are in place, schema/hreflang are well-architected), but from three fixable failure modes. (1) Equity dilution: 60% of legacy URLs (159/264) funnel into the generic /therapies hub — including ~40 condition pages that ranked for long-tail queries — which Google treats as soft-404-style redirects and drops; and ~15 already-rebuilt 4,000-6,500-word articles plus the shoulder/knee head-terms are mis-pointed at list/hub pages instead of their 1:1 replacements that are already live. (2) Local coverage regression: Alimos + Nea Smyrni landers and the flagship /neuro-rehab hub were never built, and the /lymphatic-glyfada niche lander is missing, so geo/head-term relevance collapses into generic hubs. (3) Operational risk: every canonical/sitemap/robots value hardcodes physiodanali.gr, which still serves the OLD WordPress site; GSC is not verified in production; there is zero analytics; and the vercel.app preview host is fully indexable — so the cutover is not yet atomic and you would be flying blind exactly when monitoring matters. The good news: almost every fix is trivial (repoint redirect rows, set env vars, unify one hours value, one title change) and nothing hard-404s. Do the ranked seoLossRisks below before flipping DNS and this becomes a genuinely low-risk, same-domain migration.
