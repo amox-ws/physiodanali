@@ -7,7 +7,6 @@ import { LegalProse } from "@/components/site/legal-prose";
 export const metadata: Metadata = {
   title: cookies.meta.title,
   description: cookies.meta.description,
-  alternates: { canonical: "/cookies" },
 };
 
 export default function CookiesPage() {

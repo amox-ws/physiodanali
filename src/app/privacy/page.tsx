@@ -7,7 +7,6 @@ import { LegalProse } from "@/components/site/legal-prose";
 export const metadata: Metadata = {
   title: privacy.meta.title,
   description: privacy.meta.description,
-  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {

@@ -7,7 +7,6 @@ import { LegalProse } from "@/components/site/legal-prose";
 export const metadata: Metadata = {
   title: terms.meta.title,
   description: terms.meta.description,
-  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

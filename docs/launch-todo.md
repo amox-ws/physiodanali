@@ -24,13 +24,13 @@
 - [x] **Ενοποίηση neuro redirects** σε ΕΝΑ προορισμό (τώρα σκορπίζονται σε /home-care + /therapies).
 - [x] **Ωράριο στο schema** → άλλαξε `seo.ts` openingHours σε **10:00-22:00** (να ταιριάζει με booking/llms/FAQ/παλιό site).
 - [x] **EN area-landers JSON-LD** → χρήση `getLocale()` αντί hardcoded `'el'` (τώρα βγάζει ελληνικό schema σε αγγλικές σελίδες).
-- [ ] **Review objects** στο schema από τα testimonials + **ένας** αριθμός reviews παντού (τώρα 100 vs 121 vs 122).
+- [x] **Review objects** στο /reviews (13 πραγματικά testimonials ως `Review` schema) + **ενιαίος** αριθμός «100+» παντού (schema reviewCount=100).
 - [x] **noindex στο preview** `*.vercel.app` (τώρα indexable = duplicate).
 - [x] **Homepage title** → επαναφορά τοποθεσίας «…στη Γλυφάδα & Βούλα» (χάθηκε ο CTR hook· μόνο ο τίτλος καρτέλας/Google, όχι η σελίδα).
 - [x] **Area-lander titles** → fix διπλό brand («…Γλυφάδα — PhysioDanali · PhysioDanali»).
-- [ ] **Cacheability** → βγάλε `headers()/cookies()` από το root layout (edge-cache, ταχύτητα/LCP).
+- [ ] **Cacheability** → *(αναβάλλεται)* το `headers()` στο root layout ΤΡΟΦΟΔΟΤΕΙ το hreflang/locale (x-pathname). Αφαίρεσή του σπάει το i18n — re-architecture, όχι μικρό fix. Όχι πριν το launch.
 - [x] **Breadcrumb/ContactPoint schema** σε /about, /contact.
-- [ ] **hreflang** σε /articles·/privacy·/cookies·/terms (τώρα το ρίχνουν).
+- [x] **hreflang** σε /articles·/privacy·/cookies·/terms — αφαιρέθηκε το page-level `alternates` override που έριχνε το languages cluster· τώρα κληρονομούν el/en/x-default από το layout.
 
 ## 👁️ Ορατές διορθώσεις (μικρές, factual — έγκριση πριν)
 
@@ -53,7 +53,8 @@
 ## ⚖️ Legal / λοιπά
 
 - [x] ~~ΑΦΜ + άδεια~~ — **κενά** (το παλιό site δεν τα είχε)
-- [ ] **PWA icons / manifest** (τώρα 404) + **skip-to-content** link (a11y). Αόρατα.
+- [x] **skip-to-content** link (WCAG 2.4.1, sr-only μέχρι keyboard focus) + `<main id="main">`. Αόρατο.
+- [x] ~~PWA icons/manifest~~ — **δεν χρειάζεται**: κανένα reference στο site → κανένα 404 (το favicon.ico σερβίρεται κανονικά).
 
 ## 🚀 Cutover Runbook (ημέρα go-live)
 

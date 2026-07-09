@@ -64,6 +64,15 @@ export default async function ReviewsPage() {
   const en = locale === "en";
   const quotes = en ? QUOTES_EN : QUOTES_EL;
 
+  const reviewSchema = quotes.map((q) => ({
+    "@context": "https://schema.org",
+    "@type": "Review",
+    itemReviewed: { "@id": "https://physiodanali.gr/#business" },
+    reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+    author: { "@type": "Person", name: en ? "PhysioDanali patient" : "Ασθενής PhysioDanali" },
+    reviewBody: q,
+  }));
+
   return (
     <>
       <JsonLd
@@ -72,6 +81,7 @@ export default async function ReviewsPage() {
             { name: en ? "Home" : "Αρχική", url: "/" },
             { name: en ? "Reviews" : "Αξιολογήσεις", url: "/reviews" },
           ]),
+          ...reviewSchema,
         ]}
       />
       <PageHero
