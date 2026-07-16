@@ -465,12 +465,22 @@ export async function setAppointmentStatus(id: string, status: string): Promise<
 }
 
 // ── Self-service cancel (signed link, no auth) ────────────────────────
-const BOOKING_SECRET =
-  process.env.BOOKING_SECRET || process.env.CRON_SECRET || "physiodanali-dev";
+// Signing secret for cancel/manage tokens. Prefer a dedicated BOOKING_SECRET;
+// fall back to CRON_SECRET (set in prod). Fails CLOSED — never signs with a
+// hardcoded/public value — so tokens can't be forged if both are unset.
+function bookingSecret(): string {
+  const secret = process.env.BOOKING_SECRET || process.env.CRON_SECRET;
+  if (!secret) {
+    throw new Error(
+      "BOOKING_SECRET (or CRON_SECRET) must be set to sign booking cancel/manage links",
+    );
+  }
+  return secret;
+}
 
 /** Tamper-proof token for a patient cancel/manage link (no login needed). */
 export function cancelToken(id: string): string {
-  return createHmac("sha256", BOOKING_SECRET).update(`cancel:${id}`).digest("hex").slice(0, 32);
+  return createHmac("sha256", bookingSecret()).update(`cancel:${id}`).digest("hex").slice(0, 32);
 }
 
 /** Full URL the patient gets in emails to manage their appointment. */
