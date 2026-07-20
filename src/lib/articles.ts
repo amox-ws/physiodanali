@@ -21,7 +21,7 @@ import type { Locale } from "@/lib/i18n";
 export type ArticleFull = Article & { sections: ArticleBody["sections"] };
 
 const SELECT =
-  "slug,title,category,excerpt,read_time,date,image,sections,title_en,excerpt_en,sections_en";
+  "slug,title,category,excerpt,read_time,date,image,sections,title_en,excerpt_en,category_en,read_time_en,sections_en";
 const REVALIDATE = 3600; // safety net; on-demand via revalidateTag("articles")
 
 type Row = {
@@ -35,6 +35,8 @@ type Row = {
   sections: ArticleBody["sections"] | null;
   title_en: string | null;
   excerpt_en: string | null;
+  category_en: string | null;
+  read_time_en: string | null;
   sections_en: ArticleBody["sections"] | null;
 };
 
@@ -49,6 +51,10 @@ function toEnglish(row: DbArticle): ArticleFull {
       ...row,
       title: row.title_en,
       excerpt: row.excerpt_en ?? row.excerpt,
+      // Card labels live in their own columns — without these the English page
+      // showed Greek chips ("ΑΥΧΈΝΑΣ", "8 ΛΕΠΤΑ") above English copy.
+      category: row.category_en ?? row.category,
+      readTime: row.read_time_en ?? row.readTime,
       sections: row.sections_en,
     };
   }
@@ -94,7 +100,10 @@ function db() {
 }
 
 type DbArticle = ArticleFull &
-  Pick<Row, "title_en" | "excerpt_en" | "sections_en">;
+  Pick<
+    Row,
+    "title_en" | "excerpt_en" | "category_en" | "read_time_en" | "sections_en"
+  >;
 
 function toArticle(r: Row): DbArticle {
   return {
@@ -109,6 +118,8 @@ function toArticle(r: Row): DbArticle {
     sections: r.sections ?? [],
     title_en: r.title_en,
     excerpt_en: r.excerpt_en,
+    category_en: r.category_en,
+    read_time_en: r.read_time_en,
     sections_en: r.sections_en,
   };
 }

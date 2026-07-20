@@ -20,6 +20,8 @@ export type ArticleSection = { heading?: string; body: string };
 export type TranslatedArticle = {
   title_en: string;
   excerpt_en: string;
+  category_en: string;
+  read_time_en: string;
   sections_en: ArticleSection[];
 };
 
@@ -34,15 +36,21 @@ Rules:
 - Keep internal link paths unchanged (/home-care stays /home-care).
 - Keep established brand/method names in English as-is (Brazilian Lymphatic
   Drainage, Clinical Pilates, TECAR, Mulligan, Maitland).
-- Write for patients: clear, warm, no jargon where a plain word exists.`;
+- Write for patients: clear, warm, no jargon where a plain word exists.
+- category_en: the English equivalent of the category label (e.g. "Αυχένας" →
+  "Neck", "Αθλητική Φυσικοθεραπεία" → "Sports Physiotherapy").
+- read_time_en: the same figure in English, formatted "N min" (e.g. "8 λεπτά" →
+  "8 min").`;
 
 const SCHEMA = {
   type: "object",
   additionalProperties: false,
-  required: ["title_en", "excerpt_en", "sections_en"],
+  required: ["title_en", "excerpt_en", "category_en", "read_time_en", "sections_en"],
   properties: {
     title_en: { type: "string" },
     excerpt_en: { type: "string" },
+    category_en: { type: "string" },
+    read_time_en: { type: "string" },
     sections_en: {
       type: "array",
       items: {
@@ -58,6 +66,8 @@ const SCHEMA = {
 export async function translateArticle(input: {
   title: string;
   excerpt: string | null;
+  category: string | null;
+  readTime: string | null;
   sections: ArticleSection[] | null;
 }): Promise<TranslatedArticle | null> {
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -85,7 +95,13 @@ export async function translateArticle(input: {
         {
           role: "user",
           content: `Translate this Greek article to English.\n\n${JSON.stringify(
-            { title: input.title, excerpt: input.excerpt ?? "", sections },
+            {
+              title: input.title,
+              excerpt: input.excerpt ?? "",
+              category: input.category ?? "",
+              read_time: input.readTime ?? "",
+              sections,
+            },
             null,
             2,
           )}`,

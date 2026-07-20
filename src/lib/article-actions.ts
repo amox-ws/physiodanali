@@ -1,7 +1,9 @@
 "use server";
 
 import { revalidateTag, revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
 import { isAdminEmail } from "@/lib/admin";
 import { pingIndexNow } from "@/lib/indexnow";
 import { translateArticle } from "@/lib/translate-article";
@@ -13,19 +15,21 @@ import type { Section, Faq } from "@/lib/admin-articles";
  * edit to the Greek is reflected in English. Best-effort: on failure the row
  * keeps its previous translation (or none) and /en falls back to the Greek.
  */
-async function syncEnglish(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  id: string,
-) {
+async function syncEnglish(id: string) {
+  // Service-role client, not the request-scoped one: this runs inside after(),
+  // once the response is already sent and request cookies are gone.
+  const supabase = createServiceClient();
   const { data } = await supabase
     .from("articles")
-    .select("title,excerpt,sections")
+    .select("title,excerpt,category,read_time,sections")
     .eq("id", id)
     .maybeSingle();
   if (!data) return;
   const en = await translateArticle({
     title: data.title as string,
     excerpt: data.excerpt as string | null,
+    category: data.category as string | null,
+    readTime: data.read_time as string | null,
     sections: data.sections as { heading?: string; body: string }[] | null,
   });
   if (!en) return;
@@ -34,6 +38,8 @@ async function syncEnglish(
     .update({
       title_en: en.title_en,
       excerpt_en: en.excerpt_en,
+      category_en: en.category_en,
+      read_time_en: en.read_time_en,
       sections_en: en.sections_en,
     })
     .eq("id", id);
@@ -102,7 +108,10 @@ export async function saveArticle(
     // Editing an already-published article must refresh the public page too.
     if (data.status === "published") {
       // The Greek changed on a live article — retranslate so /en matches.
-      await syncEnglish(supabase, id);
+      after(async () => {
+        await syncEnglish(id);
+        revalidateTag("articles", "max");
+      });
       revalidateTag("articles", "max");
       revalidatePath("/articles");
       revalidatePath(`/articles/${data.slug}`);
@@ -130,8 +139,12 @@ export async function publishArticle(id: string): Promise<void> {
     .select("slug")
     .single();
   if (error) throw new Error(error.message);
-  // Translate the approved Greek — whatever was edited is what ships in English.
-  await syncEnglish(supabase, id);
+  // Translating takes ~30s; do it after the response so the editor isn't left
+  // waiting, then revalidate again so /en picks the English up.
+  after(async () => {
+    await syncEnglish(id);
+    revalidateTag("articles", "max");
+  });
   revalidateTag("articles", "max");
   revalidatePath("/articles");
   revalidatePath(`/articles/${data.slug}`);
