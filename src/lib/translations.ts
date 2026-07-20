@@ -149,16 +149,6 @@ const STRINGS = {
     therapiesCtaAccent: "ποια",
     therapiesCtaLead:
       "Καλέστε για μια σύντομη τηλεφωνική αξιολόγηση — θα σας προτείνουμε την κατάλληλη θεραπεία πριν καν κλείσετε ραντεβού.",
-    // Kyphosis page
-    kyphosisBenefitsIntro:
-      "Αισθητή διαφορά από τις πρώτες συνεδρίες — όχι αόριστες υποσχέσεις, αλλά μετρήσιμα αποτελέσματα.",
-    kyphosisStat1Label: "συνεδρίες για ορατό αποτέλεσμα",
-    kyphosisStat2Label: "συνεδρίες μέχρι μείωση πόνου",
-    kyphosisStat3Label: "κατ' οίκον — στο δικό σας χώρο",
-    kyphosisCtaTitle: "Ψηλότερη στάση. Από σήμερα.",
-    kyphosisCtaAccent: "Ψηλότερη στάση.",
-    kyphosisCtaLead:
-      "Ξεκινήστε τη διόρθωση τώρα — ραντεβού αξιολόγησης κατ' οίκον σε Γλυφάδα, Βούλα, Βουλιαγμένη και Βάρη.",
     // Lymphatic page
     lymphaticBenefitsIntro:
       "Συνδυάζει αισθητικό αποτέλεσμα με θεραπευτική αξία — ιδιαίτερα μετά από επεμβάσεις ή για χρόνια κατακράτηση.",
@@ -357,16 +347,6 @@ const STRINGS = {
     therapiesCtaAccent: "which",
     therapiesCtaLead:
       "Call for a short phone assessment — we'll recommend the right treatment before you even book an appointment.",
-    // Kyphosis page
-    kyphosisBenefitsIntro:
-      "A noticeable difference from the very first sessions — not vague promises, but measurable results.",
-    kyphosisStat1Label: "sessions for visible results",
-    kyphosisStat2Label: "sessions until pain reduction",
-    kyphosisStat3Label: "at home — in your own space",
-    kyphosisCtaTitle: "A taller posture. Starting today.",
-    kyphosisCtaAccent: "A taller posture.",
-    kyphosisCtaLead:
-      "Start the correction now — at-home assessment appointments in Glyfada, Voula, Vouliagmeni and Vari.",
     // Lymphatic page
     lymphaticBenefitsIntro:
       "It combines an aesthetic result with therapeutic value — especially after surgery or for chronic fluid retention.",
@@ -552,11 +532,6 @@ const NAV: Record<Locale, NavItem[]> = {
           description: "Χειροπρακτική ανάταξη, manual therapy.",
         },
         {
-          href: "/kyphosis",
-          label: "Κύφωση",
-          description: "Διόρθωση κυφωτικής στάσης σε 20 συνεδρίες.",
-        },
-        {
           href: "/lymphatic",
           label: "Λεμφικό",
           description: "Brazilian lymphatic drainage — αποτοξίνωση, σύσφιξη.",
@@ -583,11 +558,6 @@ const NAV: Record<Locale, NavItem[]> = {
           href: "/chiropractic",
           label: "Chiropractic",
           description: "Chiropractic adjustment, manual therapy.",
-        },
-        {
-          href: "/kyphosis",
-          label: "Kyphosis",
-          description: "Posture correction in 20 sessions.",
         },
         {
           href: "/lymphatic",

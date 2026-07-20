@@ -26,7 +26,6 @@ const AREAS = ["Γλυφάδα", "Βούλα", "Βουλιαγμένη", "Βάρ
 const SERVICE_EN: Record<string, string> = {
   "home-care": "Home-visit physiotherapy",
   chiropractic: "Chiropractic",
-  kyphosis: "Kyphosis correction",
   lymphatic: "Brazilian lymphatic drainage",
   "clinical-pilates": "Clinical Pilates",
   "neck-pain": "Neck pain",

@@ -91,7 +91,6 @@ export const personSchema = {
     "Αυχεναλγία",
     "Οσφυαλγία",
     "Ισχιαλγία",
-    "Κύφωση",
     "TECAR",
     "Manual therapy",
   ],

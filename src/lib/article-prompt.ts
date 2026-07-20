@@ -8,7 +8,6 @@ export const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-6";
 export const INTERNAL_ROUTES = [
   ["/chiropractic", "Χειροπρακτική"],
   ["/lymphatic", "Λεμφικό / Brazilian drainage"],
-  ["/kyphosis", "Κύφωση"],
   ["/clinical-pilates", "Clinical Pilates"],
   ["/home-care", "Φυσικοθεραπεία κατ' οίκον"],
   ["/neck-pain", "Αυχεναλγία"],
@@ -125,7 +124,7 @@ export function buildPrompt(
           ? ` Στόχευσε στα keywords: ${topic.target_keywords.join(", ")}.`
           : ""
       }`
-    : `Πρότεινε και γράψε ένα νέο, χρήσιμο άρθρο για ασθενείς, σχετικό με τις υπηρεσίες (φυσικοθεραπεία, χειροπρακτική, λεμφικό, κύφωση, clinical pilates, κατ' οίκον), που ΔΕΝ επικαλύπτει τα υπάρχοντα.`;
+    : `Πρότεινε και γράψε ένα νέο, χρήσιμο άρθρο για ασθενείς, σχετικό με τις υπηρεσίες (φυσικοθεραπεία, χειροπρακτική, λεμφικό, clinical pilates, κατ' οίκον), που ΔΕΝ επικαλύπτει τα υπάρχοντα.`;
 
   return `${ask}
 

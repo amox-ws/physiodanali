@@ -11,7 +11,6 @@ const BILINGUAL: { path: string; priority: number; changeFrequency: Freq }[] = [
   { path: "/", priority: 1.0, changeFrequency: "weekly" },
   { path: "/therapies", priority: 0.95, changeFrequency: "monthly" },
   { path: "/chiropractic", priority: 0.9, changeFrequency: "monthly" },
-  { path: "/kyphosis", priority: 0.9, changeFrequency: "monthly" },
   { path: "/lymphatic", priority: 0.9, changeFrequency: "monthly" },
   { path: "/clinical-pilates", priority: 0.9, changeFrequency: "monthly" },
   { path: "/home-care", priority: 0.95, changeFrequency: "monthly" },

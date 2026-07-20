@@ -89,7 +89,7 @@ export const home = {
       {
         "n": "4",
         "title": "Scientific evidence",
-        "body": "Every intervention is based on current literature and research data — not on guesswork."
+        "body": "Every intervention is based on current literature and research data."
       },
       {
         "n": "5",
@@ -239,20 +239,6 @@ export const serviceSummaries: ServiceSummary[] = [
     "image": "/xiropraktikks.jpg"
   },
   {
-    "slug": "kyphosis",
-    "href": "/kyphosis",
-    "title": "Kyphosis",
-    "tagline": "Correcting kyphotic posture through specialized exercise and electrotherapy. Visible results in 20 sessions.",
-    "bullets": [
-      "Posture correction",
-      "Specialized exercise",
-      "Electrotherapy"
-    ],
-    "gradient": "linear-gradient(150deg, #c9a96e 0%, #b89968 50%, #6b5a3f 100%)",
-    "monogram": "Κ",
-    "image": "/kimfosis.jpg"
-  },
-  {
     "slug": "lymphatic",
     "href": "/lymphatic",
     "title": "Brazilian lymphatic drainage",
@@ -335,7 +321,7 @@ export const about = {
     "eyebrow": "The Physiotherapist",
     "title": "Konstantinos Danalis, PT.",
     "titleAccent": "PT.",
-    "lead": "Licensed Physiotherapist and Chiropractor. A decade of clinical experience in complex musculoskeletal and neurological cases — with the same dedication whether at the clinic or in your home.",
+    "lead": "Licensed Physiotherapist and Chiropractor. 15+ years of clinical experience in complex musculoskeletal and neurological cases — with the same dedication whether at the clinic or in your home.",
     "primaryCta": {
       "label": "Book an appointment",
       "href": "/contact"
@@ -347,7 +333,7 @@ export const about = {
   },
   "intro": {
     "eyebrow": "Philosophy",
-    "title": "A scientific approach. No guesswork.",
+    "title": "A scientific approach.",
     "body": "My practice focuses on the combined use of chiropractic, neurodynamics, therapeutic exercise and evidence-based rehabilitation protocols. The goal is not only pain relief, but also long-term improvement in movement, posture and quality of life. Every patient is assessed personally — not as a \"case\" but as a person with a specific lifestyle, goals and priorities."
   },
   "education": {
@@ -408,7 +394,7 @@ export const about = {
       },
       {
         "title": "Posture & movement",
-        "body": "Kyphosis correction, faulty movement patterns, neuromuscular coordination."
+        "body": "Faulty movement patterns, neuromuscular coordination, postural control."
       },
       {
         "title": "Home rehabilitation",
@@ -418,7 +404,7 @@ export const about = {
   },
   "stats": [
     {
-      "n": "10+",
+      "n": "15+",
       "label": "years of clinical experience"
     },
     {
@@ -724,82 +710,6 @@ export const chiropractic = {
   }
 };
 
-export const kyphosis = {
-  "meta": {
-    "title": "At-Home Kyphosis Treatment — Glyfada & Voula",
-    "description": "Specialised physiotherapy for kyphosis correction. Visible results in 20 sessions, with electrotherapy and targeted exercise."
-  },
-  "breadcrumb": "Services · Kyphosis",
-  "hero": {
-    "eyebrow": "Kyphosis",
-    "title": "Kyphosis correction. Stable posture. A taller silhouette.",
-    "titleAccent": "A taller silhouette.",
-    "lead": "Specialised at-home physiotherapy in Glyfada and Voula — with targeted exercise and electrotherapy that genuinely correct kyphotic posture.",
-    "primaryCta": {
-      "label": "Book an assessment",
-      "href": "/contact"
-    },
-    "secondaryCta": {
-      "label": "Call now",
-      "href": "tel:+306944344342"
-    }
-  },
-  "benefits": {
-    "eyebrow": "What you gain",
-    "title": "From the very first sessions.",
-    "items": [
-      {
-        "title": "Feel taller",
-        "body": "From the very first sessions — a noticeable improvement in posture and confidence."
-      },
-      {
-        "title": "Targeted exercise",
-        "body": "Specialised exercise that effectively targets kyphosis — not generic movements."
-      },
-      {
-        "title": "Electrotherapy",
-        "body": "Specialised electrotherapy tailored specifically to kyphosis — releasing tight areas."
-      },
-      {
-        "title": "Kyphotic posture correction",
-        "body": "Not just \"better posture\" — active correction of the kyphotic angle."
-      }
-    ]
-  },
-  "protocol": {
-    "eyebrow": "Rehabilitation protocol",
-    "title": "20 sessions. Visible results.",
-    "intro": "It takes around 20 sessions for a visible result. From the first 4 sessions you will feel reduced pain and improved mobility.",
-    "steps": [
-      {
-        "n": "01",
-        "title": "Sessions 1 — 4",
-        "body": "Assessment, decompression, initial pain relief."
-      },
-      {
-        "n": "02",
-        "title": "Sessions 5 — 12",
-        "body": "Targeted exercise, electrotherapy, gradual posture correction."
-      },
-      {
-        "n": "03",
-        "title": "Sessions 13 — 20",
-        "body": "Stabilising the result and a home maintenance programme."
-      }
-    ]
-  },
-  "whoFor": {
-    "eyebrow": "Who it's for",
-    "title": "When correction is needed.",
-    "items": [
-      "Kyphotic posture — a \"hunchback\" from chronic working positions",
-      "Upper back pain after hours at a desk",
-      "Difficulty standing upright for long periods",
-      "Visible kyphosis that makes you lose height",
-      "Combined neck pain and trapezius tension"
-    ]
-  }
-};
 
 export const lymphatic = {
   "meta": {
@@ -874,14 +784,14 @@ export const lymphatic = {
 export const therapies = {
   "meta": {
     "title": "Therapies — Physiotherapy & Chiropractic in Voula",
-    "description": "All of PhysioDanali's specialized therapies: Chiropractic, Kyphosis, Brazilian Lymphatic Drainage, Clinical Pilates. At the clinic or at home."
+    "description": "All of PhysioDanali's specialized therapies: Chiropractic, Brazilian Lymphatic Drainage, Clinical Pilates. At the clinic or at home."
   },
   "breadcrumb": "Therapies",
   "hero": {
     "eyebrow": "Therapies",
     "title": "All our specialized therapies.",
     "titleAccent": "therapies.",
-    "lead": "Four distinct approaches — chiropractic, kyphosis correction, lymphatic massage, clinical pilates. Together we choose which one, or ones, suit your specific case.",
+    "lead": "Three distinct approaches — chiropractic, lymphatic massage, clinical pilates. Together we choose which one, or ones, suit your specific case.",
     "primaryCta": {
       "label": "Book an assessment",
       "href": "/contact"
@@ -906,17 +816,6 @@ export const therapies = {
         "Chiropractic adjustment + manual therapy",
         "Neurodynamics",
         "Maintenance program"
-      ]
-    },
-    {
-      "slug": "kyphosis",
-      "href": "/kyphosis",
-      "title": "Kyphosis",
-      "lead": "Correcting kyphotic posture through specialized electrotherapy and targeted exercise. Visible results in 20 sessions — a noticeable difference from the first 4.",
-      "bullets": [
-        "Posture correction",
-        "Targeted exercise",
-        "Electrotherapy for kyphosis"
       ]
     },
     {
@@ -979,7 +878,7 @@ export const clinicalPilates = {
       "Shoulder impingement syndrome · rotator cuff rehabilitation",
       "Frozen shoulder",
       "Hip osteoarthritis · greater trochanteric pain syndrome",
-      "Kyphosis and postural problems",
+      "Postural problems",
       "Sciatica",
       "Return to activity after injury"
     ]
@@ -1568,24 +1467,6 @@ export const lymphaticFaq = [
   }
 ];
 
-export const kyphosisFaq = [
-  {
-    "question": "Can kyphosis really be corrected?",
-    "answer": "In most cases, yes. Functional kyphosis (caused by poor posture or long hours at a desk) is fully correctable. Structural kyphosis (Scheuermann's) cannot be reversed, but it improves significantly."
-  },
-  {
-    "question": "How soon will I see a difference?",
-    "answer": "From the very first 4 sessions, you'll notice a clear reduction in pain and increased mobility. Visible postural correction usually appears within 20 sessions."
-  },
-  {
-    "question": "Is it only exercises?",
-    "answer": "No. It's a combination of manual therapy, electrotherapy specifically for kyphosis, and targeted exercise. Exercise alone is rarely enough."
-  },
-  {
-    "question": "Does the program continue afterwards?",
-    "answer": "Yes — with 10–15 minutes of home exercises per day, the correction is maintained over the long term."
-  }
-];
 
 export const footer = {
   "legal": "© PhysioDanali. All rights reserved.",
@@ -1601,10 +1482,6 @@ export const footer = {
     {
       "href": "/chiropractic",
       "label": "Chiropractic"
-    },
-    {
-      "href": "/kyphosis",
-      "label": "Kyphosis"
     },
     {
       "href": "/lymphatic",
