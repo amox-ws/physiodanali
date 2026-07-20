@@ -13,7 +13,8 @@ export async function notifyNewDraft(draft: { id: string; title: string }) {
     console.log("[notify] RESEND_API_KEY not set — skipping email");
     return;
   }
-  const to = process.env.NOTIFY_TO || ADMIN_EMAILS[0];
+  const to = process.env.NOTIFY_TO || "info@physiodanali.gr";
+  const cc = process.env.NOTIFY_CC || "info@amox.gr";
   const from = process.env.NOTIFY_FROM || "PhysioDanali <onboarding@resend.dev>";
   const reviewUrl = `${SITE_URL}/admin/articles/${draft.id}`;
 
@@ -27,6 +28,7 @@ export async function notifyNewDraft(draft: { id: string; title: string }) {
       body: JSON.stringify({
         from,
         to,
+        cc,
         subject: `Νέο άρθρο για έλεγχο: ${draft.title}`,
         html: `
           <div style="font-family:system-ui,sans-serif;max-width:520px">

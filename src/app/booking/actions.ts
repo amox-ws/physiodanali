@@ -164,15 +164,18 @@ async function sendBookingEmails(
     minute: "2-digit",
   }).format(new Date(input.startUtc));
 
-  const send = (to: string, subject: string, html: string) =>
+  // AMOX keeps a copy of practice notifications for support. Patient-facing
+  // mail is never cc'd — pass `cc` explicitly only where it belongs.
+  const ownerCc = process.env.BOOKING_NOTIFY_CC || "info@amox.gr";
+  const send = (to: string, subject: string, html: string, cc?: string) =>
     fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from, to, subject, html }),
+      body: JSON.stringify({ from, to, cc, subject, html }),
     }).catch(() => {});
 
-  // 1) Notify the practice (owner inbox for now).
-  const notifyTo = process.env.BOOKING_NOTIFY_TO || process.env.NOTIFY_TO || "info@amox.gr";
+  // 1) Notify the practice, with a copy to AMOX for support.
+  const notifyTo = process.env.BOOKING_NOTIFY_TO || "info@physiodanali.gr";
   await send(
     notifyTo,
     `Νέο αίτημα ραντεβού — ${input.patientName} (${when})`,
@@ -183,6 +186,7 @@ async function sendBookingEmails(
      <p>Ασθενής: ${input.patientName}<br>Τηλέφωνο: ${input.patientPhone}${input.patientEmail ? `<br>Email: ${input.patientEmail}` : ""}</p>
      ${input.notes ? `<p>Σημείωση: ${input.notes}</p>` : ""}
      <p>Έλεγχος/επιβεβαίωση στο <a href="https://physiodanali.vercel.app/admin">/admin</a>.</p>`,
+    ownerCc,
   );
 
   // 2) Confirm to the patient (if they gave an email).

@@ -538,7 +538,8 @@ export async function cancelByToken(id: string, token: string): Promise<boolean>
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         from: process.env.NOTIFY_FROM || "PhysioDanali <noreply@amox.gr>",
-        to: process.env.BOOKING_NOTIFY_TO || process.env.NOTIFY_TO || "info@amox.gr",
+        to: process.env.BOOKING_NOTIFY_TO || "info@physiodanali.gr",
+        cc: process.env.BOOKING_NOTIFY_CC || "info@amox.gr",
         subject: `Ακύρωση από ασθενή — ${appt.patient_name} (${when})`,
         html: `<p>Ο/Η <strong>${appt.patient_name}</strong> ακύρωσε το ραντεβού:</p><p>${appt.service_name} — ${when} · ${appt.area}</p>`,
       }),
