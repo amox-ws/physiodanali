@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Activity,
   Zap,
@@ -10,6 +11,7 @@ import {
 } from "lucide-react";
 import { getContent } from "@/lib/content-i18n";
 import { getLocale } from "@/lib/i18n-server";
+import { localeHref } from "@/lib/i18n";
 import { t } from "@/lib/translations";
 import {
   PageHero,
@@ -33,6 +35,15 @@ const INDICATION_ICONS = [
 
 // One brand accent per condition card — adds colour + rhythm.
 const COND_ACCENTS = ["#1e4d8b", "#2563b0", "#0f2540", "#8a6d3b", "#4577b8"];
+
+// Each condition card links to the page that covers it (client request).
+// Order matches chiropractic.conditions.items: neck, low back, sciatica, shoulder.
+const COND_LINKS = [
+  "/neck-pain",
+  "/low-back-pain",
+  "/articles/low-back-pain",
+  "/articles/shoulder-pain",
+];
 import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
 import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
@@ -102,7 +113,10 @@ export default async function ChiropracticPage() {
               const accent = COND_ACCENTS[i % COND_ACCENTS.length];
               return (
                 <Reveal key={item.title} delay={i * 0.08} className="h-full">
-                  <div className="group relative h-full overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.18)] lg:p-10">
+                  <Link
+                    href={localeHref(COND_LINKS[i] ?? "/therapies", locale)}
+                    className="group relative block h-full overflow-hidden rounded-[24px] border border-stone bg-snow p-8 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/40 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.18)] lg:p-10"
+                  >
                     {/* Top accent bar — grows across the card on hover */}
                     <span
                       aria-hidden
@@ -118,7 +132,7 @@ export default async function ChiropracticPage() {
                     <p className="mt-4 text-base leading-relaxed text-ink-muted lg:text-lg">
                       {item.body}
                     </p>
-                  </div>
+                  </Link>
                 </Reveal>
               );
             })}

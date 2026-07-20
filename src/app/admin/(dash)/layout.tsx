@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { LogOut } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -33,11 +34,22 @@ export default async function AdminDashLayout({
     <div className="min-h-screen bg-mist">
       <header className="sticky top-0 z-10 border-b border-stone bg-snow/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
-          <Link href="/admin" className="flex items-baseline gap-3">
-            <span className="display text-xl tracking-tight text-ink">
-              PhysioDanali
-            </span>
-            <span className="text-[11px] uppercase tracking-[0.22em] text-cobalt">
+          {/* Logo returns to the public site (client request) — the dashboard
+              itself stays reachable via the Άρθρα / Ραντεβού nav links. */}
+          <Link
+            href="/"
+            aria-label="Μετάβαση στην αρχική σελίδα"
+            className="flex items-center gap-3"
+          >
+            <Image
+              src="/logo-v2.png"
+              alt="PhysioDanali"
+              width={1190}
+              height={190}
+              priority
+              className="h-8 w-auto"
+            />
+            <span className="hidden text-[11px] uppercase tracking-[0.22em] text-cobalt sm:inline">
               Διαχείριση
             </span>
           </Link>

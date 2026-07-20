@@ -7,10 +7,12 @@ import { ArrowUpRight, Clock } from "lucide-react";
 import { stagger, staggerItem } from "@/components/motion/reveal";
 import type { Article } from "@/lib/content";
 import { useLocale } from "@/components/site/locale-provider";
+import { localeHref } from "@/lib/i18n";
 import { t } from "@/lib/translations";
 
 export function ArticleGrid({ posts }: { posts: Article[] }) {
-  const tx = t(useLocale());
+  const locale = useLocale();
+  const tx = t(locale);
   return (
     <motion.div
       variants={stagger}
@@ -26,7 +28,7 @@ export function ArticleGrid({ posts }: { posts: Article[] }) {
           className="group flex flex-col gap-6"
         >
           <Link
-            href={post.href}
+            href={localeHref(post.href, locale)}
             aria-label={post.title}
             className="block"
           >

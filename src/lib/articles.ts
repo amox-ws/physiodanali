@@ -11,8 +11,11 @@ import type { Locale } from "@/lib/i18n";
 //
 // Greek (el): reads from Supabase (public.articles, status='published') with
 //   a static fallback to content.ts when the DB env vars are absent.
-// English (en): served from the bundled static translations (content.en.ts),
-//   since the CMS stores Greek only.
+// English (en): the CMS stores Greek only, so the published set still comes
+//   from the DB and each slug is swapped for its hand-translated version from
+//   content.en.ts when one exists. Slugs without a translation fall through to
+//   the Greek copy — the article is then listed and readable at /en rather than
+//   silently missing, and later edits to the Greek flow through automatically.
 // ─────────────────────────────────────────────────────────────────────
 
 export type ArticleFull = Article & { sections: ArticleBody["sections"] };
@@ -120,9 +123,15 @@ export async function getPublishedArticles(
   locale: Locale,
   limit?: number,
 ): Promise<ArticleFull[]> {
-  if (locale === "en") return staticAll("en", limit);
-  if (!hasSupabase()) return staticAll("el", limit);
-  return dbPublished(limit);
+  if (!hasSupabase()) return staticAll(locale, limit);
+  if (locale !== "en") return dbPublished(limit);
+  // English: the CMS stores Greek only, so list what is actually published and
+  // swap in the hand-translated version per slug when one exists. Without this
+  // merge, newly published CMS articles were missing from /en entirely (they
+  // resolved on the detail page but were never listed).
+  const published = await dbPublished();
+  const merged = published.map((p) => staticArticleFull("en", p.slug) ?? p);
+  return limit ? merged.slice(0, limit) : merged;
 }
 
 export async function getArticleBySlug(

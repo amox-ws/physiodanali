@@ -32,7 +32,9 @@ export function Hero() {
       id="top"
       className="relative isolate min-h-[100svh] overflow-hidden bg-porcelain"
     >
-      {/* Hero photo background */}
+      {/* Hero photo background. On mobile the tall crop cut the practitioner
+          (he stands in the left third of the photo) — anchor left there and
+          keep it centred from md up. */}
       <Image
         src="/herohome2.jpg"
         alt=""
@@ -40,7 +42,7 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="absolute inset-0 -z-30 object-cover object-center"
+        className="absolute inset-0 -z-30 object-cover object-left md:object-center"
       />
       {/* Light readability scrim — only enough to keep the dark ink
           headline legible. Much weaker than before so the photo shows through. */}
