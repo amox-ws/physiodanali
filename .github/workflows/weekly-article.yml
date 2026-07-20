@@ -6,7 +6,7 @@ name: Weekly AI article
 
 on:
   schedule:
-    - cron: "0 9 * * 1" # Monday 09:00 UTC
+    - cron: "0 9 * * 1,4" # Monday & Thursday 09:00 UTC (2 articles/week)
   workflow_dispatch: {}
 
 jobs:

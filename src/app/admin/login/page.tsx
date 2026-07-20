@@ -5,8 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, MailCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { isAdminEmail } from "@/lib/admin";
 
-type Status = "idle" | "sending" | "sent" | "error";
+type Status = "idle" | "sending" | "sent" | "error" | "notAllowed";
 
 /**
  * Admin sign-in via magic link (client request: no passwords, for security).
@@ -20,6 +21,13 @@ export default function AdminLoginPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    // Only the two provisioned admin accounts may request a link. The real
+    // gate is server-side (proxy + admin layout + shouldCreateUser:false), this
+    // just avoids emailing anyone else.
+    if (!isAdminEmail(email.trim())) {
+      setStatus("notAllowed");
+      return;
+    }
     setStatus("sending");
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
@@ -33,9 +41,10 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-porcelain px-6">
-      <div className="w-full max-w-md">
-        {/* Logo returns to the public site (client request) */}
+    <main className="flex min-h-screen flex-col bg-porcelain">
+      {/* Logo sits top-left like the site header, and returns to the public
+          site (client request). */}
+      <header className="px-6 py-6 lg:px-10">
         <Link
           href="/"
           aria-label="Μετάβαση στην αρχική σελίδα"
@@ -50,8 +59,11 @@ export default function AdminLoginPage() {
             className="h-10 w-auto"
           />
         </Link>
+      </header>
 
-        <p className="eyebrow mt-8">Διαχείριση</p>
+      <div className="flex flex-1 items-center justify-center px-6 pb-24">
+        <div className="w-full max-w-md">
+        <p className="eyebrow">Διαχείριση</p>
         <h1 className="display mt-3 text-4xl leading-[1.05] tracking-tight text-ink">
           Σύνδεση
         </h1>
@@ -120,8 +132,15 @@ export default function AdminLoginPage() {
                 Δεν ήταν δυνατή η αποστολή. Ελέγξτε το email και δοκιμάστε ξανά.
               </p>
             )}
+
+            {status === "notAllowed" && (
+              <p className="text-sm text-red-600" role="alert">
+                Αυτό το email δεν έχει πρόσβαση στη διαχείριση.
+              </p>
+            )}
           </form>
         )}
+        </div>
       </div>
     </main>
   );
