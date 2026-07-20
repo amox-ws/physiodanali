@@ -3,7 +3,7 @@
 Feedback από call με τον πελάτη. Τικάρουμε καθώς υλοποιούμε.
 
 ## 🎨 Design / Εμφάνιση
-- [ ] **1. Γραμματοσειρά τίτλων** — δεν του αρέσει στους τίτλους (headings). Αλλαγή heading font.
+- [x] **1. Γραμματοσειρά τίτλων** — άλλαξε σε **Manrope** (geometric sans, πλήρες ελληνικό subset). ✅
 - [x] **2. Chiropractic** → νέα stock φωτό (Unsplash): χειροπρακτική ανάταξη σε **γυναίκα**, επαγγελματικό setting. Αντικαθιστά `public/chiropractic.jpg` (ενημερώνει homepage card + detail + landers). ✅
 - [x] **3. Brazilian lymphatic** → νέα φωτό **με τα χέρια** (`public/brazilian.jpg`, manual massage) + κείμενο ρητά «εξ ολοκλήρου με τα χέρια — χειροκίνητη τεχνική, χωρίς μηχανήματα». ✅
 - [x] **4. Mobile** — εξαντλητικός έλεγχος (14 σελίδες × 2 viewports + booking flow): μηδέν overflow, μηδέν console errors. Fixes: **3D backgrounds ΜΟΝΟ σε desktop** (κύριος ένοχος «κολλήματος»), tap targets footer, typo «Πρωτοποριακή». ✅
@@ -24,5 +24,5 @@ Feedback από call με τον πελάτη. Τικάρουμε καθώς υ�
 - [ ] **13. Reviews** → σύσταση στο πλάνο (§8): **ΟΧΙ ξεχωριστό domain** (μηδενικό authority) — `/reviews` στο κύριο site + Review schema + Google Business Profile. Vanity subdomain redirect αν το θέλει οπωσδήποτε.
 
 ## ⏳ Εκκρεμεί από τον πελάτη
-- [ ] **14. Μικροαλλαγές σε TEXT** — τις περιμένουμε.
-- [ ] **15. Εικόνες μέσω WeTransfer** — πραγματικές φωτό.
+- [x] **14. Μικροαλλαγές σε TEXT** — παραδόθηκαν & εφαρμόστηκαν (PDF πελάτη: κύφωση έξω, «no guesswork» έξω, 15+, Brazilian επαναφορά, βιογραφικό). ✅
+- [x] ~~**15. Εικόνες μέσω WeTransfer**~~ — **απόφαση πελάτη: οι υπάρχουσες φωτο είναι τελικές.** ✅
