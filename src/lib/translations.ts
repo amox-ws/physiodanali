@@ -151,13 +151,13 @@ const STRINGS = {
       "Καλέστε για μια σύντομη τηλεφωνική αξιολόγηση — θα σας προτείνουμε την κατάλληλη θεραπεία πριν καν κλείσετε ραντεβού.",
     // Lymphatic page
     lymphaticBenefitsIntro:
-      "Συνδυάζει αισθητικό αποτέλεσμα με θεραπευτική αξία — ιδιαίτερα μετά από επεμβάσεις ή για χρόνια κατακράτηση.",
+      "Εξατομικευμένο πρόγραμμα παροχέτευσης ανάλογα με την επέμβαση ή την κατάστασή σας.",
     lymphaticWhyIntro:
-      "Δεν είναι κοσμετική παρέμβαση — είναι εξειδικευμένη φυσικοθεραπευτική τεχνική με 15+ χρόνια εφαρμογής.",
-    lymphaticCtaTitle: "Νοιώστε τη διαφορά. Άμεσα.",
-    lymphaticCtaAccent: "τη διαφορά.",
+      "Πιο δυναμική και πιο αποτελεσματική από την κλασική ευρωπαϊκή λεμφική παροχέτευση — ειδικά μετά από αισθητικές επεμβάσεις.",
+    lymphaticCtaTitle: "Έτοιμοι για ταχύτερη αποκατάσταση;",
+    lymphaticCtaAccent: "ταχύτερη αποκατάσταση;",
     lymphaticCtaLead:
-      "Brazilian lymphatic drainage κατ' οίκον σε Βούλα, Βουλιαγμένη, Βάρη, Γλυφάδα και Άλιμο.",
+      "Άμεση εκτίμηση του περιστατικού σας. Ραντεβού ίδια μέρα — διακριτικά στο σπίτι σας.",
     // Clinical Pilates page
     clinicalPilatesCtaTitle: "Ξεκινήστε σήμερα. Στο σπίτι σας.",
     clinicalPilatesCtaAccent: "Στο σπίτι σας.",
@@ -349,13 +349,13 @@ const STRINGS = {
       "Call for a short phone assessment — we'll recommend the right treatment before you even book an appointment.",
     // Lymphatic page
     lymphaticBenefitsIntro:
-      "It combines an aesthetic result with therapeutic value — especially after surgery or for chronic fluid retention.",
+      "A drainage programme tailored to your procedure or condition.",
     lymphaticWhyIntro:
-      "It isn't a cosmetic treatment — it's a specialised physiotherapy technique with 15+ years of practice.",
-    lymphaticCtaTitle: "Feel the difference. Right away.",
-    lymphaticCtaAccent: "the difference.",
+      "More dynamic and more effective than classic European lymphatic drainage — especially after cosmetic surgery.",
+    lymphaticCtaTitle: "Ready for a faster recovery?",
+    lymphaticCtaAccent: "faster recovery?",
     lymphaticCtaLead:
-      "Brazilian lymphatic drainage at home in Voula, Vouliagmeni, Vari, Glyfada and Alimos.",
+      "Immediate assessment of your case. Same-day appointment — discreetly, at your home.",
     // Clinical Pilates page
     clinicalPilatesCtaTitle: "Start today. In your own home.",
     clinicalPilatesCtaAccent: "In your own home.",

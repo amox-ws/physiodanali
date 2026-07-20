@@ -713,15 +713,15 @@ export const chiropractic = {
 
 export const lymphatic = {
   "meta": {
-    "title": "Brazilian Lymphatic Drainage — At-home lymphatic massage",
-    "description": "The most effective lymphatic massage using the most advanced techniques. Post-operative recovery, detoxification, firming."
+    "title": "Brazilian Lymphatic Drainage Post-Liposuction at Home",
+    "description": "Authentic Brazilian-technique lymphatic drainage for faster recovery after liposuction, tummy tuck, BBL or other cosmetic surgery. Reduce swelling, prevent fibrosis — at your home, discreetly."
   },
   "breadcrumb": "Services · Brazilian Lymphatic",
   "hero": {
     "eyebrow": "Brazilian Lymphatic Drainage",
-    "title": "Brazilian Lymphatic Drainage.",
-    "titleAccent": "Lymphatic",
-    "lead": "The most effective lymphatic massage using the most advanced techniques. In your own home — with 15+ years of experience in the lymphatic system.",
+    "title": "Brazilian Lymphatic Drainage — Post-Liposuction & Surgery Recovery at Home.",
+    "titleAccent": "Post-Liposuction & Surgery Recovery",
+    "lead": "Authentic Brazilian-technique lymphatic drainage for faster recovery after liposuction, tummy tuck, BBL or other cosmetic surgery. Reduce swelling, prevent fibrosis — at your home, discreetly.",
     "primaryCta": {
       "label": "Book a session",
       "href": "/contact"
@@ -732,50 +732,55 @@ export const lymphatic = {
     }
   },
   "about": {
-    "eyebrow": "What it is",
-    "title": "Painless. Targeted. Immediate.",
-    "body": "Performed by a specialized Physiotherapist, either over the entire body or on specific affected areas. The treatment is painless, with gentle pressure and special techniques applied to the lymph node regions. After the massage, the body releases fluids for several hours — you feel lighter and your body slimmer."
+    "eyebrow": "How it works",
+    "title": "From the first contact to full recovery.",
+    "body": "In 4 clear steps. Immediate assessment: call or WhatsApp us — we discuss your surgery, the date and your recovery goals. Appointment at your home: discreet visit, same or next day — you don't have to move. Brazilian session (60-90 min): targeted drainage with the right pressure and rhythm for the recovery phase you're in. Recovery protocol: frequency tailored to your surgery type — typically 2-3 sessions/week for the first weeks."
   },
   "benefits": {
-    "eyebrow": "Results",
-    "title": "What you'll see.",
+    "eyebrow": "Indications",
+    "title": "Who it's for.",
     "items": [
-      "Immediate results — lasting up to 7 days",
-      "Intensive lymphatic massage",
-      "Feel slimmer — lose inches",
-      "Detoxification",
-      "Reduces fluid retention",
-      "Essential for post-operative conditions",
-      "Reduces cellulite"
+      "Post-liposuction",
+      "Post-tummy tuck",
+      "Post-BBL (Brazilian butt lift)",
+      "Post-breast surgery",
+      "Post-rhinoplasty / face lift",
+      "Pregnancy-related swelling",
+      "Post-cesarean recovery",
+      "Heavy legs / fluid retention",
+      "Mild/moderate lymphedema",
+      "Cellulite & body contouring",
+      "Detox & wellness",
+      "Post-intense exercise"
     ]
   },
   "why": {
     "eyebrow": "Why PhysioDanali",
-    "title": "15+ years of experience.",
+    "title": "Why the Brazilian technique is different.",
     "items": [
       {
-        "title": "15+ years of experience",
-        "body": "In lymphatic massage — not just one of many physiotherapy protocols, but a true specialty."
+        "title": "Authentic Brazilian technique",
+        "body": "The Brazilian method is more dynamic and rhythmic than the traditional European (Vodder) method — designed specifically for post-surgery recovery. It activates the lymphatic system and moves trapped fluid out more effectively."
       },
       {
-        "title": "Specialization",
-        "body": "Specialization in the lymphatic system and its anatomy."
+        "title": "Reduce swelling, prevent fibrosis",
+        "body": "Proper drainage in the first 4-6 weeks reduces edema, helps prevent seromas (fluid pockets), and lowers the risk of fibrosis (tissue hardening) — leading to a smoother, more even final contour."
       },
       {
-        "title": "A professional approach",
-        "body": "Not a beautician — a Physiotherapist with a medical approach."
+        "title": "At your home — when you shouldn't be moving",
+        "body": "Recovery means rest. We come to you with the right pressure and technique — no taxis, no waiting rooms. Discreet, professional, on your schedule."
       },
       {
-        "title": "A safe choice",
-        "body": "Full knowledge of contraindications and careful review of your medical history."
+        "title": "Licensed Physical Therapist — not just an aesthetician",
+        "body": "Scientific knowledge of lymphatic system anatomy. Member of the Panhellenic Association of Physiotherapists (PSF), graduate of the University of West Attica."
       },
       {
-        "title": "Guaranteed results",
-        "body": "From the very first sessions — the difference is visible."
+        "title": "IFOMPT-certified & APTA International Affiliate",
+        "body": "Certified in Mulligan, Maitland and Shacklock techniques."
       },
       {
-        "title": "At-home convenience",
-        "body": "In your own space — peace and quiet before and after your session."
+        "title": "Brazilian Lymphatic Drainage Specialist",
+        "body": "Specialised in the authentic Brazilian method — 15+ years of experience."
       }
     ]
   }
