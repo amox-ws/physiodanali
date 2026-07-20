@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { localeHref } from "@/lib/i18n";
+import { localeHref, type Locale } from "@/lib/i18n";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -160,7 +160,7 @@ export default async function ArticlePage({
           <Reveal>
             <article>
               {body.sections.map((sec, i) => (
-                <ArticleSection key={i} section={sec} index={i} />
+                <ArticleSection key={i} section={sec} index={i} locale={locale} />
               ))}
             </article>
           </Reveal>
@@ -253,9 +253,11 @@ export default async function ArticlePage({
 function ArticleSection({
   section,
   index,
+  locale,
 }: {
   section: { heading?: string; body: string };
   index: number;
+  locale: Locale;
 }) {
   const isLead = index === 0 && !section.heading;
   const paragraphs = section.body.split("\n\n").filter((p) => p.trim());
@@ -280,20 +282,62 @@ function ArticleSection({
           text={para}
           isLead={isLead && i === 0}
           isFirst={i === 0}
+          locale={locale}
         />
       ))}
     </section>
   );
 }
 
+/**
+ * Render markdown links inside body text. The AI writes internal links as
+ * [label](/path); without this they printed as literal brackets. Internal paths
+ * are locale-prefixed so an English article links to the English page.
+ */
+function renderInline(text: string, locale: Locale): React.ReactNode {
+  const re = /\[([^\]]+)\]\(([^)\s]+)\)/g;
+  const out: React.ReactNode[] = [];
+  let last = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) out.push(text.slice(last, m.index));
+    const [full, label, href] = m;
+    const cls =
+      "text-cobalt underline decoration-cobalt/30 underline-offset-4 transition-colors hover:decoration-cobalt";
+    out.push(
+      href.startsWith("/") ? (
+        <Link key={m.index} href={localeHref(href, locale)} className={cls}>
+          {label}
+        </Link>
+      ) : (
+        <a
+          key={m.index}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={cls}
+        >
+          {label}
+        </a>
+      ),
+    );
+    last = m.index + full.length;
+  }
+  if (out.length === 0) return text;
+  if (last < text.length) out.push(text.slice(last));
+  return out;
+}
+
 function Paragraph({
   text,
   isLead,
   isFirst,
+  locale,
 }: {
   text: string;
   isLead: boolean;
   isFirst: boolean;
+  locale: Locale;
 }) {
   const lines = text.split("\n");
 
@@ -359,7 +403,7 @@ function Paragraph({
             className="flex items-start gap-3 text-base leading-[1.65] text-ink-muted lg:text-lg"
           >
             <span className="mt-2 inline-block size-1.5 shrink-0 rounded-full bg-cobalt" />
-            <span>{l.replace(/^•\s*/, "")}</span>
+            <span>{renderInline(l.replace(/^•\s*/, ""), locale)}</span>
           </li>
         ))}
       </ul>
@@ -369,7 +413,7 @@ function Paragraph({
   if (isLead) {
     return (
       <p className="display-italic mt-2 text-[clamp(1.25rem,2.2vw,1.6rem)] leading-[1.4] tracking-[-0.005em] text-ink first:mt-0">
-        {text}
+        {renderInline(text, locale)}
       </p>
     );
   }
@@ -381,7 +425,7 @@ function Paragraph({
         (isFirst ? "first:mt-0" : "mt-5")
       }
     >
-      {text}
+      {renderInline(text, locale)}
     </p>
   );
 }

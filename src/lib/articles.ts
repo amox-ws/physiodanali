@@ -20,7 +20,8 @@ import type { Locale } from "@/lib/i18n";
 
 export type ArticleFull = Article & { sections: ArticleBody["sections"] };
 
-const SELECT = "slug,title,category,excerpt,read_time,date,image,sections";
+const SELECT =
+  "slug,title,category,excerpt,read_time,date,image,sections,title_en,excerpt_en,sections_en";
 const REVALIDATE = 3600; // safety net; on-demand via revalidateTag("articles")
 
 type Row = {
@@ -32,7 +33,27 @@ type Row = {
   date: string | null;
   image: string | null;
   sections: ArticleBody["sections"] | null;
+  title_en: string | null;
+  excerpt_en: string | null;
+  sections_en: ArticleBody["sections"] | null;
 };
+
+/**
+ * Swap a Greek DB row for its English copy. Prefers the translation stored at
+ * publish time, then a hand-written one from content.en.ts, then leaves the
+ * Greek in place so the article is still listed and readable on /en.
+ */
+function toEnglish(row: DbArticle): ArticleFull {
+  if (row.title_en && row.sections_en?.length) {
+    return {
+      ...row,
+      title: row.title_en,
+      excerpt: row.excerpt_en ?? row.excerpt,
+      sections: row.sections_en,
+    };
+  }
+  return staticArticleFull("en", row.slug) ?? row;
+}
 
 function hasSupabase() {
   return Boolean(
@@ -72,7 +93,10 @@ function db() {
   return createClient(url, anon, { auth: { persistSession: false } });
 }
 
-function toArticle(r: Row): ArticleFull {
+type DbArticle = ArticleFull &
+  Pick<Row, "title_en" | "excerpt_en" | "sections_en">;
+
+function toArticle(r: Row): DbArticle {
   return {
     slug: r.slug,
     title: r.title,
@@ -83,12 +107,15 @@ function toArticle(r: Row): ArticleFull {
     href: `/articles/${r.slug}`,
     image: r.image ?? "",
     sections: r.sections ?? [],
+    title_en: r.title_en,
+    excerpt_en: r.excerpt_en,
+    sections_en: r.sections_en,
   };
 }
 
 // ── Greek: cached Supabase reads ──────────────────────────────────────
 const dbPublished = unstable_cache(
-  async (limit?: number): Promise<ArticleFull[]> => {
+  async (limit?: number): Promise<DbArticle[]> => {
     let q = db()
       .from("articles")
       .select(SELECT)
@@ -104,7 +131,7 @@ const dbPublished = unstable_cache(
 );
 
 const dbBySlug = unstable_cache(
-  async (slug: string): Promise<ArticleFull | null> => {
+  async (slug: string): Promise<DbArticle | null> => {
     const { data, error } = await db()
       .from("articles")
       .select(SELECT)
@@ -130,7 +157,7 @@ export async function getPublishedArticles(
   // merge, newly published CMS articles were missing from /en entirely (they
   // resolved on the detail page but were never listed).
   const published = await dbPublished();
-  const merged = published.map((p) => staticArticleFull("en", p.slug) ?? p);
+  const merged = published.map(toEnglish);
   return limit ? merged.slice(0, limit) : merged;
 }
 
@@ -138,13 +165,10 @@ export async function getArticleBySlug(
   locale: Locale,
   slug: string,
 ): Promise<ArticleFull | null> {
-  if (locale === "en") {
-    const en = staticArticleFull("en", slug);
-    if (en) return en;
-    // No English version → fall back to Greek so /en/articles/* never 404s.
-  }
-  if (!hasSupabase()) return staticArticleFull("el", slug);
-  return dbBySlug(slug);
+  if (!hasSupabase()) return staticArticleFull(locale, slug);
+  const row = await dbBySlug(slug);
+  if (!row) return staticArticleFull(locale, slug);
+  return locale === "en" ? toEnglish(row) : row;
 }
 
 // Draft-capable read for ADMIN PREVIEW only. Uses the service-role key to

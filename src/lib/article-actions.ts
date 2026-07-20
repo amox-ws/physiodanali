@@ -4,7 +4,40 @@ import { revalidateTag, revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { isAdminEmail } from "@/lib/admin";
 import { pingIndexNow } from "@/lib/indexnow";
+import { translateArticle } from "@/lib/translate-article";
 import type { Section, Faq } from "@/lib/admin-articles";
+
+/**
+ * Refresh the English copy from the current Greek row. Runs whenever an article
+ * becomes (or stays) published, so the two languages track each other and an
+ * edit to the Greek is reflected in English. Best-effort: on failure the row
+ * keeps its previous translation (or none) and /en falls back to the Greek.
+ */
+async function syncEnglish(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  id: string,
+) {
+  const { data } = await supabase
+    .from("articles")
+    .select("title,excerpt,sections")
+    .eq("id", id)
+    .maybeSingle();
+  if (!data) return;
+  const en = await translateArticle({
+    title: data.title as string,
+    excerpt: data.excerpt as string | null,
+    sections: data.sections as { heading?: string; body: string }[] | null,
+  });
+  if (!en) return;
+  await supabase
+    .from("articles")
+    .update({
+      title_en: en.title_en,
+      excerpt_en: en.excerpt_en,
+      sections_en: en.sections_en,
+    })
+    .eq("id", id);
+}
 
 // Server Actions can bypass the proxy matcher (Next 16 docs), so every action
 // re-checks the admin allowlist before touching data.
@@ -68,6 +101,8 @@ export async function saveArticle(
     revalidatePath("/admin");
     // Editing an already-published article must refresh the public page too.
     if (data.status === "published") {
+      // The Greek changed on a live article — retranslate so /en matches.
+      await syncEnglish(supabase, id);
       revalidateTag("articles", "max");
       revalidatePath("/articles");
       revalidatePath(`/articles/${data.slug}`);
@@ -95,6 +130,8 @@ export async function publishArticle(id: string): Promise<void> {
     .select("slug")
     .single();
   if (error) throw new Error(error.message);
+  // Translate the approved Greek — whatever was edited is what ships in English.
+  await syncEnglish(supabase, id);
   revalidateTag("articles", "max");
   revalidatePath("/articles");
   revalidatePath(`/articles/${data.slug}`);
