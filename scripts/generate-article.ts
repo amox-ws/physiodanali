@@ -17,6 +17,7 @@ import {
   uniqueSlug,
   unsplashImage,
   type GeneratedArticle,
+  type UnsplashPick,
 } from "../src/lib/article-prompt";
 
 function need(name: string): string {
@@ -31,6 +32,47 @@ async function main() {
     need("SUPABASE_SERVICE_ROLE_KEY"),
     { auth: { persistSession: false } },
   );
+
+  /**
+   * Turn an Unsplash pick into a URL we can store. `unsplashImage` returns an
+   * object, and writing that straight into `image` (as this script used to)
+   * left a JSON blob in the column and a broken cover on the article. Mirrors
+   * storeCover in src/lib/generate-article.ts: compress via Imgix, re-host in
+   * our own bucket, and fall back to the compressed hotlink if anything fails —
+   * a cover image must never break article generation.
+   */
+  const storeCover = async (
+    pick: UnsplashPick | null,
+    slug: string,
+  ): Promise<string | null> => {
+    if (!pick) return null;
+    const sep = pick.raw.includes("?") ? "&" : "?";
+    const compressed = `${pick.raw}${sep}auto=format&fit=max&w=1600&q=70&fm=webp`;
+
+    // Unsplash API guideline: ping the download endpoint on use.
+    const key = process.env.UNSPLASH_ACCESS_KEY;
+    if (pick.downloadLocation && key) {
+      fetch(pick.downloadLocation, {
+        headers: { Authorization: `Client-ID ${key}` },
+      }).catch(() => {});
+    }
+
+    try {
+      const res = await fetch(compressed, { signal: AbortSignal.timeout(15000) });
+      if (!res.ok) return compressed;
+      const bytes = new Uint8Array(await res.arrayBuffer());
+      const path = `covers/${slug}-${Date.now()}.webp`;
+      const { error } = await supabase.storage
+        .from("article-images")
+        .upload(path, bytes, { contentType: "image/webp", upsert: true });
+      if (error) return compressed;
+      return supabase.storage.from("article-images").getPublicUrl(path).data
+        .publicUrl;
+    } catch {
+      return compressed;
+    }
+  };
+
   const dryRun = process.env.DRY_RUN === "1";
   if (!dryRun) need("ANTHROPIC_API_KEY");
 
@@ -74,11 +116,11 @@ async function main() {
   }
   const article = JSON.parse(textBlock.text) as GeneratedArticle;
 
-  // 4. Auto cover image (Unsplash; null if no key / no match → client uploads).
-  const image = await unsplashImage(article.image_query);
-
-  // 5. Unique slug + insert as DRAFT.
+  // 4. Unique slug (also used as the cover-image filename).
   const slug = uniqueSlug(article.slug, existingSlugs);
+
+  // 5. Auto cover image (Unsplash; null if no key / no match → client uploads).
+  const image = await storeCover(await unsplashImage(article.image_query), slug);
   const { data: inserted, error } = await supabase
     .from("articles")
     .insert({
