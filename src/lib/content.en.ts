@@ -341,24 +341,14 @@ export const about = {
     "title": "Academic path.",
     "items": [
       {
-        "n": "01",
+        "n": "",
         "title": "University of West Attica",
         "body": "Degree in Physiotherapy — Faculty of Health and Care Sciences."
       },
       {
-        "n": "02",
-        "title": "Scientific Department of Musculoskeletal Physiotherapy",
-        "body": "Continuing education in musculoskeletal assessment and treatment."
-      },
-      {
-        "n": "03",
-        "title": "Scientific Department of Therapeutic Exercise",
-        "body": "Targeted exercise protocols for rehabilitation and prevention."
-      },
-      {
-        "n": "04",
-        "title": "Scientific Department of Mental Health",
-        "body": "Interdisciplinary understanding of chronic pain and its psychosomatic dimension."
+        "n": "",
+        "title": "Orthopedic Manual Therapy",
+        "body": "OMT Greece — IFOMPT member."
       }
     ]
   },
@@ -366,6 +356,8 @@ export const about = {
     "eyebrow": "Memberships",
     "title": "Professional bodies.",
     "items": [
+      "APTA international affiliate",
+      "OMT Greece — IFOMPT member",
       "Panhellenic Physiotherapists' Association (P.S.F.) — Licensed member",
       "Scientific Department of Musculoskeletal Physiotherapy",
       "Scientific Department of Therapeutic Exercise",

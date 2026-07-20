@@ -6,12 +6,6 @@
 
 ## 🔴 ΕΚΚΡΕΜΟΥΝ
 
-### Από τον πελάτη (μπλοκάρουν εμάς)
-- [ ] **5. About / Bio → νέα προσόντα** — **ΠΑΓΩΜΕΝΟ**: ο πελάτης δεν είναι σίγουρος, θα ρωτήσει και θα επιβεβαιώσει. Το ζητούμενο ήταν (χωρίς χρονολογίες):
-  - Κωνσταντίνος Δανάλης, **PT, OMT**
-  - *Academic Path:* University of West Attica — Degree in Physiotherapy, Faculty of Health and Care Sciences · Orthopedic Manual Therapy — OMT Greece – IFMOPT member
-  - *Professional bodies:* APTA international affiliate · OMT Greece – IFMOPT member · Panhellenic Physiotherapists' Association (P.S.F.) — Licensed member → Scientific Departments: Musculoskeletal Physiotherapy / Therapeutic Exercise / Mental Health Physiotherapy
-
 ### Go-live (αναλυτικά στο [go-live-checklist.md](go-live-checklist.md))
 - [ ] **Cutover** — DNS από πελάτη → σύνδεση domain στο Vercel + `SITE_URL` + verify
 - [ ] **Anthropic credits** — ο λογαριασμός είναι **άδειος**· η αυτόματη παραγωγή άρθρων δεν τρέχει
@@ -26,6 +20,7 @@
 ## ✅ ΕΓΙΝΑΝ ΟΛΑ ΤΑ ΥΠΟΛΟΙΠΑ
 
 ### Περιεχόμενο (2026-07-16)
+- [x] **5. About / Bio → νέα προσόντα.** Τίτλος → «Κωνσταντίνος Δανάλης, **PT, OMT**» (EL+EN). **Ακαδημαϊκή πορεία χωρίς νούμερα**, 2 items: *University of West Attica — Degree in Physiotherapy, Faculty of Health and Care Sciences* + *Orthopedic Manual Therapy — OMT Greece, IFOMPT member*. **Επαγγελματικά σώματα** += *APTA international affiliate* & *OMT Greece — IFOMPT member*, με Π.Σ.Φ. + τα 3 Επιστημονικά Τμήματα από κάτω. ✅ **IFOMPT** (ο πελάτης επιβεβαίωσε — το «IFMOPT» του PDF ήταν τυπογραφικό).
 - [x] **1. Κύφωση → βγήκε ΤΕΛΕΙΩΣ.** Σελίδα `/kyphosis` (τώρα **404**), nav EL+EN, κάρτα υπηρεσίας, entry Θεραπειών, `kyphosis`/`kyphosisFaq` blocks, 14 translation keys, `sitemap.ts`, `seo.ts`, `llms.txt`, AI article-prompt topic, booking label. **Τα 4 legacy redirects (kyphosis + scoliosis, EL/EN) → `/chiropractic`** — επαληθεύτηκε 200, **μηδέν απώλεια SEO**. Ξαναγράφτηκαν και τα κείμενα που τη διαφήμιζαν («Τέσσερις→Τρεις προσεγγίσεις», meta, «Στάση & κίνηση», λίστα παθήσεων).
 - [x] **2. «No guesswork / Χωρίς εικασίες» → έξω από παντού** (EL + EN). Μηδέν υπολείμματα.
 - [x] **3. Χρόνια εμπειρίας → «15+» παντού.** «Δεκαετής»→«15+», `10+`→`15+`. *(Τα «decades» σε άρθρα ΣΚΠ/Parkinson είναι κλινικό κείμενο — άθικτα.)*

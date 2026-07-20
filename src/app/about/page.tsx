@@ -118,12 +118,15 @@ export default async function AboutPage() {
 
               {/* Education */}
               <CvBlock title={about.education.title} label={tx.aboutEducationLabel}>
-                <ol className="space-y-7">
-                  {about.education.items.map((item, i) => (
+                {/* Unnumbered — the client asked for the academic path without
+                    figures, since the entries are not a ranked sequence. */}
+                <ul className="space-y-7">
+                  {about.education.items.map((item) => (
                     <li key={item.title} className="flex gap-5">
-                      <span className="display-italic shrink-0 text-2xl leading-none text-cobalt/55 lg:text-3xl">
-                        {i + 1}
-                      </span>
+                      <span
+                        aria-hidden
+                        className="mt-2.5 h-px w-6 shrink-0 bg-cobalt/40"
+                      />
                       <div>
                         <h4 className="display text-xl leading-snug tracking-tight text-ink lg:text-2xl">
                           {item.title}
@@ -134,7 +137,7 @@ export default async function AboutPage() {
                       </div>
                     </li>
                   ))}
-                </ol>
+                </ul>
               </CvBlock>
 
               {/* Specialties */}

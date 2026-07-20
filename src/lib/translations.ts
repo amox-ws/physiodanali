@@ -57,7 +57,7 @@ const STRINGS = {
       "Από αξιολόγηση μέχρι ολοκληρωμένο πρόγραμμα αποκατάστασης — στο σπίτι σας ή στο ιατρείο.",
     articleMetaFallback: "Άρθρο",
     // Practitioner card / FinalCTA / RelatedServices (shared primitives)
-    practitionerName: "Κωνσταντίνος Δανάλης, PT",
+    practitionerName: "Κωνσταντίνος Δανάλης, PT, OMT",
     practitionerRole: "Φυσικοθεραπευτής · Χειροπρακτικός",
     practitionerAlt: "Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός",
     practitionerBio:
@@ -116,7 +116,7 @@ const STRINGS = {
     cfFootnote: "Απαντάμε σύντομα. Δωρεάν αξιολόγηση μέσω τηλεφώνου.",
     scrollTop: "Επιστροφή στην κορυφή",
     // About page
-    aboutPractitionerName: "Κωνσταντίνος Δανάλης",
+    aboutPractitionerName: "Κωνσταντίνος Δανάλης, PT, OMT",
     aboutPractitionerRole: "Φυσικοθεραπευτής · Χειροπρακτικός",
     aboutPortraitAlt:
       "Κωνσταντίνος Δανάλης, Φυσικοθεραπευτής - Χειροπρακτικός",
@@ -256,7 +256,7 @@ const STRINGS = {
       "From assessment to a complete rehabilitation programme — at home or at the practice.",
     articleMetaFallback: "Article",
     // Practitioner card / FinalCTA / RelatedServices (shared primitives)
-    practitionerName: "Konstantinos Danalis, PT",
+    practitionerName: "Konstantinos Danalis, PT, OMT",
     practitionerRole: "Physiotherapist · Chiropractor",
     practitionerAlt: "Konstantinos Danalis, Physiotherapist - Chiropractor",
     practitionerBio:
@@ -315,7 +315,7 @@ const STRINGS = {
     cfFootnote: "We reply soon. Free phone assessment.",
     scrollTop: "Back to top",
     // About page
-    aboutPractitionerName: "Konstantinos Danalis",
+    aboutPractitionerName: "Konstantinos Danalis, PT, OMT",
     aboutPractitionerRole: "Physiotherapist · Chiropractor",
     aboutPortraitAlt: "Konstantinos Danalis, Physiotherapist - Chiropractor",
     aboutEducationLabel: "Education",
