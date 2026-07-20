@@ -16,9 +16,6 @@ import {
 
 const TZ = "Europe/Athens";
 const SLOT_STEP_MIN = 15; // granularity of offered start times
-// Padding either side of a Google Calendar commitment, so a visit is never
-// booked flush against something the practitioner has to travel to or from.
-const CALENDAR_BUFFER_MIN = 15;
 
 export type BookingService = {
   id: string;
@@ -216,11 +213,9 @@ export async function getAvailableSlots(opts: {
     e: new Date(a.starts_at).getTime() + a.duration_min * 60000,
     sameArea: a.area === opts.area,
   }));
-  // Time-off is an exact "unavailable from X to Y" — no padding.
-  // Google events are real commitments the practitioner has to travel to or
-  // from, so pad them on both sides. The area-aware travel buffer can't apply
-  // here: a calendar entry carries no area.
-  const calBuf = CALENDAR_BUFFER_MIN * 60000;
+  // Time-off and Google commitments both block their exact window — no padding.
+  // Whether calendar entries should also reserve travel time either side is the
+  // practitioner's call; until he decides, a slot may sit flush against one.
   const timeoff = (offs ?? [])
     .map((o) => ({
       s: new Date(o.starts_at).getTime(),
@@ -228,8 +223,8 @@ export async function getAvailableSlots(opts: {
     }))
     .concat(
       busy.map((b) => ({
-        s: new Date(b.start).getTime() - calBuf,
-        e: new Date(b.end).getTime() + calBuf,
+        s: new Date(b.start).getTime(),
+        e: new Date(b.end).getTime(),
       })),
     );
 
