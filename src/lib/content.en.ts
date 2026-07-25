@@ -712,7 +712,7 @@ export const lymphatic = {
   "hero": {
     "eyebrow": "Brazilian Lymphatic Drainage",
     "title": "Brazilian Lymphatic Drainage — Post-Liposuction & Surgery Recovery at Home.",
-    "titleAccent": "Post-Liposuction & Surgery Recovery",
+    "titleAccent": "Post-Liposuction & Surgery Recovery at Home.",
     "lead": "Authentic Brazilian-technique lymphatic drainage for faster recovery after liposuction, tummy tuck, BBL or other cosmetic surgery. Reduce swelling, prevent fibrosis — at your home, discreetly.",
     "primaryCta": {
       "label": "Book a session",
@@ -721,12 +721,38 @@ export const lymphatic = {
     "secondaryCta": {
       "label": "Call now",
       "href": "tel:+306944344342"
-    }
+    },
+    "badges": [
+      "100+ 5-star reviews",
+      "15+ years experience",
+      "Brazilian Lymphatic Drainage"
+    ],
+    "trust": [
+      "Brazilian technique",
+      "Discreet at your home",
+      "Serving Voula · Vouliagmeni · Vari · Glyfada"
+    ]
   },
-  "about": {
-    "eyebrow": "How it works",
-    "title": "From the first contact to full recovery.",
-    "body": "In 4 clear steps. Immediate assessment: call or WhatsApp us — we discuss your surgery, the date and your recovery goals. Appointment at your home: discreet visit, same or next day — you don't have to move. Brazilian session (60-90 min): targeted drainage with the right pressure and rhythm for the recovery phase you're in. Recovery protocol: frequency tailored to your surgery type — typically 2-3 sessions/week for the first weeks."
+  "why": {
+    "eyebrow": "Why PhysioDanali",
+    "title": "Why the Brazilian technique is different.",
+    "items": [
+      {
+        "title": "Authentic Brazilian technique",
+        "body": "The Brazilian method is more dynamic and rhythmic than the traditional European (Vodder) method — designed specifically for post-surgery recovery. It activates the lymphatic system and moves trapped fluid out more effectively.",
+        "tag": "Specialized method"
+      },
+      {
+        "title": "Reduce swelling, prevent fibrosis",
+        "body": "Proper drainage in the first 4-6 weeks reduces edema, helps prevent seromas (fluid pockets), and lowers the risk of fibrosis (tissue hardening) — leading to a smoother, more even final contour.",
+        "tag": "Better final result"
+      },
+      {
+        "title": "At your home — when you shouldn't be moving",
+        "body": "Recovery means rest. We come to you with the right pressure and technique — no taxis, no waiting rooms. Discreet, professional, on your schedule.",
+        "tag": "Discretion"
+      }
+    ]
   },
   "benefits": {
     "eyebrow": "Indications",
@@ -746,33 +772,68 @@ export const lymphatic = {
       "Post-intense exercise"
     ]
   },
-  "why": {
-    "eyebrow": "Why PhysioDanali",
-    "title": "Why the Brazilian technique is different.",
+  "practitioner": {
+    "eyebrow": "Your therapist",
+    "name": "Konstantinos Danalis, PT",
+    "role": "Licensed Physical Therapist & Brazilian Lymphatic Drainage Specialist · 15+ years of experience",
+    "bullets": [
+      "Specialised in Brazilian Lymphatic Drainage — the authentic Brazilian method",
+      "Licensed Physical Therapist — not just an aesthetician. Scientific knowledge of lymphatic system anatomy.",
+      "IFOMPT-certified & APTA International Affiliate",
+      "Member of the Panhellenic Association of Physiotherapists (PSF)",
+      "Graduate of the University of West Attica",
+      "Certified in Mulligan, Maitland and Shacklock techniques"
+    ],
+    "badges": [
+      "Brazilian Lymphatic Drainage",
+      "Licensed PT",
+      "IFOMPT",
+      "PSF Member"
+    ]
+  },
+  "process": {
+    "eyebrow": "Process",
+    "title": "How it works.",
+    "intro": "From the first contact to full recovery, in 4 clear steps.",
+    "steps": [
+      {
+        "n": "1",
+        "title": "Immediate assessment",
+        "body": "Call or WhatsApp us. We discuss your surgery, the date and your recovery goals."
+      },
+      {
+        "n": "2",
+        "title": "Appointment at your home",
+        "body": "Discreet visit — same or next day. You don't have to move."
+      },
+      {
+        "n": "3",
+        "title": "Brazilian session (60-90 min)",
+        "body": "Targeted drainage with the right pressure and rhythm for the recovery phase you're in."
+      },
+      {
+        "n": "4",
+        "title": "Recovery protocol",
+        "body": "Frequency tailored to your surgery type — typically 2-3 sessions/week for the first weeks."
+      }
+    ]
+  },
+  "reviews": {
+    "eyebrow": "Reviews",
+    "title": "What our patients say.",
+    "intro": "100+ 5-star reviews on Google & Doctoranytime",
     "items": [
       {
-        "title": "Authentic Brazilian technique",
-        "body": "The Brazilian method is more dynamic and rhythmic than the traditional European (Vodder) method — designed specifically for post-surgery recovery. It activates the lymphatic system and moves trapped fluid out more effectively."
+        "quote": "Mr. Danalis is a true professional who gives the patient the attention they need. Most importantly: the quality and effectiveness of the treatment. I recommend him without reservation.",
+        "author": "Athanasia A. · Voula"
       },
       {
-        "title": "Reduce swelling, prevent fibrosis",
-        "body": "Proper drainage in the first 4-6 weeks reduces edema, helps prevent seromas (fluid pockets), and lowers the risk of fibrosis (tissue hardening) — leading to a smoother, more even final contour."
+        "quote": "He knows his field very well and engages personally with the patient. Positive attitude, has helped me a lot. I trust him and I recommend him.",
+        "author": "Erifyli S. · Glyfada"
       },
       {
-        "title": "At your home — when you shouldn't be moving",
-        "body": "Recovery means rest. We come to you with the right pressure and technique — no taxis, no waiting rooms. Discreet, professional, on your schedule."
-      },
-      {
-        "title": "Licensed Physical Therapist — not just an aesthetician",
-        "body": "Scientific knowledge of lymphatic system anatomy. Member of the Panhellenic Association of Physiotherapists (PSF), graduate of the University of West Attica."
-      },
-      {
-        "title": "IFOMPT-certified & APTA International Affiliate",
-        "body": "Certified in Mulligan, Maitland and Shacklock techniques."
-      },
-      {
-        "title": "Brazilian Lymphatic Drainage Specialist",
-        "body": "Specialised in the authentic Brazilian method — 15+ years of experience."
+        "quote": "He spent a lot of time on my problem and earned my trust. I'll definitely recommend him — clear improvement from the very first session.",
+        "author": "Giota S. · Vari"
       }
     ]
   }

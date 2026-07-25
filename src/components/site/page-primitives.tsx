@@ -201,7 +201,9 @@ const SECTION_ACCENTS = [
 // CARD GRID — colour-accented cards with a growing top bar + hover lift
 
 type CardGridProps = {
-  items: { title: string; body: string }[];
+  /** `tag` renders a small pill under the copy — used where a card needs a
+   *  one-word takeaway ("Specialised method", "Discretion"). */
+  items: { title: string; body: string; tag?: string }[];
   cols?: 2 | 3;
   showNumbers?: boolean;
 };
@@ -233,6 +235,11 @@ export function CardGrid({ items, cols = 2 }: CardGridProps) {
               <p className="mt-4 text-base leading-relaxed text-ink-muted lg:text-lg">
                 {item.body}
               </p>
+              {item.tag && (
+                <span className="mt-5 inline-flex rounded-full bg-gold/12 px-3 py-1.5 text-xs font-medium tracking-wide text-gold">
+                  {item.tag}
+                </span>
+              )}
             </div>
           </Reveal>
         );
