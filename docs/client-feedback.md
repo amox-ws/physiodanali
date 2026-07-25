@@ -6,18 +6,30 @@
 
 ## 🔴 ΕΚΚΡΕΜΟΥΝ
 
-### Go-live (αναλυτικά στο [go-live-checklist.md](go-live-checklist.md))
-- [ ] **Cutover** — DNS από πελάτη → σύνδεση domain στο Vercel + `SITE_URL` + verify
-- [ ] **Anthropic credits** — ο λογαριασμός είναι **άδειος**· η αυτόματη παραγωγή άρθρων δεν τρέχει
-- [ ] **Google Calendar sync** — λείπει μόνο το **Calendar ID + share** του ημερολογίου *(SA email & key ήδη στο Vercel, επαληθευμένα)*
-- [ ] **BOOKING_NOTIFY_TO** — ποιο inbox παίρνει ειδοποιήσεις ραντεβού
-- [ ] **Email σε Google Workspace του πελάτη** — τα εξωτερικά emails κρατιούνται σε quarantine· ο admin να κάνει allowlist το `amox.gr` *(ή μόνιμα: αποστολή από `@physiodanali.gr`)*
-- [ ] **Markdown links στα AI άρθρα** — ο renderer δεν κάνει parse `[text](/path)`· πριν δημοσιευτεί το 1ο AI άρθρο
-- [ ] *(προαιρετικά)* Search Console · Analytics · DB constraint double-booking · Turnstile keys
+### Από τον Δανάλη — 3 πράγματα
+- [ ] **DNS** (physiodanali.gr, στην aspx.gr) → ξεκλειδώνει **ΚΑΙ** το cutover **ΚΑΙ** το email του
+- [ ] **Share ημερολογίου** → οδηγίες στο `PhysioDanali-odigies-imerologio.txt`
+- [ ] **Email — διάγνωση 2026-07-20:** το **MX δείχνει Google** (`smtp.google.com`) ενώ εκείνος διαβάζει **Roundcube/cPanel** στο hosting (`webmail.physiodanali.gr` → 31.22.114.153, IMAP 143/993 ανοιχτά, autodiscover → cpanel). **Δύο γραμματοκιβώτια** — παραδίδονται στο ένα, κοιτάει το άλλο. Ερώτηση προς αυτόν: *μπαίνει στο mail.google.com;* → αν ναι, μένουμε Google + φτιάχνουμε SPF· αν όχι, MX πίσω στο hosting. **Και οι δύο λύσεις = μία εγγραφή DNS.**
+
+### Αποφάσεις του (όχι blockers)
+- [ ] **Buffer γύρω από δεσμεύσεις ημερολογίου** — τώρα **0** (αφαιρέθηκε κατόπιν αιτήματος)
+- [ ] **Search Console + Analytics** — ναι/όχι *(πρόταση: ναι, τα στήνουμε εμείς)*
 
 ---
 
 ## ✅ ΕΓΙΝΑΝ ΟΛΑ ΤΑ ΥΠΟΛΟΙΠΑ
+
+### Γύρος 3 (2026-07-20)
+- [x] **Anthropic credits** — μπήκαν από τον owner· API επαληθευμένο (HTTP 200). Auto-reload συνιστάται.
+- [x] **2 άρθρα/εβδομάδα** — cron Δευτέρα & **Πέμπτη** 09:00 UTC. Test run: **success**.
+- [x] **Αυτόματη μετάφραση EN στη δημοσίευση** — migrations 0005 + 0006 (`title_en`, `excerpt_en`, `category_en`, `read_time_en`, `sections_en`). Τρέχει με `after()` → **η δημοσίευση απαντά αμέσως**. Ξανατρέχει σε κάθε edit δημοσιευμένου, άρα EL/EN δεν ξεσυγχρονίζονται.
+- [x] **Markdown links** στα άρθρα — `[text](/path)` → πραγματικά locale-aware links.
+- [x] **Favicon** — ήταν το **default του Next.js**· τώρα το σήμα του λογοτύπου (6 μεγέθη + apple-icon).
+- [x] **Cover images** — το `scripts/generate-article.ts` έγραφε **JSON blob** αντί URL· τώρα συμπίεση WebP + re-host στο δικό μας Storage.
+- [x] **Ειδοποιήσεις** → `info@physiodanali.gr` **+ cc** `info@amox.gr` (ραντεβού, ακυρώσεις, AI drafts, φόρμα). Τα emails **προς ασθενή** χωρίς cc.
+- [x] **Magic link** μόνο για τα 2 admin emails · **λογότυπο πάνω αριστερά** στο login.
+- [x] **Google Calendar sync** — κώδικας + creds **επαληθευμένα two-way** (γράφει ραντεβού, διαβάζει busy → slots 45→38). Λείπει μόνο το share του Δανάλη.
+- [x] **BOOKING_SECRET** fail-closed (αφαιρέθηκε public literal).
 
 ### Περιεχόμενο (2026-07-16)
 - [x] **5. About / Bio → νέα προσόντα.** Τίτλος → «Κωνσταντίνος Δανάλης, **PT, OMT**» (EL+EN). **Ακαδημαϊκή πορεία χωρίς νούμερα**, 2 items: *University of West Attica — Degree in Physiotherapy, Faculty of Health and Care Sciences* + *Orthopedic Manual Therapy — OMT Greece, IFOMPT member*. **Επαγγελματικά σώματα** += *APTA international affiliate* & *OMT Greece — IFOMPT member*, με Π.Σ.Φ. + τα 3 Επιστημονικά Τμήματα από κάτω. ✅ **IFOMPT** (ο πελάτης επιβεβαίωσε — το «IFMOPT» του PDF ήταν τυπογραφικό).
