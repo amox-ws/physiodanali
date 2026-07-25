@@ -12,9 +12,8 @@ import {
   RelatedServices,
 } from "@/components/site/page-primitives";
 import { Reveal } from "@/components/motion/reveal";
-import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
-import { breadcrumbSchema, faqSchema, medicalProcedureSchema } from "@/lib/seo";
+import { breadcrumbSchema, medicalProcedureSchema } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -28,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LymphaticPage() {
   const locale = await getLocale();
   const tx = t(locale);
-  const { lymphatic, lymphaticFaq } = getContent(locale);
+  const { lymphatic } = getContent(locale);
   return (
     <>
       <JsonLd
@@ -38,7 +37,6 @@ export default async function LymphaticPage() {
             description: lymphatic.meta.description,
             url: "/lymphatic",
           }),
-          faqSchema(lymphaticFaq),
           breadcrumbSchema([
             { name: "Αρχική", url: "/" },
             { name: "Υπηρεσίες", url: "/" },
@@ -56,26 +54,6 @@ export default async function LymphaticPage() {
         secondaryCta={lymphatic.hero.secondaryCta}
         bgImage="/brazilian.jpg"
       />
-
-      {/* About / definition */}
-      <section className="bg-snow py-28 lg:py-36">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <Reveal>
-            <div className="grid gap-12 lg:grid-cols-12">
-              <div className="lg:col-span-5">
-                <h2 className="display text-[clamp(2.25rem,4.5vw,3.75rem)] leading-[1] tracking-[-0.02em] text-ink">
-                  {lymphatic.about.title}
-                </h2>
-              </div>
-              <div className="lg:col-span-7">
-                <p className="text-lg leading-relaxed text-ink-muted lg:text-xl">
-                  {lymphatic.about.body}
-                </p>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
 
       {/* Benefits — fixed parallax photo background */}
       <section className="relative isolate overflow-hidden py-28 text-snow lg:py-36">
@@ -120,14 +98,6 @@ export default async function LymphaticPage() {
             intro={tx.lymphaticWhyIntro}
           />
           <CardGrid items={lymphatic.why.items} cols={3} />
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="bg-porcelain py-28 lg:py-36">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <SectionHeader eyebrow={tx.faqHeading} title={tx.faqTitle} />
-          <FaqList items={lymphaticFaq} />
         </div>
       </section>
 

@@ -723,11 +723,6 @@ export const lymphatic = {
       "href": "tel:+306944344342"
     }
   },
-  "about": {
-    "eyebrow": "Process",
-    "title": "How it works.",
-    "body": "From the first contact to full recovery, in 4 clear steps. Immediate assessment: call or WhatsApp us — we discuss your surgery, the date and your recovery goals. Appointment at your home: discreet visit, same or next day — you don't have to move. Brazilian session (60-90 min): targeted drainage with the right pressure and rhythm for the recovery phase you're in. Recovery protocol: frequency tailored to your surgery type — typically 2-3 sessions/week for the first weeks."
-  },
   "benefits": {
     "eyebrow": "Indications",
     "title": "Who it's for.",
@@ -764,21 +759,6 @@ export const lymphatic = {
         "title": "At your home — when you shouldn't be moving",
         "body": "Recovery means rest. We come to you with the right pressure and technique — no taxis, no waiting rooms. Discreet, professional, on your schedule.",
         "tag": "Discretion"
-      },
-      {
-        "title": "Licensed Physical Therapist — not just an aesthetician",
-        "body": "Scientific knowledge of lymphatic system anatomy. Member of the Panhellenic Association of Physiotherapists (PSF), graduate of the University of West Attica.",
-        "tag": "Licensed PT"
-      },
-      {
-        "title": "IFOMPT-certified & APTA International Affiliate",
-        "body": "Certified in Mulligan, Maitland and Shacklock techniques.",
-        "tag": "IFOMPT"
-      },
-      {
-        "title": "Brazilian Lymphatic Drainage Specialist",
-        "body": "Specialised in the authentic Brazilian method — 15+ years of experience.",
-        "tag": "15+ years experience"
       }
     ]
   }
