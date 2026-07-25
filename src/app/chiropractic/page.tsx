@@ -41,8 +41,8 @@ const COND_ACCENTS = ["#1e4d8b", "#2563b0", "#0f2540", "#8a6d3b", "#4577b8"];
 const COND_LINKS = [
   "/neck-pain",
   "/low-back-pain",
-  "/articles/low-back-pain",
-  "/articles/shoulder-pain",
+  "/hip-pain",
+  "/shoulder-pain",
 ];
 import { FaqList } from "@/components/site/faq-list";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -279,11 +279,12 @@ export default async function ChiropracticPage() {
               {tx.chiropracticConditionPagesTitle}
             </h3>
           </Reveal>
-          <div className="grid gap-px overflow-hidden rounded-[24px] border border-stone bg-stone sm:grid-cols-3">
+          <div className="grid gap-px overflow-hidden rounded-[24px] border border-stone bg-stone sm:grid-cols-2 lg:grid-cols-4">
             {[
               { href: "/neck-pain", label: tx.chiropracticCondNeck },
               { href: "/low-back-pain", label: tx.chiropracticCondLowBack },
               { href: "/hip-pain", label: tx.chiropracticCondHip },
+              { href: "/shoulder-pain", label: tx.chiropracticCondShoulder },
             ].map((c) => (
               <a
                 key={c.href}

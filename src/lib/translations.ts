@@ -183,6 +183,7 @@ const STRINGS = {
     chiropracticCondNeck: "Αυχεναλγία",
     chiropracticCondLowBack: "Οσφυαλγία",
     chiropracticCondHip: "Ισχιαλγία",
+    chiropracticCondShoulder: "Πόνος στον ώμο",
     chiropracticCtaTitle: "Η ανακούφιση ξεκινά εδώ.",
     chiropracticCtaAccent: "ανακούφιση",
     chiropracticCtaLead:
@@ -381,6 +382,7 @@ const STRINGS = {
     chiropracticCondNeck: "Neck pain",
     chiropracticCondLowBack: "Low back pain",
     chiropracticCondHip: "Hip pain",
+    chiropracticCondShoulder: "Shoulder pain",
     chiropracticCtaTitle: "Relief starts here.",
     chiropracticCtaAccent: "Relief",
     chiropracticCtaLead:

@@ -1082,8 +1082,8 @@ export const conditions: Record<string, ConditionPage> = {
     "breadcrumb": "Conditions · Neck Pain",
     "hero": {
       "eyebrow": "Neck Pain",
-      "title": "Pioneering treatment for neck pain. In half the time.",
-      "titleAccent": "In half the time.",
+      "title": "Less pain and better movement — from the very first session.",
+      "titleAccent": "from the very first session.",
       "lead": "Whether it's a sudden emergency or chronic neck pain — this is the immediate solution you're looking for to reclaim a pain-free quality of life.",
       "primaryCta": {
         "label": "Book an assessment",
@@ -1298,6 +1298,118 @@ export const conditions: Record<string, ConditionPage> = {
       }
     ]
   },
+  "shoulder-pain": {
+    "slug": "shoulder-pain",
+    "meta": {
+      "title": "Shoulder Pain — Tendinopathy & Frozen Shoulder at Home",
+      "description": "At-home treatment for shoulder pain: tendinopathy, calcific tendinitis, frozen shoulder, impingement syndrome. Glyfada, Voula, Vouliagmeni, Vari."
+    },
+    "breadcrumb": "Conditions · Shoulder pain",
+    "hero": {
+      "eyebrow": "Shoulder pain",
+      "title": "Less shoulder pain and better movement — from the very first session.",
+      "titleAccent": "from the very first session.",
+      "lead": "Immediate treatment for shoulder pain with neurodynamics, chiropractic and targeted exercise. In your own home — in Glyfada, Voula and the southern suburbs.",
+      "primaryCta": { "label": "Book an assessment", "href": "/contact" },
+      "secondaryCta": { "label": "Call now", "href": "tel:+306944344342" }
+    },
+    "causes": {
+      "eyebrow": "Causes",
+      "title": "What causes shoulder pain.",
+      "intro": "The shoulder is the most mobile joint in the body — and for that reason the most vulnerable. Pain often begins in the tendons or the neck rather than the joint itself.",
+      "items": [
+        "Shoulder tendinopathy",
+        "Calcific tendinitis",
+        "Supraspinatus tendinopathy",
+        "Frozen shoulder",
+        "Impingement syndrome",
+        "Rotator cuff tear",
+        "Nerve compression · referred pain from the neck",
+        "Myofascial injury",
+        "Shoulder or clavicle fracture",
+        "Post-surgical rehabilitation · arthroplasty"
+      ]
+    },
+    "symptoms": {
+      "eyebrow": "Symptoms",
+      "title": "How it presents.",
+      "items": [
+        "Pain when raising your arm above shoulder height",
+        "Difficulty dressing or reaching for something high up",
+        "Night pain — especially lying on the affected side",
+        "Weakness or a sense of the shoulder catching",
+        "Pain radiating towards the neck or down the arm"
+      ]
+    },
+    "protocol": {
+      "eyebrow": "Approach",
+      "title": "The cause first, then the treatment.",
+      "intro": "Tendinopathy, frozen shoulder and impingement need entirely different management. Getting the diagnosis right is half the treatment.",
+      "steps": [
+        {
+          "n": "01",
+          "title": "Clinical assessment",
+          "body": "Specialised shoulder tests to distinguish tendinopathy, impingement, capsulitis or pain referred from the neck."
+        },
+        {
+          "n": "02",
+          "title": "Neurodynamic therapy",
+          "body": "Releasing nerve compression — for when shoulder pain originates in the neck or along the nerve's path."
+        },
+        {
+          "n": "03",
+          "title": "Chiropractic & therapeutic massage",
+          "body": "Joint mobilisation and release, functional massage of the overactive muscles."
+        },
+        {
+          "n": "04",
+          "title": "Structured exercise programme",
+          "body": "Progressive strengthening of the rotator cuff and scapular control — so the pain doesn't come back."
+        },
+        {
+          "n": "05",
+          "title": "Electrophysical modalities",
+          "body": "Shockwave, TECAR, electroacupuncture and TENS for faster tendon healing."
+        }
+      ]
+    },
+    "results": {
+      "eyebrow": "Expected results",
+      "title": "Back to moving.",
+      "items": [
+        {
+          "title": "First sessions",
+          "body": "Noticeable reduction in pain · a clear diagnosis · a treatment plan."
+        },
+        {
+          "title": "Medium term",
+          "body": "Range of movement returns — you raise your arm without pain and sleep normally."
+        },
+        {
+          "title": "Long term",
+          "body": "A stronger shoulder and sound movement patterns — real protection against recurrence."
+        }
+      ]
+    },
+    "faq": [
+      {
+        "question": "How many sessions will I need for shoulder pain?",
+        "answer": "It depends on the cause. Acute tendinopathy often settles in 4-6 sessions, while a frozen shoulder needs a longer programme. You'll have a clear picture from the first assessment."
+      },
+      {
+        "question": "Is my pain coming from my neck or my shoulder?",
+        "answer": "Shoulder pain is very often referred from the neck. Specialised clinical tests separate the real cause — and that completely changes the treatment."
+      },
+      {
+        "question": "Can the treatment be done at my home?",
+        "answer": "Yes. I come with full portable equipment — TECAR, shockwave and electrotherapy — across Glyfada, Voula, Vouliagmeni and Vari."
+      },
+      {
+        "question": "I've had shoulder surgery. Can you take me on?",
+        "answer": "Absolutely. Post-surgical shoulder rehabilitation — after a rotator cuff repair, fracture or arthroplasty — follows a protocol matched to the phase you're in."
+      }
+    ]
+  },
   "hip-pain": {
     "slug": "hip-pain",
     "meta": {
@@ -1307,8 +1419,8 @@ export const conditions: Record<string, ConditionPage> = {
     "breadcrumb": "Conditions · Sciatica",
     "hero": {
       "eyebrow": "Sciatica · Trochanteric bursitis",
-      "title": "Hip pain. Fast treatment.",
-      "titleAccent": "Fast treatment.",
+      "title": "Less back pain and better movement — from the very first session.",
+      "titleAccent": "from the very first session.",
       "lead": "Fast relief and a return of movement to your leg with physiotherapy and manual therapy. In the comfort of your home — in Glyfada, Voula and the southern suburbs.",
       "primaryCta": {
         "label": "Book an assessment",
