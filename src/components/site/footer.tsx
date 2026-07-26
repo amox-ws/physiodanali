@@ -277,6 +277,17 @@ export function Footer() {
               {site.legal.afm ? ` · ΑΦΜ: ${site.legal.afm}` : ""}
               {site.legal.license ? ` · Αρ. αδείας: ${site.legal.license}` : ""}
             </span>
+            <span className="text-snow/40">
+              Powered by{" "}
+              <a
+                href="https://amox.gr"
+                target="_blank"
+                rel="noopener"
+                className="text-snow/60 transition-colors hover:text-gold"
+              >
+                AMOX
+              </a>
+            </span>
           </div>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {footer.links.map((link) => (
