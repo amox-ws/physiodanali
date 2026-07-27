@@ -1062,225 +1062,255 @@ export const conditions: Record<string, ConditionPage> = {
   "neck-pain": {
     "slug": "neck-pain",
     "meta": {
-      "title": "Neck Pain — Specialized in-home treatment",
-      "description": "Pioneering treatment for neck pain in the comfort of your home. 1-4 sessions for pain-free function. 20-50% pain reduction from the very first treatment."
+      "title": "Neck Pain Physiotherapy at Home in Voula",
+      "description": "Neck pain, disc herniation, dizziness, vertigo or chronic pain? You'll feel the difference from the first session. Home physiotherapy and chiropractic in Voula, Glyfada, Vouliagmeni, Vari."
     },
-    "breadcrumb": "Conditions · Neck Pain",
+    "breadcrumb": "Conditions · Neck pain",
     "hero": {
-      "eyebrow": "Neck Pain",
+      "eyebrow": "Neck pain",
       "title": "Less pain and better movement — from the very first session.",
       "titleAccent": "from the very first session.",
-      "lead": "Whether it's a sudden emergency or chronic neck pain — this is the immediate solution you're looking for to reclaim a pain-free quality of life.",
+      "lead": "Neck pain, disc herniation, dizziness, vertigo or chronic pain? You'll feel the difference from the first session. Home physiotherapy and chiropractic in Voula and surrounding areas (Glyfada, Vouliagmeni, Vari) — speak directly with the Physiotherapist-Chiropractor.",
       "primaryCta": {
-        "label": "Book an assessment",
-        "href": "/contact"
-      },
-      "secondaryCta": {
         "label": "Call now",
         "href": "tel:+306944344342"
+      },
+      "secondaryCta": {
+        "label": "Book an appointment",
+        "href": "/booking"
       }
     },
     "causes": {
-      "eyebrow": "Causes",
-      "title": "What causes neck pain.",
-      "intro": "Neck pain is never an isolated symptom — it has a specific source that must be identified before treatment.",
+      "eyebrow": "Six techniques, in one appointment",
+      "title": "I don't apply just one technique.",
+      "intro": "I combine as many as your case requires — that's why improvement is immediate.",
       "items": [
-        "Loss of cervical lordosis",
-        "Cervical arthropathy",
-        "Disc herniation — disc disease",
-        "Cervical kyphosis",
-        "Myofascial injury",
-        "Cold-related and muscular pain",
-        "Dizziness, headache, migraine of cervical origin",
-        "Nerve compression",
-        "Instability due to motor control"
+        "Assessment & diagnosis — \"cervical syndrome\" isn't enough of a name",
+        "Deep tissue massage — musculoskeletal, not relaxation",
+        "Dry needling in points that can't be reached by hand",
+        "Manual therapy — Mulligan & Maitland mobilisations, IFOMPT-certified",
+        "Neurodynamic release — Shacklock neurodynamics",
+        "Strengthening & neuromuscular coordination — what makes it last"
       ]
     },
     "symptoms": {
-      "eyebrow": "Symptoms",
-      "title": "How it presents.",
+      "eyebrow": "Do you feel any of these?",
+      "title": "Cervical syndrome is not just pain.",
       "items": [
-        "Stiffness and restricted movement",
-        "Pain radiating into the shoulder or arm",
-        "Headache starting at the base of the skull",
-        "Numbness or tingling in the fingers",
-        "Dizziness or a feeling of unsteadiness",
-        "Difficulty sleeping due to position changes"
+        "Neck pain — acute or chronic, stiffness",
+        "Dizziness — with head movements",
+        "Vertigo — spinning sensation",
+        "Light sensitivity — discomfort with light",
+        "Blurred vision — of cervical origin",
+        "Instability — balance deficit",
+        "Kinesiophobia — fear of movement",
+        "Chronic pain — weeks or months",
+        "Numbness / pinching / current — in the limbs or arms",
+        "Disc bulge — herniated / protruding disc",
+        "Neck straightening — loss of natural curve"
       ]
     },
     "protocol": {
-      "eyebrow": "Protocol",
-      "title": "1 — 4 sessions to restore function.",
-      "intro": "The assessment is carried out at the first visit. In most cases, patients see a 20-50% reduction in pain from the very first treatment.",
+      "eyebrow": "What the treatment includes",
+      "title": "Six therapeutic techniques, in one appointment.",
+      "intro": "I don't apply just one technique. I combine as many as your case requires — that's why improvement is immediate.",
       "steps": [
         {
           "n": "01",
-          "title": "Scientific assessment",
-          "body": "Movement assessment, palpation, neurodynamic testing — pinpointing the real cause of the pain."
+          "title": "Detailed assessment & diagnosis",
+          "body": "I ask about your history and symptoms, examine neck mobility, perform neurological tests and identify exactly which tissues are causing the pain."
         },
         {
           "n": "02",
-          "title": "Neurodynamics + Manual therapy",
-          "body": "A combination of neurodynamic therapy and manual therapy for immediate decompression and alignment."
+          "title": "Specialised deep tissue massage",
+          "body": "Release of deep muscular structures — not relaxation massage. Targeted pressure on trigger points, trigger point release, myofascial release. This is where you feel the first clear pain reduction."
         },
         {
           "n": "03",
-          "title": "Electrophysical modalities",
-          "body": "TECAR, electroacupuncture, TENS — accelerate healing and control pain."
+          "title": "Dry needling — if needed",
+          "body": "Fine precision needles in muscle points that can't be released by hand. Not Chinese-style acupuncture — it's a musculoskeletal technique with immediate results. Brief, tolerable, effective."
         },
         {
           "n": "04",
-          "title": "Maintenance programme",
-          "body": "A personalized home exercise programme — we make sure the results last."
+          "title": "Manual therapy",
+          "body": "Cervical joint mobilisations using Mulligan and Maitland techniques — IFOMPT-certified, precise, safe. Restoring mobility to where it should be."
+        },
+        {
+          "n": "05",
+          "title": "Neurodynamic nerve release",
+          "body": "When pain or numbness radiates towards the shoulder or arm, or when dizziness and blurred vision appear, I apply Shacklock neurodynamics techniques to untangle and free the nerves from compression."
+        },
+        {
+          "n": "06",
+          "title": "Strengthening & neuromuscular coordination exercises",
+          "body": "I teach you 3–5 targeted exercises for neck strengthening and improved motor control and coordination — these stabilise the improvement and prevent recurrence. You do them at home on your own."
         }
       ]
     },
     "results": {
-      "eyebrow": "Expected results",
-      "title": "What to expect.",
+      "eyebrow": "What you'll see in the first treatment",
+      "title": "From the very first session.",
       "items": [
         {
-          "title": "1st session",
-          "body": "20-50% pain reduction · increased mobility · clear diagnosis."
+          "title": "Less pain",
+          "body": "Most of my patients feel a clear reduction in pain already in the first session — with a combination of deep tissue massage, manipulations and nerve release."
         },
         {
-          "title": "2nd — 3rd session",
-          "body": "Over 70% improvement in most cases · return to daily life."
+          "title": "Better movement",
+          "body": "Right after the first treatment you'll turn your head more freely. You feel it the moment you get up from the table."
         },
         {
-          "title": "4th session",
-          "body": "Pain-free function · receipt of your maintenance programme."
+          "title": "A clear plan",
+          "body": "I'll leave you with an accurate diagnosis and exercises you can do today — not just a prescription for 10 sessions."
         }
       ]
     },
     "faq": [
       {
-        "question": "In how many sessions will I see results?",
-        "answer": "From the very first session, most patients report a 20-50% reduction in pain. 1-4 sessions are usually enough to restore pain-free function."
+        "question": "Why do I have dizziness / blurred vision / headaches?",
+        "answer": "If after a medical check-up that did not diagnose a cause for these symptoms you still suffer, it is most likely because of poor neck muscle performance and motor control. The deep neck muscles are weak or poorly activated."
       },
       {
-        "question": "Is manual therapy for the neck safe?",
-        "answer": "When performed by a specialized physiotherapist with a proper assessment, yes. Before every manual therapy intervention, a full clinical check for contraindications is carried out."
+        "question": "Why do I feel numbness / pinching / current / weakness?",
+        "answer": "These symptoms are usually associated with a trapped nerve. That might be because of a disc bulge, an inflamed facet joint, or a tight muscle."
       },
       {
-        "question": "Do I need an MRI before treatment?",
-        "answer": "Not always. A clinical assessment is performed at the first visit. If imaging is needed, we will guide you clearly."
+        "question": "Will the treatment hurt more?",
+        "answer": "No. The techniques I use are intense but controlled. Throughout, I ask what you're feeling. If something hurts, we change approach. My philosophy is: less pain leaving the session, not more."
       },
       {
-        "question": "Will you come to my home?",
-        "answer": "Yes. We cover Voula, Vouliagmeni, Vari, Glyfada and Alimo with full portable equipment — the same quality as in a clinic."
+        "question": "How many sessions will I need?",
+        "answer": "Most patients function without pain in 1–4 sessions. Difficult cases may reach 10. In the first session you'll have a clear answer for your own case — not a vague \"we'll see\"."
+      },
+      {
+        "question": "I have a disc herniation / I'm on chemotherapy / I'm elderly. Is it safe?",
+        "answer": "Usually yes — but it depends on your condition. That's what the assessment is for. If your case needs coordination with a doctor or care with specific movements, I'll tell you on the first phone call, before we book."
+      },
+      {
+        "question": "How soon can I start?",
+        "answer": "As soon as possible — for urgent cases, the same day. I work Sundays and holidays until 23:00."
       }
     ]
   },
   "low-back-pain": {
     "slug": "low-back-pain",
     "meta": {
-      "title": "Low Back Pain — Pioneering personalized treatment",
-      "description": "Get assessed by a specialized physiotherapist and find a solution in just a few sessions. Pain cut in half from the very first treatment."
+      "title": "Low Back Pain Physiotherapy at Home in Voula",
+      "description": "Low back pain, sciatica, disc herniation, pain radiating down the leg, morning stiffness? You'll feel the difference from the first session. At home in Voula, Glyfada, Vouliagmeni, Vari."
     },
-    "breadcrumb": "Conditions · Low Back Pain",
+    "breadcrumb": "Conditions · Low back pain",
     "hero": {
-      "eyebrow": "Low Back Pain",
-      "title": "Pioneering treatment for low back pain. Personalized.",
-      "titleAccent": "Personalized.",
-      "lead": "Do you have the right diagnosis for your low back pain? An MRI alone is not enough to reveal the cause. Get assessed by the physiotherapist and find a solution in just a few sessions.",
+      "eyebrow": "Low back pain · Sciatica",
+      "title": "Less back pain and better movement — from the very first session.",
+      "titleAccent": "from the very first session.",
+      "lead": "Low back pain, sciatica, disc herniation, pain radiating down the leg, morning stiffness? You'll feel the difference from the first session. Home physiotherapy and chiropractic in Voula and surrounding areas (Glyfada, Vouliagmeni, Vari) — speak directly with the Physiotherapist-Chiropractor.",
       "primaryCta": {
-        "label": "Book an assessment",
-        "href": "/contact"
-      },
-      "secondaryCta": {
         "label": "Call now",
         "href": "tel:+306944344342"
+      },
+      "secondaryCta": {
+        "label": "Book an appointment",
+        "href": "/booking"
       }
     },
     "causes": {
-      "eyebrow": "Causes",
-      "title": "Behind your back pain.",
-      "intro": "Low back pain has many causes. The goal of the assessment is to separate \"what hurts\" from \"why it hurts\".",
+      "eyebrow": "Six techniques, in one appointment",
+      "title": "I don't apply just one technique.",
+      "intro": "I combine as many as your case requires — that's why improvement is immediate.",
       "items": [
-        "Sciatica",
-        "Arthropathy",
-        "Disc herniation",
-        "Spondylolisthesis",
-        "Chronic low back pain",
-        "Nerve compression",
-        "Myofascial injury",
-        "Instability due to motor control"
+        "Assessment & diagnosis — disc, nerve, muscle or joint?",
+        "Deep tissue massage — lumbar and gluteal",
+        "Dry needling — ideal for sciatica",
+        "Manual therapy — Mulligan & Maitland, IFOMPT-certified",
+        "Neurodynamic release — Shacklock for the sciatic nerve",
+        "Core stabilisation & strengthening — what makes it last"
       ]
     },
     "symptoms": {
-      "eyebrow": "Symptoms",
-      "title": "How it presents.",
+      "eyebrow": "Do you feel any of these?",
+      "title": "Low back pain is not just an ache.",
       "items": [
-        "Lower back pain that worsens with movement",
-        "Pain radiating into the leg (sciatica)",
-        "Stiffness in the morning",
-        "Difficulty getting up from a chair",
-        "Numbness or weakness in the lower limbs",
-        "Pain that worsens with prolonged sitting"
+        "Low back pain — acute or chronic, stiffness",
+        "Sciatica — pain radiating down the leg",
+        "Leg numbness — tingling or loss of sensation",
+        "Morning stiffness — difficulty with first steps",
+        "Walking difficulty — unable to walk long distances",
+        "Pain when sitting — worse in seated position",
+        "Muscle spasms — cramping and tightness",
+        "Chronic pain — weeks or months"
       ]
     },
     "protocol": {
-      "eyebrow": "Protocol",
-      "title": "1 — 4 sessions. Up to 10 for difficult cases.",
-      "intro": "In most cases, patients see a 20-50% reduction in pain from the very first treatment, while by the third treatment they have more than 70% improvement.",
+      "eyebrow": "What the treatment includes",
+      "title": "Six therapeutic techniques, in one appointment.",
+      "intro": "I don't apply just one technique. I combine as many as your case requires — that's why improvement is immediate.",
       "steps": [
         {
           "n": "01",
-          "title": "Full clinical assessment",
-          "body": "Neurodynamic tests, functional examination, palpation. MRI only where needed."
+          "title": "Detailed assessment & diagnosis",
+          "body": "I ask about your history and symptoms, examine lumbar and hip mobility, perform neurological tests (sciatic nerve, reflexes) and identify exactly which tissues are causing the pain."
         },
         {
           "n": "02",
-          "title": "Structured exercise programme",
-          "body": "Specialized core stabilization and spinal mobilization exercises."
+          "title": "Specialised deep tissue massage",
+          "body": "Release of deep lumbar muscles, hip external rotators and gluteals. Targeted trigger point pressure, myofascial release. This is where you feel the first clear pain reduction."
         },
         {
           "n": "03",
-          "title": "Manual therapy + dry needling",
-          "body": "Manual therapy mobilizations, therapeutic massage, dry needling."
+          "title": "Dry needling — if needed",
+          "body": "Fine precision needles in deep muscle structures that can't be released by hand. Particularly effective for gluteal pain and sciatica. Brief, tolerable, effective."
         },
         {
           "n": "04",
-          "title": "Rehabilitation equipment",
-          "body": "TECAR, electrotherapy, shockwave therapy to accelerate healing."
+          "title": "Manual therapy",
+          "body": "Lumbar spine and sacroiliac joint mobilisations using Mulligan and Maitland techniques — IFOMPT-certified, precise, safe. Restoring mobility to where it should be."
+        },
+        {
+          "n": "05",
+          "title": "Neurodynamic sciatic nerve release",
+          "body": "When pain or numbness radiates down the leg (sciatica), I apply Shacklock neurodynamics techniques to untangle and free the sciatic nerve from compression."
+        },
+        {
+          "n": "06",
+          "title": "Core stabilisation & neuromuscular coordination exercises",
+          "body": "I teach you 3–5 targeted exercises for deep core muscle strengthening, lumbar stabilisation and motor control improvement — these stabilise the improvement and prevent recurrence."
         }
       ]
     },
     "results": {
-      "eyebrow": "Expected results",
-      "title": "What to expect.",
+      "eyebrow": "What you'll see in the first treatment",
+      "title": "From the very first session.",
       "items": [
         {
-          "title": "1st session",
-          "body": "20-50% pain reduction · assessment and treatment plan."
+          "title": "Less pain",
+          "body": "Most of my patients feel a clear reduction in pain already in the first session — with deep tissue massage, lumbar manipulations and nerve release."
         },
         {
-          "title": "3rd session",
-          "body": "Over 70% improvement in most cases."
+          "title": "Better movement",
+          "body": "Right after the first treatment you'll bend and straighten more freely. You feel it the moment you get up from the table."
         },
         {
-          "title": "4th — 10th session",
-          "body": "Full return to function · maintenance programme."
+          "title": "A clear plan",
+          "body": "I'll leave you with an accurate diagnosis and stabilisation exercises you can do today — not just a prescription for 10 sessions."
         }
       ]
     },
     "faq": [
       {
-        "question": "When is surgery needed?",
-        "answer": "Rarely. A significant proportion of low back pain cases recover fully with conservative treatment — even disc herniations with neurological symptoms can be managed without surgery, provided there are no emergency indications."
+        "question": "I have a disc herniation — can physiotherapy help me?",
+        "answer": "In the vast majority of cases, yes. A disc herniation on its own doesn't always mean surgery. With manual therapy, neurodynamics and stabilisation exercises, most patients avoid the operating theatre. I'll tell you honestly if your case needs something else."
       },
       {
-        "question": "Is an MRI enough for a diagnosis?",
-        "answer": "No. Many MRIs show findings that don't cause symptoms. A correct diagnosis is made through a clinical assessment by a specialized physiotherapist."
+        "question": "Will the treatment hurt more?",
+        "answer": "No. The techniques I use are intense but controlled. Throughout, I ask what you're feeling. My philosophy is: less pain leaving the session, not more."
       },
       {
-        "question": "What should I avoid with low back pain?",
-        "answer": "We won't give you a list of prohibitions. Low back pain requires movement — the goal is to find which movement is safe for you, not to avoid them all."
+        "question": "How many sessions will I need?",
+        "answer": "Most patients function without pain in 2–5 sessions. Difficult cases may reach 10. In the first session you'll have a clear answer for your own case."
       },
       {
-        "question": "How often are the sessions?",
-        "answer": "Usually 2-3 times a week in the initial phase. As you improve, we space them out."
+        "question": "How soon can I start?",
+        "answer": "As soon as possible — for urgent cases, the same day. I work Sundays and holidays until 23:00."
       }
     ]
   },
