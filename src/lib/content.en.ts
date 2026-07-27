@@ -759,6 +759,21 @@ export const lymphatic = {
         "title": "At your home — when you shouldn't be moving",
         "body": "Recovery means rest. We come to you with the right pressure and technique — no taxis, no waiting rooms. Discreet, professional, on your schedule.",
         "tag": "Discretion"
+      },
+      {
+        "title": "Post-surgery lymphatic drainage",
+        "body": "Suitable for liposuction, mastectomy and other procedures — targeted drainage for the recovery period.",
+        "tag": "Post-surgery"
+      },
+      {
+        "title": "Fibrosis treatment",
+        "body": "Post-surgery fibrosis treated with lymphatic massage, RF and ultrasound machines.",
+        "tag": "Fibrosis"
+      },
+      {
+        "title": "Bridal / special occasion",
+        "body": "Intensive lymphatic treatment to feel immediately slimmer in your clothes before a special occasion.",
+        "tag": "Special occasions"
       }
     ]
   }
@@ -1199,6 +1214,32 @@ export const conditions: Record<string, ConditionPage> = {
       "title": "Call now!",
       "titleAccent": "now!",
       "lead": "Or send a WhatsApp — I'll usually reply within a few minutes."
+    },
+    "explainers": [
+      {
+        "question": "Why do I feel dizzy / blurry-eyed / have headaches?",
+        "answer": "If a medical check-up found no cause and you still suffer, it is most likely poor function and motor control of the neck muscles. The deep neck muscles are weak or under-activated during daily activities, and this triggers the mechanisms behind these symptoms.",
+        "solution": "Release the tension. Activate the deep neck muscles. Strengthen and re-coordinate movement."
+      },
+      {
+        "question": "Why do I feel numbness / tingling / electric shocks / weakness?",
+        "answer": "These symptoms are usually linked to a trapped nerve — from a disc protrusion (herniation), an inflamed facet joint, or a tight muscle.",
+        "solution": "Release the tension, decompress the nerve, restore movement."
+      }
+    ],
+    "techniques": {
+      "eyebrow": "What the Session Includes",
+      "title": "Seven therapeutic techniques, in one appointment",
+      "intro": "I don't apply a single technique. I combine whichever ones your case needs — that is why the improvement is immediate.",
+      "items": [
+        { "icon": "🔍", "title": "Assessment & diagnosis", "body": "\"Neck pain\" as a label is not enough. I identify which tissues cause the pain, and why." },
+        { "icon": "🤲", "title": "Deep therapeutic massage", "body": "Targeted release of the deep muscles — not a relaxation massage, but a musculoskeletal technique." },
+        { "icon": "📍", "title": "Dry needling", "body": "Fine needles into muscle trigger points that hands cannot reach." },
+        { "icon": "🦴", "title": "Chiropractic (manual therapy)", "body": "Mulligan & Maitland mobilisations — IFOMPT-certified, safe, precise." },
+        { "icon": "⚡", "title": "Neurodynamic release", "body": "For radiating pain, dizziness and blurred vision — Shacklock neurodynamics for the nerves." },
+        { "icon": "🧘", "title": "Holistic treatment", "body": "You will feel calm and relaxed after the treatment. The therapist helps you feel safe, release your stress, and relax." },
+        { "icon": "💪", "title": "Strengthening & neuromuscular coordination", "body": "Neck stabilisation and motor-control exercises — this is what makes the improvement last." }
+      ]
     }
   },
   "low-back-pain": {
@@ -1330,6 +1371,20 @@ export const conditions: Record<string, ConditionPage> = {
       "title": "Call now!",
       "titleAccent": "now!",
       "lead": "Or send a WhatsApp — I'll usually reply within a few minutes."
+    },
+    "techniques": {
+      "eyebrow": "What the Session Includes",
+      "title": "Seven therapeutic techniques, in one appointment",
+      "intro": "I don't apply a single technique. I combine whichever ones your case needs — that is why the improvement is immediate.",
+      "items": [
+        { "icon": "🔍", "title": "Assessment & diagnosis", "body": "\"Back pain\" as a label is not enough. I identify which tissues cause the pain — disc, nerve, muscle or joint." },
+        { "icon": "🤲", "title": "Deep therapeutic massage", "body": "Targeted release of the lumbar and gluteal muscles — a musculoskeletal technique, not a relaxation massage." },
+        { "icon": "📍", "title": "Dry needling", "body": "Fine needles into deep muscle points hands cannot reach — ideal for sciatica." },
+        { "icon": "🦴", "title": "Chiropractic (manual therapy)", "body": "Mulligan & Maitland mobilisations of the lumbar spine and sacroiliac joints — IFOMPT-certified, safe." },
+        { "icon": "⚡", "title": "Neurodynamic release", "body": "For sciatica and numbness — Shacklock neurodynamics for the sciatic nerve." },
+        { "icon": "🦴", "title": "Sacroiliac joint treatment", "body": "Immediate relief and functional improvement. Both chronic and acute conditions are treated." },
+        { "icon": "💪", "title": "Core stabilisation & strengthening", "body": "Core exercises and neuromuscular coordination — this is what makes the improvement last." }
+      ]
     }
   },
   "shoulder-pain": {
