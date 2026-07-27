@@ -1158,6 +1158,14 @@ export type ConditionPage = {
     items: { title: string; body: string }[];
   };
   faq: { question: string; answer: string }[];
+  /** Per-page overrides for copy that is otherwise shared across all condition
+   *  pages. Set them where the client's own wording differs; omitted fields
+   *  fall back to the generic strings in translations.ts. */
+  symptomsIntro?: string;
+  faqHeading?: string;
+  faqTitle?: string;
+  faqIntro?: string;
+  cta?: { title: string; titleAccent: string; lead: string };
 };
 
 export const conditions: Record<string, ConditionPage> = {
@@ -1296,6 +1304,17 @@ export const conditions: Record<string, ConditionPage> = {
           "Το ταχύτερο δυνατόν — σε επείγουσες περιπτώσεις, αυθημερόν. Δουλεύω Κυριακές και αργίες μέχρι τις 23:00.",
       },
     ],
+    symptomsIntro:
+      "Το αυχενικό σύνδρομο δεν είναι μόνο πόνος. Αναγνωρίστε τα συμπτώματα και αντιμετωπίστε το ολιστικά.",
+    faqHeading: "Ό,τι σκέφτεστε τώρα",
+    faqTitle: "Ό,τι σκέφτεστε τώρα.",
+    faqIntro:
+      "Οι ερωτήσεις που ακούω πιο συχνά στο πρώτο τηλέφωνο — απαντημένες ειλικρινά.",
+    cta: {
+      title: "Καλέστε τώρα!",
+      titleAccent: "τώρα!",
+      lead: "Ή στείλτε μήνυμα στο WhatsApp — απαντώ συνήθως μέσα σε λίγα λεπτά.",
+    },
   },
   "low-back-pain": {
     slug: "low-back-pain",
@@ -1420,6 +1439,17 @@ export const conditions: Record<string, ConditionPage> = {
           "Το ταχύτερο δυνατόν — σε επείγουσες περιπτώσεις, αυθημερόν. Δουλεύω Κυριακές και αργίες μέχρι τις 23:00.",
       },
     ],
+    symptomsIntro:
+      "Ο πόνος στη μέση δεν είναι μόνο οσφυαλγία. Μπορεί να σχετίζεται με νεύρα, δίσκους ή μύες — αναγνωρίστε το πλήρες σύνδρομο.",
+    faqHeading: "Ό,τι σκέφτεστε τώρα",
+    faqTitle: "Ό,τι σκέφτεστε τώρα.",
+    faqIntro:
+      "Οι ερωτήσεις που ακούω πιο συχνά στο πρώτο τηλέφωνο — απαντημένες ειλικρινά.",
+    cta: {
+      title: "Καλέστε τώρα!",
+      titleAccent: "τώρα!",
+      lead: "Ή στείλτε μήνυμα στο WhatsApp — απαντώ συνήθως μέσα σε λίγα λεπτά.",
+    },
   },
   "shoulder-pain": {
     slug: "shoulder-pain",

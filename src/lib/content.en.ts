@@ -1190,7 +1190,16 @@ export const conditions: Record<string, ConditionPage> = {
         "question": "How soon can I start?",
         "answer": "As soon as possible — for urgent cases, the same day. I work Sundays and holidays until 23:00."
       }
-    ]
+    ],
+    "symptomsIntro": "Cervical syndrome is not just pain. Recognise the symptoms and treat it holistically.",
+    "faqHeading": "What you're thinking now",
+    "faqTitle": "What you're thinking now.",
+    "faqIntro": "The questions I hear most often on the first phone call — answered honestly.",
+    "cta": {
+      "title": "Call now!",
+      "titleAccent": "now!",
+      "lead": "Or send a WhatsApp — I'll usually reply within a few minutes."
+    }
   },
   "low-back-pain": {
     "slug": "low-back-pain",
@@ -1312,7 +1321,16 @@ export const conditions: Record<string, ConditionPage> = {
         "question": "How soon can I start?",
         "answer": "As soon as possible — for urgent cases, the same day. I work Sundays and holidays until 23:00."
       }
-    ]
+    ],
+    "symptomsIntro": "Low back pain is not just an ache. It can involve nerves, discs or muscles — recognise the full picture.",
+    "faqHeading": "What you're thinking now",
+    "faqTitle": "What you're thinking now.",
+    "faqIntro": "The questions I hear most often on the first phone call — answered honestly.",
+    "cta": {
+      "title": "Call now!",
+      "titleAccent": "now!",
+      "lead": "Or send a WhatsApp — I'll usually reply within a few minutes."
+    }
   },
   "shoulder-pain": {
     "slug": "shoulder-pain",

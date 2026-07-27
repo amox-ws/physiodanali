@@ -60,7 +60,7 @@ export function ConditionPageTemplate({
           <SectionHeader
             eyebrow={data.symptoms.eyebrow}
             title={data.symptoms.title}
-            intro={tx.condSymptomsIntro}
+            intro={data.symptomsIntro ?? tx.condSymptomsIntro}
           />
           <motion.ul
             variants={stagger}
@@ -110,9 +110,9 @@ export function ConditionPageTemplate({
       <section className="bg-snow py-28 lg:py-36">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <SectionHeader
-            eyebrow={tx.faqHeading}
-            title={tx.faqTitle}
-            intro={tx.condFaqIntro}
+            eyebrow={data.faqHeading ?? tx.faqHeading}
+            title={data.faqTitle ?? tx.faqTitle}
+            intro={data.faqIntro ?? tx.condFaqIntro}
           />
           <FaqList items={data.faq} />
         </div>
@@ -126,9 +126,9 @@ export function ConditionPageTemplate({
       </section>
 
       <FinalCTA
-        title={tx.condCtaTitle}
-        titleAccent={tx.condCtaAccent}
-        lead={tx.condCtaLead}
+        title={data.cta?.title ?? tx.condCtaTitle}
+        titleAccent={data.cta?.titleAccent ?? tx.condCtaAccent}
+        lead={data.cta?.lead ?? tx.condCtaLead}
       />
 
       <RelatedServices exclude={data.slug} />
