@@ -19,6 +19,25 @@ export type AreaLander = {
   bulletsTitle: string;
   bullets: string[];
   faq: { question: string; answer: string }[];
+  // ── Client-authored ad-landing sections (July 2026) ──────────────────
+  // When present, the template renders the client's landing flow
+  // (conditions cards → also-treat chips → credentials → Process →
+  // reviews → CTA) instead of the generic intro/bullets layout.
+  heroQuote?: { text: string; author: string };
+  conditionsTitle?: string;
+  conditionsIntro?: string;
+  conditions?: { title: string; body: string; href?: string }[];
+  alsoTreatTitle?: string;
+  alsoTreatIntro?: string;
+  alsoTreat?: string[];
+  practitionerHeading?: string;
+  practitionerRole?: string;
+  credentials?: string[];
+  reviewsTitle?: string;
+  reviewsIntro?: string;
+  reviews?: { text: string; author: string }[];
+  ctaTitle?: string;
+  ctaLead?: string;
 };
 
 const FAQ_PRICE_EL = {
@@ -29,7 +48,7 @@ const FAQ_PRICE_EL = {
 const FAQ_HOURS_EL = {
   question: "Ποιες ώρες γίνονται επισκέψεις;",
   answer:
-    "Καθημερινά — και Σαββατοκύριακα — από τις 10:00 έως τις 22:00. Κλείνετε ώρα online στο /booking ή τηλεφωνικά στο +30 6944 344 342.",
+    "Καθημερινά — και Σαββατοκύριακα — από τις 08:00 έως τις 23:00. Κλείνετε ώρα online στο /booking ή τηλεφωνικά στο +30 6944 344 342.",
 };
 const FAQ_PRICE_EN = {
   question: "How much does a session cost?",
@@ -39,7 +58,7 @@ const FAQ_PRICE_EN = {
 const FAQ_HOURS_EN = {
   question: "When are home visits available?",
   answer:
-    "Every day — weekends included — from 10:00 to 22:00. Book online at /booking or call +30 6944 344 342.",
+    "Every day — weekends included — from 08:00 to 23:00. Book online at /booking or call +30 6944 344 342.",
 };
 
 const el: Record<string, AreaLander> = {
@@ -48,15 +67,15 @@ const el: Record<string, AreaLander> = {
     service: "physio",
     bgImage: "/physioathome.jpg",
     meta: {
-      title: "Φυσικοθεραπεία κατ' οίκον στη Γλυφάδα — PhysioDanali",
+      title: "Κατ' οίκον Φυσικοθεραπεία στη Γλυφάδα | PhysioDanali",
       description:
-        "Φυσικοθεραπεία στο σπίτι σας στη Γλυφάδα με πλήρη φορητό εξοπλισμό. Αποκατάσταση καταγμάτων, αρθροπλαστικής, νευρολογικών παθήσεων. Καθημερινά 10:00–22:00.",
+        "Φυσικοθεραπεία στο σπίτι σας στη Γλυφάδα με πλήρη φορητό εξοπλισμό. Αποκατάσταση καταγμάτων, αρθροπλαστικής, νευρολογικών παθήσεων. Καθημερινά έως τις 23:00.",
     },
     breadcrumb: "Περιοχές · Γλυφάδα",
     eyebrow: "Γλυφάδα",
-    title: "Φυσικοθεραπεία κατ' οίκον στη Γλυφάδα.",
-    titleAccent: "στη Γλυφάδα.",
-    lead: "Από το κέντρο της Γλυφάδας μέχρι την Άνω Γλυφάδα και το Γκολφ — η θεραπεία έρχεται στο σπίτι σας, με τον εξοπλισμό και την εξειδίκευση ενός σύγχρονου φυσικοθεραπευτηρίου.",
+    title: "Κατ' οίκον Φυσικοθεραπεία στη Γλυφάδα",
+    titleAccent: "στη Γλυφάδα",
+    lead: "Επιστημονικά τεκμηριωμένη αντιμετώπιση πόνου και ταχεία αποκατάσταση στο σπίτι σας. Διαθέσιμοι κάθε ημέρα έως τις 23:00 — Σαββατοκύριακα και αργίες.",
     intro: [
       "Η Γλυφάδα είναι από τις περιοχές που εξυπηρετούμε καθημερινά, με σύντομους χρόνους άφιξης σε όλες τις γειτονιές — κέντρο, Άνω Γλυφάδα, Γκολφ, Τερψιθέα, Αιξωνή. Κάθε επίσκεψη περιλαμβάνει ό,τι θα βρίσκατε σε ένα οργανωμένο φυσικοθεραπευτήριο: αξιολόγηση, θεραπεία με τα χέρια, ηλεκτροθεραπεία και καθοδηγούμενη άσκηση.",
       "Αναλαμβάνουμε αποκατάσταση μετά από κατάγματα και αρθροπλαστική, νευρολογική φυσικοθεραπεία, επανεκπαίδευση βάδισης, καθώς και χρόνιους μυοσκελετικούς πόνους — αυχένα, μέση, ισχίο — χωρίς να χρειαστεί να μετακινηθείτε.",
@@ -79,21 +98,53 @@ const el: Record<string, AreaLander> = {
       FAQ_PRICE_EL,
       FAQ_HOURS_EL,
     ],
+    heroQuote: { text: "Τον προτείνω ανεπιφύλακτα. Ποιότητα και αποτελεσματικότητα της θεραπείας.", author: "Αθανασία Α." },
+    conditionsTitle: "Παθήσεις που υποστηρίζουμε",
+    conditionsIntro: "Εξειδικευμένα πρωτόκολλα αποκατάστασης — στο σπίτι σας, στη Γλυφάδα.",
+    conditions: [
+      { title: "Αρθροπλαστική", body: "Αποκατάσταση μετά από αρθροπλαστική γόνατος, ισχίου ή ώμου. Γρήγορη επιστροφή στην καθημερινότητα με σύγχρονες μεθόδους." },
+      { title: "Κατάγματα", body: "Αποκατάσταση καταγμάτων ισχίου, γόνατος, ώμου, άκρας χειρός, αστραγάλου και αγκώνα. Διαχείριση πόνου και δύσκολων περιστατικών." },
+      { title: "Νευρολογικές παθήσεις", body: "Φυσικοθεραπεία για εγκεφαλικό, νόσο Πάρκινσον και πολλαπλή σκλήρυνση. Επανεκπαίδευση βάδισης, ισορροπίας και κινητικού ελέγχου.", href: "/home-care" },
+      { title: "Οσφυαλγία", body: "Πόνος στη μέση, ισχιαλγία και δισκοκήλη. Στοχευμένη manual therapy, νευροδυναμική και εξειδικευμένη θεραπευτική άσκηση.", href: "/low-back-pain" },
+      { title: "Αυχεναλγία", body: "Πόνος στον αυχένα, ζάλη και πονοκέφαλοι αυχενικής αιτιολογίας. Τεχνικές κινητοποίησης και ασκήσεις κινητικού ελέγχου.", href: "/neck-pain" },
+    ],
+    alsoTreatTitle: "Και επίσης αντιμετωπίζουμε",
+    alsoTreatIntro: "Πλήρες φάσμα υπηρεσιών φυσικοθεραπείας κατ' οίκον",
+    alsoTreat: ["Ισχιαλγία", "Μετεγχειρητική αποκατάσταση", "Επανεκπαίδευση βάδισης", "Ισορροπία & πτώσεις", "Κατάκοιτοι ασθενείς", "Παγωμένος ώμος", "Οστεοαρθρίτιδα", "Τενοντοπάθειες", "Γηριατρική φυσικοθεραπεία", "Λεμφικό μασάζ", "Κύφωση & σκολίωση"],
+    practitionerHeading: "Κωνσταντίνος Δανάλης, PT",
+    practitionerRole: "Φυσικοθεραπευτής · Μυοσκελετική & Νευρολογική Αποκατάσταση · 15+ έτη εμπειρίας",
+    credentials: [
+      "IFOMPT-certified — International Federation of Orthopaedic Manipulative Physical Therapists",
+      "APTA International Affiliate — American Physical Therapy Association",
+      "Πιστοποιημένος στις τεχνικές Mulligan, Maitland και Shacklock neurodynamics",
+      "Μέλος Πανελλήνιου Συλλόγου Φυσικοθεραπευτών (ΠΣΦ) — τμήματα Μυοσκελετικής, Θεραπευτικής Άσκησης & Ψυχικής Υγείας",
+      "Απόφοιτος Πανεπιστημίου Δυτικής Αττικής",
+      "Εξειδίκευση σε Brazilian lymphatic drainage",
+    ],
+    reviewsTitle: "Τι λένε οι ασθενείς μας",
+    reviewsIntro: "100+ κριτικές 5 αστέρων στο Google & Doctoranytime",
+    reviews: [
+      { text: "Ο κύριος Δανάλης είναι πολύ σωστός επαγγελματίας, δίνει την απαραίτητη προσοχή στον ασθενή. Το πιο σημαντικό όμως είναι η ποιότητα και αποτελεσματικότητα της θεραπείας. Τον προτείνω ανεπιφύλακτα.", author: "Αθανασία Α. · Βούλα" },
+      { text: "Γνωρίζει πολύ καλά το αντικείμενό του και ασχολείται προσωπικά με τον ασθενή! Έχει θετική διάθεση και με έχει βοηθήσει πολύ. Του έχω εμπιστοσύνη και τον συστήνω.", author: "Εριφύλη Σ. · Γλυφάδα" },
+      { text: "Ασχολήθηκε πολύ ώρα με το πρόβλημά μου και κέρδισε την εμπιστοσύνη μου. Θα τον συστήσω σίγουρα — ξεκάθαρη βελτίωση από την πρώτη συνεδρία.", author: "Γιώτα Σ. · Βάρη" },
+    ],
+    ctaTitle: "Έτοιμοι να ξεκινήσετε τη θεραπεία;",
+    ctaLead: "Άμεση εκτίμηση του περιστατικού σας. Ραντεβού ίδια μέρα — ακόμη και τώρα.",
   },
   "physiotherapy-voula": {
     slug: "physiotherapy-voula",
     service: "physio",
     bgImage: "/physioathome.jpg",
     meta: {
-      title: "Φυσικοθεραπεία κατ' οίκον στη Βούλα — PhysioDanali",
+      title: "Κατ' οίκον Φυσικοθεραπεία στη Βούλα | PhysioDanali",
       description:
-        "Κατ' οίκον φυσικοθεραπεία στη Βούλα — η έδρα μας. Άμεση εξυπηρέτηση σε Άνω & Κάτω Βούλα και Πηγαδάκια, καθημερινά 10:00–22:00. Κλείστε online ραντεβού.",
+        "Κατ' οίκον φυσικοθεραπεία στη Βούλα — η έδρα μας. Άμεση εξυπηρέτηση σε Άνω & Κάτω Βούλα και Πηγαδάκια, καθημερινά 08:00–23:00. Κλείστε online ραντεβού.",
     },
     breadcrumb: "Περιοχές · Βούλα",
     eyebrow: "Βούλα",
-    title: "Φυσικοθεραπεία κατ' οίκον στη Βούλα.",
-    titleAccent: "στη Βούλα.",
-    lead: "Η Βούλα είναι η βάση μας — εδώ προσφέρουμε τους πιο άμεσους χρόνους εξυπηρέτησης, από τα Πηγαδάκια μέχρι την παραλία.",
+    title: "Κατ' οίκον Φυσικοθεραπεία στη Βούλα",
+    titleAccent: "στη Βούλα",
+    lead: "Επιστημονικά τεκμηριωμένη αντιμετώπιση πόνου και ταχεία αποκατάσταση στο σπίτι σας. Διαθέσιμοι κάθε ημέρα έως τις 23:00 — Σαββατοκύριακα και αργίες.",
     intro: [
       "Με έδρα τη Βούλα, οι επισκέψεις στην Άνω και Κάτω Βούλα, τα Πηγαδάκια και τη Δικηγορικά προγραμματίζονται με τη μεγαλύτερη ευελιξία — συχνά και αυθημερόν. Είναι η περιοχή όπου το «κατ' οίκον» γίνεται πραγματικά άμεσο.",
       "Η θεραπεία δεν είναι συμβιβασμός σε σχέση με το ιατρείο: φορητός εξοπλισμός ηλεκτροθεραπείας, τεχνικές manual therapy και εξατομικευμένο πρόγραμμα άσκησης, προσαρμοσμένα στον χώρο σας — από αποκατάσταση χειρουργείου μέχρι χρόνιο πόνο.",
@@ -116,21 +167,53 @@ const el: Record<string, AreaLander> = {
       FAQ_PRICE_EL,
       FAQ_HOURS_EL,
     ],
+    heroQuote: { text: "Τον προτείνω ανεπιφύλακτα. Ποιότητα και αποτελεσματικότητα της θεραπείας.", author: "Αθανασία Α." },
+    conditionsTitle: "Παθήσεις που υποστηρίζουμε",
+    conditionsIntro: "Εξειδικευμένα πρωτόκολλα αποκατάστασης — στο σπίτι σας, στη Βούλα.",
+    conditions: [
+      { title: "Αρθροπλαστική", body: "Αποκατάσταση μετά από αρθροπλαστική γόνατος, ισχίου ή ώμου. Γρήγορη επιστροφή στην καθημερινότητα με σύγχρονες μεθόδους." },
+      { title: "Κατάγματα", body: "Αποκατάσταση καταγμάτων ισχίου, γόνατος, ώμου, άκρας χειρός, αστραγάλου και αγκώνα. Διαχείριση πόνου και δύσκολων περιστατικών." },
+      { title: "Νευρολογικές παθήσεις", body: "Φυσικοθεραπεία για εγκεφαλικό, νόσο Πάρκινσον και πολλαπλή σκλήρυνση. Επανεκπαίδευση βάδισης, ισορροπίας και κινητικού ελέγχου.", href: "/home-care" },
+      { title: "Οσφυαλγία", body: "Πόνος στη μέση, ισχιαλγία και δισκοκήλη. Στοχευμένη manual therapy, νευροδυναμική και εξειδικευμένη θεραπευτική άσκηση.", href: "/low-back-pain" },
+      { title: "Αυχεναλγία", body: "Πόνος στον αυχένα, ζάλη και πονοκέφαλοι αυχενικής αιτιολογίας. Τεχνικές κινητοποίησης και ασκήσεις κινητικού ελέγχου.", href: "/neck-pain" },
+    ],
+    alsoTreatTitle: "Και επίσης αντιμετωπίζουμε",
+    alsoTreatIntro: "Πλήρες φάσμα υπηρεσιών φυσικοθεραπείας κατ' οίκον",
+    alsoTreat: ["Ισχιαλγία", "Μετεγχειρητική αποκατάσταση", "Επανεκπαίδευση βάδισης", "Ισορροπία & πτώσεις", "Κατάκοιτοι ασθενείς", "Παγωμένος ώμος", "Οστεοαρθρίτιδα", "Τενοντοπάθειες", "Γηριατρική φυσικοθεραπεία", "Λεμφικό μασάζ", "Κύφωση & σκολίωση"],
+    practitionerHeading: "Κωνσταντίνος Δανάλης, PT",
+    practitionerRole: "Φυσικοθεραπευτής · Μυοσκελετική & Νευρολογική Αποκατάσταση · 15+ έτη εμπειρίας",
+    credentials: [
+      "IFOMPT-certified — International Federation of Orthopaedic Manipulative Physical Therapists",
+      "APTA International Affiliate — American Physical Therapy Association",
+      "Πιστοποιημένος στις τεχνικές Mulligan, Maitland και Shacklock neurodynamics",
+      "Μέλος Πανελλήνιου Συλλόγου Φυσικοθεραπευτών (ΠΣΦ) — τμήματα Μυοσκελετικής, Θεραπευτικής Άσκησης & Ψυχικής Υγείας",
+      "Απόφοιτος Πανεπιστημίου Δυτικής Αττικής",
+      "Εξειδίκευση σε Brazilian lymphatic drainage",
+    ],
+    reviewsTitle: "Τι λένε οι ασθενείς μας",
+    reviewsIntro: "100+ κριτικές 5 αστέρων στο Google & Doctoranytime",
+    reviews: [
+      { text: "Ο κύριος Δανάλης είναι πολύ σωστός επαγγελματίας, δίνει την απαραίτητη προσοχή στον ασθενή. Το πιο σημαντικό όμως είναι η ποιότητα και αποτελεσματικότητα της θεραπείας. Τον προτείνω ανεπιφύλακτα.", author: "Αθανασία Α. · Βούλα" },
+      { text: "Γνωρίζει πολύ καλά το αντικείμενό του και ασχολείται προσωπικά με τον ασθενή! Έχει θετική διάθεση και με έχει βοηθήσει πολύ. Του έχω εμπιστοσύνη και τον συστήνω.", author: "Εριφύλη Σ. · Γλυφάδα" },
+      { text: "Ασχολήθηκε πολύ ώρα με το πρόβλημά μου και κέρδισε την εμπιστοσύνη μου. Θα τον συστήσω σίγουρα — ξεκάθαρη βελτίωση από την πρώτη συνεδρία.", author: "Γιώτα Σ. · Βάρη" },
+    ],
+    ctaTitle: "Έτοιμοι να ξεκινήσετε τη θεραπεία;",
+    ctaLead: "Άμεση εκτίμηση του περιστατικού σας. Ραντεβού ίδια μέρα — ακόμη και τώρα.",
   },
   "physiotherapy-vari": {
     slug: "physiotherapy-vari",
     service: "physio",
     bgImage: "/physioathome.jpg",
     meta: {
-      title: "Φυσικοθεραπεία κατ' οίκον στη Βάρη & Βάρκιζα — PhysioDanali",
+      title: "Κατ' οίκον Φυσικοθεραπεία στη Βάρη | PhysioDanali",
       description:
-        "Φυσικοθεραπεία στο σπίτι σας σε Βάρη, Βάρκιζα, Κόρμπι και Μηλαδέζα. Αποκατάσταση, νευρολογική φυσικοθεραπεία, θεραπεία πόνου. Καθημερινά 10:00–22:00.",
+        "Φυσικοθεραπεία στο σπίτι σας σε Βάρη, Βάρκιζα, Κόρμπι και Μηλαδέζα. Αποκατάσταση, νευρολογική φυσικοθεραπεία, θεραπεία πόνου. Καθημερινά έως τις 23:00.",
     },
     breadcrumb: "Περιοχές · Βάρη",
     eyebrow: "Βάρη — Βάρκιζα",
-    title: "Φυσικοθεραπεία κατ' οίκον στη Βάρη.",
-    titleAccent: "στη Βάρη.",
-    lead: "Από το Κόρμπι και τη Μηλαδέζα μέχρι την παραλία της Βάρκιζας — πλήρης φυσικοθεραπεία στο σπίτι σας, χωρίς μετακινήσεις.",
+    title: "Κατ' οίκον Φυσικοθεραπεία στη Βάρη",
+    titleAccent: "στη Βάρη",
+    lead: "Επιστημονικά τεκμηριωμένη αντιμετώπιση πόνου και ταχεία αποκατάσταση στο σπίτι σας. Διαθέσιμοι κάθε ημέρα έως τις 23:00 — Σαββατοκύριακα και αργίες.",
     intro: [
       "Η Βάρη και η Βάρκιζα εξυπηρετούνται καθημερινά, με προγραμματισμένα ραντεβού σε Κόρμπι, Μηλαδέζα, Ασύρματο, Λαθούριζα και το παραλιακό μέτωπο. Για κατοίκους πιο απομακρυσμένων σημείων, το κατ' οίκον μοντέλο αφαιρεί τελείως το βάρος της μετακίνησης.",
       "Κάθε πρόγραμμα ξεκινά με αξιολόγηση και χτίζεται γύρω από τον στόχο σας: επιστροφή στη βάδιση μετά από χειρουργείο, ανακούφιση από χρόνιο πόνο, ή ασφαλής άσκηση για επανένταξη στη δραστηριότητα.",
@@ -153,6 +236,38 @@ const el: Record<string, AreaLander> = {
       FAQ_PRICE_EL,
       FAQ_HOURS_EL,
     ],
+    heroQuote: { text: "Τον προτείνω ανεπιφύλακτα. Ποιότητα και αποτελεσματικότητα της θεραπείας.", author: "Αθανασία Α." },
+    conditionsTitle: "Παθήσεις που υποστηρίζουμε",
+    conditionsIntro: "Εξειδικευμένα πρωτόκολλα αποκατάστασης — στο σπίτι σας, στη Βάρη.",
+    conditions: [
+      { title: "Αρθροπλαστική", body: "Αποκατάσταση μετά από αρθροπλαστική γόνατος, ισχίου ή ώμου. Γρήγορη επιστροφή στην καθημερινότητα με σύγχρονες μεθόδους." },
+      { title: "Κατάγματα", body: "Αποκατάσταση καταγμάτων ισχίου, γόνατος, ώμου, άκρας χειρός, αστραγάλου και αγκώνα. Διαχείριση πόνου και δύσκολων περιστατικών." },
+      { title: "Νευρολογικές παθήσεις", body: "Φυσικοθεραπεία για εγκεφαλικό, νόσο Πάρκινσον και πολλαπλή σκλήρυνση. Επανεκπαίδευση βάδισης, ισορροπίας και κινητικού ελέγχου.", href: "/home-care" },
+      { title: "Οσφυαλγία", body: "Πόνος στη μέση, ισχιαλγία και δισκοκήλη. Στοχευμένη manual therapy, νευροδυναμική και εξειδικευμένη θεραπευτική άσκηση.", href: "/low-back-pain" },
+      { title: "Αυχεναλγία", body: "Πόνος στον αυχένα, ζάλη και πονοκέφαλοι αυχενικής αιτιολογίας. Τεχνικές κινητοποίησης και ασκήσεις κινητικού ελέγχου.", href: "/neck-pain" },
+    ],
+    alsoTreatTitle: "Και επίσης αντιμετωπίζουμε",
+    alsoTreatIntro: "Πλήρες φάσμα υπηρεσιών φυσικοθεραπείας κατ' οίκον",
+    alsoTreat: ["Ισχιαλγία", "Μετεγχειρητική αποκατάσταση", "Επανεκπαίδευση βάδισης", "Ισορροπία & πτώσεις", "Κατάκοιτοι ασθενείς", "Παγωμένος ώμος", "Οστεοαρθρίτιδα", "Τενοντοπάθειες", "Γηριατρική φυσικοθεραπεία", "Λεμφικό μασάζ", "Κύφωση & σκολίωση"],
+    practitionerHeading: "Κωνσταντίνος Δανάλης, PT",
+    practitionerRole: "Φυσικοθεραπευτής · Μυοσκελετική & Νευρολογική Αποκατάσταση · 15+ έτη εμπειρίας",
+    credentials: [
+      "IFOMPT-certified — International Federation of Orthopaedic Manipulative Physical Therapists",
+      "APTA International Affiliate — American Physical Therapy Association",
+      "Πιστοποιημένος στις τεχνικές Mulligan, Maitland και Shacklock neurodynamics",
+      "Μέλος Πανελλήνιου Συλλόγου Φυσικοθεραπευτών (ΠΣΦ) — τμήματα Μυοσκελετικής, Θεραπευτικής Άσκησης & Ψυχικής Υγείας",
+      "Απόφοιτος Πανεπιστημίου Δυτικής Αττικής",
+      "Εξειδίκευση σε Brazilian lymphatic drainage",
+    ],
+    reviewsTitle: "Τι λένε οι ασθενείς μας",
+    reviewsIntro: "100+ κριτικές 5 αστέρων στο Google & Doctoranytime",
+    reviews: [
+      { text: "Ο κύριος Δανάλης είναι πολύ σωστός επαγγελματίας, δίνει την απαραίτητη προσοχή στον ασθενή. Το πιο σημαντικό όμως είναι η ποιότητα και αποτελεσματικότητα της θεραπείας. Τον προτείνω ανεπιφύλακτα.", author: "Αθανασία Α. · Βούλα" },
+      { text: "Γνωρίζει πολύ καλά το αντικείμενό του και ασχολείται προσωπικά με τον ασθενή! Έχει θετική διάθεση και με έχει βοηθήσει πολύ. Του έχω εμπιστοσύνη και τον συστήνω.", author: "Εριφύλη Σ. · Γλυφάδα" },
+      { text: "Ασχολήθηκε πολύ ώρα με το πρόβλημά μου και κέρδισε την εμπιστοσύνη μου. Θα τον συστήσω σίγουρα — ξεκάθαρη βελτίωση από την πρώτη συνεδρία.", author: "Γιώτα Σ. · Βάρη" },
+    ],
+    ctaTitle: "Έτοιμοι να ξεκινήσετε τη θεραπεία;",
+    ctaLead: "Άμεση εκτίμηση του περιστατικού σας. Ραντεβού ίδια μέρα — ακόμη και τώρα.",
   },
   "physiotherapy-vouliagmeni": {
     slug: "physiotherapy-vouliagmeni",
@@ -161,7 +276,7 @@ const el: Record<string, AreaLander> = {
     meta: {
       title: "Φυσικοθεραπεία κατ' οίκον στη Βουλιαγμένη — PhysioDanali",
       description:
-        "Διακριτική, εξατομικευμένη φυσικοθεραπεία στο σπίτι σας στη Βουλιαγμένη — Καβούρι, Λαιμός, κέντρο. Αποκατάσταση και θεραπεία πόνου, καθημερινά 10:00–22:00.",
+        "Διακριτική, εξατομικευμένη φυσικοθεραπεία στο σπίτι σας στη Βουλιαγμένη — Καβούρι, Λαιμός, κέντρο. Αποκατάσταση και θεραπεία πόνου, καθημερινά 08:00–23:00.",
     },
     breadcrumb: "Περιοχές · Βουλιαγμένη",
     eyebrow: "Βουλιαγμένη",
@@ -216,7 +331,7 @@ const el: Record<string, AreaLander> = {
       "Θεραπευτική μάλαξη και manual therapy",
       "Οδηγίες στάσης και άσκησης για το γραφείο",
       "Επισκέψεις σε όλη τη Γλυφάδα",
-      "Ραντεβού καθημερινά 10:00–22:00",
+      "Ραντεβού καθημερινά 08:00–23:00",
     ],
     faq: [
       {
@@ -253,7 +368,7 @@ const el: Record<string, AreaLander> = {
       "Θεραπευτική μάλαξη βαθέων ιστών",
       "Πρόγραμμα άσκησης για σταθερό αποτέλεσμα",
       "Κάλυψη σε Βάρη, Βάρκιζα, Κόρμπι, Μηλαδέζα",
-      "Και Σαββατοκύριακα, 10:00–22:00",
+      "Και Σαββατοκύριακα, 08:00–23:00",
     ],
     faq: [
       {
@@ -290,7 +405,7 @@ const el: Record<string, AreaLander> = {
       "Θεραπευτική μάλαξη και τεχνικές μαλακών μορίων",
       "Επισκέψεις σε σπίτι ή βίλα, με διακριτικότητα",
       "Καβούρι, Λαιμός, Πανόραμα, κέντρο",
-      "Ευέλικτο ωράριο καθημερινά 10:00–22:00",
+      "Ευέλικτο ωράριο καθημερινά 08:00–23:00",
     ],
     faq: [
       {
@@ -308,15 +423,15 @@ const en: Record<string, AreaLander> = Object.fromEntries(
   Object.entries({
     "physiotherapy-glyfada": {
       meta: {
-        title: "Home-Visit Physiotherapy in Glyfada — PhysioDanali",
+        title: "At-Home Physiotherapy in Glyfada | PhysioDanali",
         description:
-          "Physiotherapy at your home in Glyfada with full portable equipment. Post-surgical rehab, neurological physiotherapy, pain treatment. Daily 10:00–22:00.",
+          "Physiotherapy at your home in Glyfada with full portable equipment. Post-surgical rehab, neurological physiotherapy, pain treatment. Daily 08:00–23:00.",
       },
       breadcrumb: "Areas · Glyfada",
       eyebrow: "Glyfada",
-      title: "Home-visit physiotherapy in Glyfada.",
-      titleAccent: "in Glyfada.",
-      lead: "From central Glyfada to Ano Glyfada and the Golf district — clinic-grade treatment delivered to your home.",
+      title: "At-Home Physiotherapy in Glyfada",
+      titleAccent: "in Glyfada",
+      lead: "Science-based pain management and rapid recovery — at your home or hotel. Available every day until 23:00, weekends and holidays included.",
       intro: [
         "Glyfada is one of our core service areas, covered daily with short arrival times across every neighbourhood. Each visit brings what you would find in a well-equipped clinic: assessment, hands-on treatment, electrotherapy and guided exercise.",
         "We handle post-fracture and joint-replacement rehabilitation, neurological physiotherapy, gait retraining and chronic musculoskeletal pain — neck, lower back, hip — without you having to travel.",
@@ -339,18 +454,51 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         FAQ_PRICE_EN,
         FAQ_HOURS_EN,
       ],
-    },
+    heroQuote: { text: "I recommend him unreservedly. Quality and effectiveness of treatment.", author: "Athanasia A." },
+    conditionsTitle: "Conditions we support",
+    conditionsIntro: "Specialised rehabilitation protocols — at your home in Glyfada.",
+    conditions: [
+      { title: "Joint replacement", body: "Rehabilitation after knee, hip or shoulder replacement. A fast, structured return to daily life using modern methods." },
+      { title: "Fractures", body: "Rehabilitation after fractures of the hip, knee, shoulder, hand, ankle and elbow. Pain management and complex cases." },
+      { title: "Neurological conditions", body: "Physiotherapy for stroke, Parkinson's disease and multiple sclerosis. Gait, balance and motor-control retraining.", href: "/home-care" },
+      { title: "Low back pain", body: "Lower back pain, sciatica and disc herniation. Targeted manual therapy, neurodynamics and specialised therapeutic exercise.", href: "/low-back-pain" },
+      { title: "Neck pain", body: "Neck pain, dizziness and cervicogenic headaches. Joint mobilisation techniques and motor-control exercises.", href: "/neck-pain" },
+    ],
+    alsoTreatTitle: "We also treat",
+    alsoTreatIntro: "A full range of at-home physiotherapy services",
+    alsoTreat: ["Sciatica", "Post-surgical rehab", "Gait re-education", "Balance & falls", "Bedridden patients", "Frozen shoulder", "Osteoarthritis", "Tendinopathies", "Geriatric physiotherapy", "Lymphatic drainage", "Kyphosis & scoliosis"],
+    practitionerHeading: "Konstantinos Danalis, PT",
+    practitionerRole: "Physiotherapist · Musculoskeletal & Neurological Rehabilitation · 15+ years experience",
+    credentials: [
+      "English-speaking therapist — direct communication, no language barrier",
+      "IFOMPT-certified — International Federation of Orthopaedic Manipulative Physical Therapists",
+      "APTA International Affiliate — American Physical Therapy Association",
+      "Certified in Mulligan, Maitland and Shacklock neurodynamics",
+      "Member of the Greek Physiotherapists' Association (PSF) — Musculoskeletal, Therapeutic Exercise & Mental Health divisions",
+      "Graduate of the University of West Attica",
+      "Specialised in Brazilian lymphatic drainage",
+    ],
+    reviewsTitle: "What our patients say",
+    reviewsIntro: "100+ five-star reviews on Google & Doctoranytime",
+    reviews: [
+      { text: "Mr. Danalis is a true professional who gives the necessary attention to the patient. Most importantly, the quality and effectiveness of his treatment. I recommend him unreservedly.", author: "Athanasia A. · Voula" },
+      { text: "He knows his field very well and personally engages with each patient. He has a positive attitude and has helped me greatly. I trust him completely and recommend him.", author: "Erifyli S. · Glyfada" },
+      { text: "He spent a lot of time on my problem and earned my trust completely. I will definitely recommend him — clear improvement from the first session.", author: "Yiota S. · Vari" },
+    ],
+    ctaTitle: "Ready to start your treatment?",
+    ctaLead: "Immediate assessment of your case. Same-day appointments — even right now.",
+  },
     "physiotherapy-voula": {
       meta: {
-        title: "Home-Visit Physiotherapy in Voula — PhysioDanali",
+        title: "At-Home Physiotherapy in Voula | PhysioDanali",
         description:
-          "At-home physiotherapy in Voula — our home base. The fastest availability in Ano & Kato Voula and Pigadakia, daily 10:00–22:00. Book online.",
+          "At-home physiotherapy in Voula — our home base. The fastest availability in Ano & Kato Voula and Pigadakia, daily until 23:00. Book online.",
       },
       breadcrumb: "Areas · Voula",
       eyebrow: "Voula",
-      title: "Home-visit physiotherapy in Voula.",
-      titleAccent: "in Voula.",
-      lead: "Voula is our home base — the fastest response times of all our areas, from Pigadakia to the seafront.",
+      title: "At-Home Physiotherapy in Voula",
+      titleAccent: "in Voula",
+      lead: "Science-based pain management and rapid recovery — at your home or hotel. Available every day until 23:00, weekends and holidays included.",
       intro: [
         "Based in Voula, we schedule visits across Ano and Kato Voula and Pigadakia with maximum flexibility — often same-day. It is the area where home care is truly immediate.",
         "Treatment is no compromise versus a clinic: portable electrotherapy, manual therapy techniques and a personalised exercise programme, adapted to your space — from post-surgical rehab to chronic pain.",
@@ -373,18 +521,51 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         FAQ_PRICE_EN,
         FAQ_HOURS_EN,
       ],
-    },
+    heroQuote: { text: "I recommend him unreservedly. Quality and effectiveness of treatment.", author: "Athanasia A." },
+    conditionsTitle: "Conditions we support",
+    conditionsIntro: "Specialised rehabilitation protocols — at your home in Voula.",
+    conditions: [
+      { title: "Joint replacement", body: "Rehabilitation after knee, hip or shoulder replacement. A fast, structured return to daily life using modern methods." },
+      { title: "Fractures", body: "Rehabilitation after fractures of the hip, knee, shoulder, hand, ankle and elbow. Pain management and complex cases." },
+      { title: "Neurological conditions", body: "Physiotherapy for stroke, Parkinson's disease and multiple sclerosis. Gait, balance and motor-control retraining.", href: "/home-care" },
+      { title: "Low back pain", body: "Lower back pain, sciatica and disc herniation. Targeted manual therapy, neurodynamics and specialised therapeutic exercise.", href: "/low-back-pain" },
+      { title: "Neck pain", body: "Neck pain, dizziness and cervicogenic headaches. Joint mobilisation techniques and motor-control exercises.", href: "/neck-pain" },
+    ],
+    alsoTreatTitle: "We also treat",
+    alsoTreatIntro: "A full range of at-home physiotherapy services",
+    alsoTreat: ["Sciatica", "Post-surgical rehab", "Gait re-education", "Balance & falls", "Bedridden patients", "Frozen shoulder", "Osteoarthritis", "Tendinopathies", "Geriatric physiotherapy", "Lymphatic drainage", "Kyphosis & scoliosis"],
+    practitionerHeading: "Konstantinos Danalis, PT",
+    practitionerRole: "Physiotherapist · Musculoskeletal & Neurological Rehabilitation · 15+ years experience",
+    credentials: [
+      "English-speaking therapist — direct communication, no language barrier",
+      "IFOMPT-certified — International Federation of Orthopaedic Manipulative Physical Therapists",
+      "APTA International Affiliate — American Physical Therapy Association",
+      "Certified in Mulligan, Maitland and Shacklock neurodynamics",
+      "Member of the Greek Physiotherapists' Association (PSF) — Musculoskeletal, Therapeutic Exercise & Mental Health divisions",
+      "Graduate of the University of West Attica",
+      "Specialised in Brazilian lymphatic drainage",
+    ],
+    reviewsTitle: "What our patients say",
+    reviewsIntro: "100+ five-star reviews on Google & Doctoranytime",
+    reviews: [
+      { text: "Mr. Danalis is a true professional who gives the necessary attention to the patient. Most importantly, the quality and effectiveness of his treatment. I recommend him unreservedly.", author: "Athanasia A. · Voula" },
+      { text: "He knows his field very well and personally engages with each patient. He has a positive attitude and has helped me greatly. I trust him completely and recommend him.", author: "Erifyli S. · Glyfada" },
+      { text: "He spent a lot of time on my problem and earned my trust completely. I will definitely recommend him — clear improvement from the first session.", author: "Yiota S. · Vari" },
+    ],
+    ctaTitle: "Ready to start your treatment?",
+    ctaLead: "Immediate assessment of your case. Same-day appointments — even right now.",
+  },
     "physiotherapy-vari": {
       meta: {
-        title: "Home-Visit Physiotherapy in Vari & Varkiza — PhysioDanali",
+        title: "At-Home Physiotherapy in Vari | PhysioDanali",
         description:
-          "Physiotherapy at home in Vari, Varkiza, Korbi and Miladeza. Rehabilitation, neurological physiotherapy, pain treatment. Daily 10:00–22:00.",
+          "Physiotherapy at home in Vari, Varkiza, Korbi and Miladeza. Rehabilitation, neurological physiotherapy, pain treatment. Daily 08:00–23:00.",
       },
       breadcrumb: "Areas · Vari",
       eyebrow: "Vari — Varkiza",
-      title: "Home-visit physiotherapy in Vari.",
-      titleAccent: "in Vari.",
-      lead: "From Korbi and Miladeza to the Varkiza seafront — complete physiotherapy at home, no travelling required.",
+      title: "At-Home Physiotherapy in Vari",
+      titleAccent: "in Vari",
+      lead: "Science-based pain management and rapid recovery — at your home or hotel. Available every day until 23:00, weekends and holidays included.",
       intro: [
         "Vari and Varkiza are served daily, with scheduled visits in Korbi, Miladeza, Asyrmatos, Lathouriza and along the coast. For residents further out, the home-visit model removes the burden of travel entirely.",
         "Every programme starts with an assessment and is built around your goal: walking again after surgery, relief from chronic pain, or a safe return to activity.",
@@ -407,12 +588,45 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         FAQ_PRICE_EN,
         FAQ_HOURS_EN,
       ],
-    },
+    heroQuote: { text: "I recommend him unreservedly. Quality and effectiveness of treatment.", author: "Athanasia A." },
+    conditionsTitle: "Conditions we support",
+    conditionsIntro: "Specialised rehabilitation protocols — at your home in Vari.",
+    conditions: [
+      { title: "Joint replacement", body: "Rehabilitation after knee, hip or shoulder replacement. A fast, structured return to daily life using modern methods." },
+      { title: "Fractures", body: "Rehabilitation after fractures of the hip, knee, shoulder, hand, ankle and elbow. Pain management and complex cases." },
+      { title: "Neurological conditions", body: "Physiotherapy for stroke, Parkinson's disease and multiple sclerosis. Gait, balance and motor-control retraining.", href: "/home-care" },
+      { title: "Low back pain", body: "Lower back pain, sciatica and disc herniation. Targeted manual therapy, neurodynamics and specialised therapeutic exercise.", href: "/low-back-pain" },
+      { title: "Neck pain", body: "Neck pain, dizziness and cervicogenic headaches. Joint mobilisation techniques and motor-control exercises.", href: "/neck-pain" },
+    ],
+    alsoTreatTitle: "We also treat",
+    alsoTreatIntro: "A full range of at-home physiotherapy services",
+    alsoTreat: ["Sciatica", "Post-surgical rehab", "Gait re-education", "Balance & falls", "Bedridden patients", "Frozen shoulder", "Osteoarthritis", "Tendinopathies", "Geriatric physiotherapy", "Lymphatic drainage", "Kyphosis & scoliosis"],
+    practitionerHeading: "Konstantinos Danalis, PT",
+    practitionerRole: "Physiotherapist · Musculoskeletal & Neurological Rehabilitation · 15+ years experience",
+    credentials: [
+      "English-speaking therapist — direct communication, no language barrier",
+      "IFOMPT-certified — International Federation of Orthopaedic Manipulative Physical Therapists",
+      "APTA International Affiliate — American Physical Therapy Association",
+      "Certified in Mulligan, Maitland and Shacklock neurodynamics",
+      "Member of the Greek Physiotherapists' Association (PSF) — Musculoskeletal, Therapeutic Exercise & Mental Health divisions",
+      "Graduate of the University of West Attica",
+      "Specialised in Brazilian lymphatic drainage",
+    ],
+    reviewsTitle: "What our patients say",
+    reviewsIntro: "100+ five-star reviews on Google & Doctoranytime",
+    reviews: [
+      { text: "Mr. Danalis is a true professional who gives the necessary attention to the patient. Most importantly, the quality and effectiveness of his treatment. I recommend him unreservedly.", author: "Athanasia A. · Voula" },
+      { text: "He knows his field very well and personally engages with each patient. He has a positive attitude and has helped me greatly. I trust him completely and recommend him.", author: "Erifyli S. · Glyfada" },
+      { text: "He spent a lot of time on my problem and earned my trust completely. I will definitely recommend him — clear improvement from the first session.", author: "Yiota S. · Vari" },
+    ],
+    ctaTitle: "Ready to start your treatment?",
+    ctaLead: "Immediate assessment of your case. Same-day appointments — even right now.",
+  },
     "physiotherapy-vouliagmeni": {
       meta: {
         title: "Home-Visit Physiotherapy in Vouliagmeni — PhysioDanali",
         description:
-          "Discreet, personalised physiotherapy at your home in Vouliagmeni — Kavouri, Laimos, centre. Rehabilitation and pain care, daily 10:00–22:00.",
+          "Discreet, personalised physiotherapy at your home in Vouliagmeni — Kavouri, Laimos, centre. Rehabilitation and pain care, daily until 23:00.",
       },
       breadcrumb: "Areas · Vouliagmeni",
       eyebrow: "Vouliagmeni",
@@ -464,7 +678,7 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         "Therapeutic massage and manual therapy",
         "Posture and exercise guidance for desk workers",
         "Visits across all of Glyfada",
-        "Appointments daily 10:00–22:00",
+        "Appointments daily until 23:00",
       ],
       faq: [
         {
@@ -498,7 +712,7 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         "Deep-tissue therapeutic massage",
         "Exercise programme for lasting results",
         "Coverage in Vari, Varkiza, Korbi, Miladeza",
-        "Weekends too, 10:00–22:00",
+        "Weekends too, 08:00–23:00",
       ],
       faq: [
         {
@@ -532,7 +746,7 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         "Therapeutic and soft-tissue massage",
         "Home or villa visits, with discretion",
         "Kavouri, Laimos, Panorama, centre",
-        "Flexible hours daily 10:00–22:00",
+        "Flexible hours daily until 23:00",
       ],
       faq: [
         {
