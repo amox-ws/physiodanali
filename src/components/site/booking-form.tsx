@@ -10,6 +10,7 @@ import { Turnstile, turnstileEnabled } from "@/components/site/turnstile";
 import { useLocale } from "@/components/site/locale-provider";
 import { localeHref } from "@/lib/i18n";
 import { tBooking } from "@/lib/translations";
+import { CONVERSION, reportAdsConversion } from "@/lib/gtag";
 
 type Service = {
   id: string;
@@ -191,6 +192,7 @@ export function BookingForm({
       hp,
     });
     if (res.ok) {
+      reportAdsConversion(CONVERSION.messageForm);
       setBooking({ id: res.id, deposit: res.deposit });
       setStatus("success");
     } else {

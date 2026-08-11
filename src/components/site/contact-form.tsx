@@ -9,6 +9,7 @@ import { useContent, useLocale } from "@/components/site/locale-provider";
 import { t } from "@/lib/translations";
 import { sendContactMessage } from "@/app/contact/actions";
 import { Turnstile, turnstileEnabled } from "@/components/site/turnstile";
+import { CONVERSION, reportAdsConversion } from "@/lib/gtag";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -45,6 +46,7 @@ export function ContactForm() {
     try {
       const res = await sendContactMessage({ ...form, consent, token: captcha });
       if (res.ok) {
+        reportAdsConversion(CONVERSION.messageForm);
         setStatus("success");
         return;
       }

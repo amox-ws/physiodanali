@@ -5,6 +5,7 @@ import { Header } from "@/components/site/header";
 import { Footer } from "@/components/site/footer";
 import { CookieConsent } from "@/components/site/cookie-consent";
 import { ScrollToTop } from "@/components/site/scroll-to-top";
+import { GoogleAds } from "@/components/site/google-ads";
 import { useLocale } from "@/components/site/locale-provider";
 
 /**
@@ -33,6 +34,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <Footer />
       <CookieConsent />
       <ScrollToTop />
+      <GoogleAds />
     </>
   );
 }
