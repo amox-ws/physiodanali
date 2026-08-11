@@ -36,7 +36,7 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
       />
 
       {/* ── Client-authored landing flow (when the entry carries it) ── */}
-      {data.conditions ? (
+      {data.conditions || data.advantages ? (
         <>
           {/* Hero mini-testimonial strip */}
           {data.heroQuote && (
@@ -99,6 +99,7 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
           )}
 
           {/* Conditions we support — cards, some linking to detail pages */}
+          {data.conditions && (
           <section
             className="relative isolate overflow-hidden py-20 lg:py-28"
             style={{ backgroundColor: "#eef4fb" }}
@@ -164,6 +165,7 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
               </div>
             </div>
           </section>
+          )}
 
           {/* Also treating — chips */}
           {data.alsoTreat && (
@@ -186,18 +188,18 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href={localeHref("/chiropractic", locale)}
-                  className="group mt-8 inline-flex items-center gap-2 text-base font-medium text-cobalt transition-colors hover:text-navy"
-                >
-                  {locale === "en"
-                    ? "At-home chiropractic care"
-                    : "Χειροπρακτική κατ' οίκον"}
-                  <ArrowUpRight
-                    className="size-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    strokeWidth={1.75}
-                  />
-                </Link>
+                {data.alsoTreatLink && (
+                  <Link
+                    href={localeHref(data.alsoTreatLink.href, locale)}
+                    className="group mt-8 inline-flex items-center gap-2 text-base font-medium text-cobalt transition-colors hover:text-navy"
+                  >
+                    {data.alsoTreatLink.label}
+                    <ArrowUpRight
+                      className="size-4 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                      strokeWidth={1.75}
+                    />
+                  </Link>
+                )}
               </Reveal>
             </div>
           </section>
