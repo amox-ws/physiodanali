@@ -4,16 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, MailCheck } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 import { isAdminEmail } from "@/lib/admin";
+import { sendAdminLoginLink } from "@/app/admin/login/actions";
 
 type Status = "idle" | "sending" | "sent" | "error" | "notAllowed";
 
 /**
  * Admin sign-in via magic link (client request: no passwords, for security).
- * Supabase emails a one-time link that lands on /admin/auth/callback, which
- * exchanges the code for a session cookie. `shouldCreateUser: false` means only
- * existing (provisioned) accounts can ever receive a link.
+ * The link is generated server-side and emailed through Resend — NOT through
+ * Supabase's built-in mailer, whose ~2 emails/hour limit was locking the
+ * client out. It lands on /admin/auth/callback, which verifies the one-time
+ * token and sets the session cookie. Only provisioned admin accounts can
+ * ever receive a link (checked here for UX, enforced again in the action).
  */
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
@@ -21,23 +23,18 @@ export default function AdminLoginPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Only the two provisioned admin accounts may request a link. The real
-    // gate is server-side (proxy + admin layout + shouldCreateUser:false), this
-    // just avoids emailing anyone else.
     if (!isAdminEmail(email.trim())) {
       setStatus("notAllowed");
       return;
     }
     setStatus("sending");
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: {
-        shouldCreateUser: false,
-        emailRedirectTo: `${window.location.origin}/admin/auth/callback`,
-      },
-    });
-    setStatus(error ? "error" : "sent");
+    try {
+      const res = await sendAdminLoginLink(email.trim());
+      if (res.ok) setStatus("sent");
+      else setStatus(res.error === "notAllowed" ? "notAllowed" : "error");
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
