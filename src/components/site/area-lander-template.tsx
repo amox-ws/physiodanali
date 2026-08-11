@@ -60,6 +60,44 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
               </div>
             </section>
           )}
+          {/* Advantages — why this service is different (3 cards) */}
+          {data.advantages && (
+            <section className="bg-snow py-20 lg:py-28">
+              <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+                <Reveal className="mx-auto mb-12 max-w-[820px] text-center lg:mb-14">
+                  <h2 className="display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.02] tracking-[-0.025em] text-ink">
+                    {data.advantagesTitle}
+                  </h2>
+                  {data.advantagesIntro && (
+                    <p className="mt-4 text-lg leading-relaxed text-ink-muted lg:text-xl">
+                      {data.advantagesIntro}
+                    </p>
+                  )}
+                </Reveal>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {data.advantages.map((a, i) => (
+                    <Reveal key={a.title} delay={i * 0.07} className="h-full">
+                      <div className="group flex h-full flex-col rounded-[24px] border border-stone bg-porcelain p-7 transition-all duration-500 hover:-translate-y-1 hover:border-cobalt/30 hover:shadow-[0_30px_60px_-20px_rgba(15,37,64,0.15)] lg:p-8">
+                        <span className="flex size-11 items-center justify-center rounded-2xl bg-cobalt/10 transition-colors duration-500 group-hover:bg-cobalt">
+                          <Check
+                            className="size-5 text-cobalt transition-colors duration-500 group-hover:text-snow"
+                            strokeWidth={2}
+                          />
+                        </span>
+                        <h3 className="display mt-5 text-xl leading-snug tracking-tight text-ink lg:text-2xl">
+                          {a.title}
+                        </h3>
+                        <p className="mt-3 flex-1 text-base leading-relaxed text-ink-muted">
+                          {a.body}
+                        </p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Conditions we support — cards, some linking to detail pages */}
           <section
             className="relative isolate overflow-hidden py-20 lg:py-28"
@@ -128,6 +166,7 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
           </section>
 
           {/* Also treating — chips */}
+          {data.alsoTreat && (
           <section className="bg-snow py-16 lg:py-20">
             <div className="mx-auto max-w-[1100px] px-6 lg:px-10 text-center">
               <Reveal>
@@ -162,6 +201,7 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
               </Reveal>
             </div>
           </section>
+          )}
 
           {/* Practitioner credentials */}
           <section className="bg-porcelain py-20 lg:py-28">
@@ -192,8 +232,69 @@ export async function AreaLanderPage({ slug }: { slug: string }) {
             </div>
           </section>
 
-          {/* How it works — same 4-step section as the home page */}
-          <Process />
+          {/* How it works — the lander's own steps, else the shared section */}
+          {data.steps ? (
+            <section
+              className="relative isolate overflow-hidden py-20 lg:py-28"
+              style={{ backgroundColor: "#e8eff8" }}
+            >
+              <div
+                aria-hidden
+                className="absolute inset-0 -z-10"
+                style={{
+                  background:
+                    "radial-gradient(60% 60% at 80% 20%, rgba(30,77,139,0.10) 0%, transparent 65%), radial-gradient(45% 50% at 10% 90%, rgba(126,168,220,0.18) 0%, transparent 60%)",
+                }}
+              />
+              <div className="mx-auto max-w-[1100px] px-6 lg:px-10">
+                <Reveal className="mx-auto mb-12 max-w-[760px] text-center lg:mb-14">
+                  <h2 className="display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.02] tracking-[-0.025em] text-ink">
+                    {data.stepsTitle}
+                  </h2>
+                  {data.stepsIntro && (
+                    <p className="mt-4 text-lg leading-relaxed text-ink-muted">
+                      {data.stepsIntro}
+                    </p>
+                  )}
+                </Reveal>
+                <ol className="relative space-y-9 lg:space-y-11">
+                  <span
+                    aria-hidden
+                    className="absolute left-7 top-7 bottom-7 w-px -translate-x-1/2 bg-gradient-to-b from-cobalt/40 via-stone to-stone"
+                  />
+                  {data.steps.map((s, i) => (
+                    <Reveal
+                      as="li"
+                      key={s.title}
+                      x={60}
+                      y={0}
+                      delay={i * 0.08}
+                      className="group relative flex items-start gap-6"
+                    >
+                      <span
+                        className="relative z-10 flex size-14 shrink-0 items-center justify-center rounded-full text-snow shadow-[0_14px_34px_-12px_rgba(15,37,64,0.55)] transition-transform duration-500 group-hover:scale-105"
+                        style={{ backgroundColor: COND_ACCENTS[i % COND_ACCENTS.length] }}
+                      >
+                        <span className="display text-xl leading-none">
+                          {i + 1}
+                        </span>
+                      </span>
+                      <div className="pt-2">
+                        <h3 className="display text-xl leading-tight tracking-tight text-ink lg:text-2xl">
+                          {s.title}
+                        </h3>
+                        <p className="mt-2 max-w-[58ch] text-base leading-relaxed text-ink-muted">
+                          {s.body}
+                        </p>
+                      </div>
+                    </Reveal>
+                  ))}
+                </ol>
+              </div>
+            </section>
+          ) : (
+            <Process />
+          )}
 
           {/* Reviews */}
           <section className="bg-snow py-20 lg:py-28">

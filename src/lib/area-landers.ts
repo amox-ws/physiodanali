@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/i18n";
 
 export type AreaLander = {
   slug: string;
-  service: "physio" | "chiro";
+  service: "physio" | "chiro" | "massage" | "lymphatic";
   bgImage: string;
   meta: { title: string; description: string };
   breadcrumb: string;
@@ -24,9 +24,15 @@ export type AreaLander = {
   // (conditions cards → also-treat chips → credentials → Process →
   // reviews → CTA) instead of the generic intro/bullets layout.
   heroQuote?: { text: string; author: string };
+  advantagesTitle?: string;
+  advantagesIntro?: string;
+  advantages?: { title: string; body: string }[];
   conditionsTitle?: string;
   conditionsIntro?: string;
   conditions?: { title: string; body: string; href?: string }[];
+  stepsTitle?: string;
+  stepsIntro?: string;
+  steps?: { title: string; body: string }[];
   alsoTreatTitle?: string;
   alsoTreatIntro?: string;
   alsoTreat?: string[];
@@ -417,6 +423,126 @@ const el: Record<string, AreaLander> = {
       FAQ_HOURS_EL,
     ],
   },
+
+  "deep-tissue-massage": {
+    slug: "deep-tissue-massage",
+    service: "massage",
+    bgImage: "/brazilian.jpg",
+    meta: {
+      title: "Θεραπευτική Μάλαξη Βάθους (Deep Tissue) κατ' οίκον | Άλιμος, Γλυφάδα, Βούλα, Βάρη | PhysioDanali",
+      description: "Θεραπευτική μάλαξη βάθους από Φυσικοθεραπευτή & Χειροπρακτικό με 20+ χρόνια εμπειρίας. Στοχευμένη ανακούφιση από χρόνια ένταση σε αυχένα, ώμους, μέση και ισχίο — κατ' οίκον σε Άλιμο, Γλυφάδα, Βούλα, Βουλιαγμένη & Βάρη.",
+    },
+    breadcrumb: "Υπηρεσίες · Deep Tissue",
+    eyebrow: "Deep Tissue",
+    title: "Θεραπευτική Μάλαξη Βάθους (Deep Tissue) κατ' οίκον",
+    titleAccent: "κατ' οίκον",
+    lead: "Η ένταση που κουβαλάτε χρόνια — σε αυχένα, ώμους, μέση και ισχίο — αντιμετωπίζεται στοχευμένα. 20 χρόνια εμπειρίας και βαθιά γνώση ανατομίας σημαίνουν ότι βρίσκω ακριβώς ποιος μυς προκαλεί τον πόνο και ξέρω πώς να τον απελευθερώσω. Στο σπίτι σας, στον δικό σας χρόνο.",
+    intro: [],
+    bulletsTitle: "",
+    bullets: [],
+    faq: [FAQ_PRICE_EL, FAQ_HOURS_EL],
+    heroQuote: { text: "Ξεκάθαρη βελτίωση από την πρώτη κιόλας συνεδρία. Τον προτείνω ανεπιφύλακτα.", author: "Αθανασία Α." },
+    advantagesTitle: "Δεν είναι μια απλή χαλαρωτική μάλαξη",
+    advantagesIntro: "Είναι θεραπευτική μάλαξη βάθους από Φυσικοθεραπευτή & Χειροπρακτικό — με στόχο να λύσει την αιτία της έντασης, όχι απλώς να την ανακουφίσει για λίγο.",
+    advantages: [
+      { title: "20 χρόνια εμπειρίας & βαθιά γνώση ανατομίας", body: "Δεν πιέζω απλώς εκεί που πονάει. Δύο δεκαετίες εμπειρίας και εξειδικευμένη γνώση ανατομίας μού επιτρέπουν να εντοπίζω ακριβώς ποιος μυς δημιουργεί το πρόβλημα και να ξέρω πώς να τον δουλέψω. Αυτή είναι η διαφορά ανάμεσα σε μια προσωρινή ανακούφιση και σε μια πραγματική, διαρκή αλλαγή." },
+      { title: "Δουλεύω και τους μυς που οι περισσότεροι παραλείπουν", body: "Οι εν τω βάθει γλουτιαίοι (μέσος γλουτιαίος, απιοειδής) και οι προσαγωγοί του ισχίου είναι από τις πιο συχνές — και πιο παραμελημένες — αιτίες πόνου στη μέση, στο ισχίο και ισχιαλγίας. Τους αντιμετωπίζω σχολαστικά και με απόλυτο επαγγελματισμό, γιατί ακριβώς η παράλειψή τους είναι ο λόγος που τα αποτελέσματα δεν κρατούν." },
+      { title: "Στο σπίτι σας, στον δικό σας χρόνο", body: "Χωρίς studio, χωρίς μετακίνηση μετά τη δουλειά. Έρχομαι σε εσάς με ό,τι χρειάζεται, καθημερινά έως τις 23:00 — Σαββατοκύριακα και αργίες. Σχεδιασμένο για ένα πραγματικά φορτωμένο πρόγραμμα." },
+    ],
+    conditionsTitle: "Για την ένταση που έχει μαζευτεί με τα χρόνια",
+    conditionsIntro: "Στοχευμένη μάλαξη βάθους, προσαρμοσμένη στο δικό σας σώμα και στα δικά σας σημεία έντασης",
+    conditions: [
+      { title: "Βαθιά, στοχευμένη πίεση εκεί που χρειάζεται", body: "Όχι μια χαλαρωτική τριβή — θεραπευτικό βάθος, ακριβώς στο σημείο που «κάθεται» η ένταση, καθοδηγούμενο από 20 χρόνια ανατομίας." },
+      { title: "Ανακούφιση από την πρώτη συνεδρία", body: "Οι περισσότερες πελάτισσές μου φεύγουν πιο χαλαρές, πιο «ψηλές» και με πιο ελεύθερη κίνηση ήδη μετά την πρώτη επίσκεψη." },
+      { title: "Ολόσωμη ή εστιασμένη — όπως το χρειάζεστε", body: "Είτε πρόκειται για χρόνια ένταση σε αυχένα και ώμους είτε για έναν πεισματικό κόμπο, η συνεδρία χτίζεται γύρω από εσάς." },
+    ],
+    practitionerHeading: "Κωνσταντίνος Δανάλης, PT",
+    practitionerRole: "Αδειούχος Φυσικοθεραπευτής · Θεραπευτική Μάλαξη Βάθους & Manual Therapy · 20+ χρόνια εμπειρίας",
+    credentials: [
+      "Μάλαξη με τη γνώση ενός φυσικοθεραπευτή — βαθιά γνώση ανατομίας: ξέρω ακριβώς ποιος μυς προκαλεί τον πόνο και πώς να τον απελευθερώσω.",
+      "20+ χρόνια καθημερινής, πρακτικής εμπειρίας σε μυοσκελετικό πόνο και ένταση.",
+      "IFOMPT-certified & APTA International Affiliate — διεθνώς αναγνωρισμένη εξειδίκευση.",
+      "Πιστοποιημένος στις τεχνικές Mulligan, Maitland και Shacklock neurodynamics .",
+      "Μέλος Πανελλήνιου Συλλόγου Φυσικοθεραπευτών (ΠΣΦ) · Απόφοιτος Πανεπιστημίου Δυτικής Αττικής .",
+    ],
+    stepsTitle: "Πώς λειτουργεί",
+    stepsIntro: "Από το πρώτο τηλέφωνο μέχρι την ανακούφιση, σε 4 απλά βήματα.",
+    steps: [
+      { title: "Άμεση εκτίμηση", body: "Καλέστε ή στείλτε WhatsApp. Μου λέτε πού νιώθετε την ένταση και τι σας ταλαιπωρεί." },
+      { title: "Ραντεβού στο σπίτι σας", body: "Έρχομαι σε εσάς με όλο τον εξοπλισμό. Ίδια ή επόμενη μέρα, έως τις 23:00." },
+      { title: "Στοχευμένη συνεδρία μάλαξης βάθους", body: "Εντοπίζω τους μυς που προκαλούν το πρόβλημα και τους δουλεύω με σωστό βάθος και ρυθμό." },
+      { title: "Πλάνο & συμβουλές", body: "Φεύγετε με ανακούφιση και απλές οδηγίες, ώστε η ένταση να μην επιστρέφει." },
+    ],
+    reviewsTitle: "Τι λένε οι πελάτες μου",
+    reviewsIntro: "100+ κριτικές 5 αστέρων στο Google & Doctoranytime",
+    reviews: [
+      { text: "Το καλύτερο αθλητικό μασάζ από έναν εξαιρετικό φυσικοθεραπευτή. Με δυνατές πιέσεις που ανακουφίζουν, ξέρει πάντα πού να πιέσει, και η λειτουργική μάλαξη που συνδυάζει δίνει ευεξία και χαλάρωση που διαρκεί.", author: "Νίκος Λ. · Google" },
+      { text: "Ο Κώστας ήταν καταπληκτικός. Επαγγελματίας, φιλικός και απίστευτα γνώστης της ανθρώπινης ανατομίας. Η πίεση ήταν τέλεια. Είχαμε πολλά μασάζ και το δικό του ήταν το καλύτερο!", author: "J. Thomas · Google" },
+      { text: "Ένας καταπληκτικός ειδικός που κάνει εξαιρετικό μασάζ και διαθέτει και πολύ εξοπλισμό για φυσικοθεραπεία. Τον συστήνω ανεπιφύλακτα.", author: "Svetlana R. · Google" },
+    ],
+    ctaTitle: "Αφήστε πίσω την ένταση που κουβαλάτε χρόνια",
+    ctaLead: "Άμεση εκτίμηση στο τηλέφωνο. Ραντεβού ίδια μέρα — στο σπίτι σας, στον δικό σας χρόνο.",
+  },
+  "intensive-lymphatic-drainage": {
+    slug: "intensive-lymphatic-drainage",
+    service: "lymphatic",
+    bgImage: "/brazilian2g.jpg",
+    meta: {
+      title: "Brazilian Λεμφική Παροχέτευση μετά από Λιποαναρρόφηση στη Γλυφάδα | PhysioDanali",
+      description: "Brazilian Λεμφική Παροχέτευση κατ' οίκον στη Γλυφάδα μετά από λιποαναρρόφηση, κοιλιοπλαστική και αισθητικές επεμβάσεις. Μείωση οιδήματος, πρόληψη ίνωσης. 15+ έτη εμπειρίας. Διακριτικά, στο σπίτι σας.",
+    },
+    breadcrumb: "Υπηρεσίες · Λεμφική Παροχέτευση",
+    eyebrow: "Brazilian Λεμφικό",
+    title: "Brazilian Λεμφική Παροχέτευση — μετά από Λιποαναρρόφηση & Επέμβαση στη Γλυφάδα",
+    titleAccent: "στη Γλυφάδα",
+    lead: "Εξειδικευμένη Brazilian τεχνική λεμφικής παροχέτευσης για ταχύτερη αποκατάσταση μετά από λιποαναρρόφηση, κοιλιοπλαστική, BBL ή άλλες αισθητικές επεμβάσεις. Μείωση οιδήματος, πρόληψη ίνωσης — στο σπίτι σας, διακριτικά.",
+    intro: [],
+    bulletsTitle: "",
+    bullets: [],
+    faq: [FAQ_PRICE_EL, FAQ_HOURS_EL],
+    heroQuote: { text: "Τον προτείνω ανεπιφύλακτα. Ποιότητα και αποτελεσματικότητα της θεραπείας.", author: "Αθανασία Α." },
+    advantagesTitle: "Γιατί η Brazilian τεχνική είναι διαφορετική",
+    advantagesIntro: "Πιο δυναμική και πιο αποτελεσματική από την κλασική ευρωπαϊκή λεμφική παροχέτευση — ειδικά μετά από αισθητικές επεμβάσεις.",
+    advantages: [
+      { title: "Αυθεντική Brazilian τεχνική", body: "Η Brazilian μέθοδος είναι πιο δυναμική και ρυθμική από την παραδοσιακή ευρωπαϊκή (Vodder) — σχεδιασμένη ειδικά για μετεγχειρητική αποκατάσταση, ενεργοποιεί το λεμφικό σύστημα και διώχνει το παγιδευμένο υγρό." },
+      { title: "Μείωση οιδήματος, πρόληψη ίνωσης", body: "Η σωστή παροχέτευση τις πρώτες 4-6 εβδομάδες μειώνει το οίδημα, προλαμβάνει τα σηρώματα (συσσώρευση υγρού) και μειώνει τον κίνδυνο ίνωσης (σκλήρυνσης του ιστού) — οδηγώντας σε πιο ομαλό τελικό αποτέλεσμα." },
+      { title: "Στο σπίτι σας — όταν δεν μπορείτε να μετακινηθείτε", body: "Η αποκατάσταση θέλει ξεκούραση. Ερχόμαστε σε εσάς με τη σωστή τεχνική και πίεση — χωρίς ταξί, χωρίς αναμονές. Διακριτικά, επαγγελματικά, στο πρόγραμμά σας." },
+    ],
+    conditionsTitle: "Για ποιες περιπτώσεις",
+    conditionsIntro: "Εξατομικευμένο πρόγραμμα παροχέτευσης ανάλογα με την επέμβαση ή την κατάστασή σας",
+    conditions: [
+      { title: "Λεμφική παροχέτευση μετά από χειρουργείο", body: "Κατάλληλη για λιποαναρρόφηση και μαστεκτομή." },
+      { title: "Αντιμετώπιση ίνωσης", body: "Μετεγχειρητική ίνωση με λεμφική μάλαξη, RF και μηχανήματα υπερήχων." },
+      { title: "Νυφικό & εντατικό λεμφικό", body: "Για ειδικές περιστάσεις — νιώστε αμέσως πιο λεπτή σιλουέτα στα ρούχα σας." },
+    ],
+    practitionerHeading: "Κωνσταντίνος Δανάλης, PT",
+    practitionerRole: "Αδειούχος Φυσικοθεραπευτής & Brazilian Lymphatic Specialist · 15+ έτη εμπειρίας",
+    credentials: [
+      "Εξειδίκευση σε Brazilian Lymphatic Drainage — αυθεντική Βραζιλιάνικη μέθοδος λεμφικής παροχέτευσης",
+      "Αδειούχος Φυσικοθεραπευτής — όχι απλώς αισθητικός. Επιστημονική γνώση ανατομίας λεμφικού συστήματος.",
+      "IFOMPT-certified & APTA International Affiliate",
+      "Μέλος Πανελλήνιου Συλλόγου Φυσικοθεραπευτών (ΠΣΦ)",
+      "Απόφοιτος Πανεπιστημίου Δυτικής Αττικής",
+      "Πιστοποιημένος στις τεχνικές Mulligan, Maitland, Shacklock",
+    ],
+    stepsTitle: "Πώς λειτουργεί",
+    stepsIntro: "Από την πρώτη επικοινωνία μέχρι την πλήρη αποκατάσταση, σε 4 σαφή βήματα.",
+    steps: [
+      { title: "Άμεση εκτίμηση", body: "Καλέστε ή στείλτε WhatsApp. Συζητάμε την επέμβαση, την ημερομηνία και τους στόχους αποκατάστασης." },
+      { title: "Ραντεβού στο σπίτι σας", body: "Διακριτική επίσκεψη — ίδια ή επόμενη μέρα. Δεν χρειάζεται να μετακινηθείτε." },
+      { title: "Brazilian συνεδρία (60-90 λεπτά)", body: "Στοχευμένη παροχέτευση με τη σωστή πίεση και ρυθμό για τη φάση της αποκατάστασης που βρίσκεστε." },
+      { title: "Πρόγραμμα αποκατάστασης", body: "Συχνότητα προσαρμοσμένη στο είδος της επέμβασης — συνήθως 2-3 συνεδρίες/εβδομάδα τις πρώτες εβδομάδες." },
+    ],
+    reviewsTitle: "Τι λένε οι ασθενείς μας",
+    reviewsIntro: "100+ κριτικές 5 αστέρων στο Google & Doctoranytime",
+    reviews: [
+      { text: "Ο κύριος Δανάλης είναι πολύ σωστός επαγγελματίας, δίνει την απαραίτητη προσοχή στον ασθενή. Το πιο σημαντικό όμως είναι η ποιότητα και αποτελεσματικότητα της θεραπείας. Τον προτείνω ανεπιφύλακτα.", author: "Αθανασία Α. · Βούλα" },
+      { text: "Γνωρίζει πολύ καλά το αντικείμενό του και ασχολείται προσωπικά με τον ασθενή! Έχει θετική διάθεση και με έχει βοηθήσει πολύ. Του έχω εμπιστοσύνη και τον συστήνω.", author: "Εριφύλη Σ. · Γλυφάδα" },
+      { text: "Ασχολήθηκε πολύ ώρα με το πρόβλημά μου και κέρδισε την εμπιστοσύνη μου. Θα τον συστήσω σίγουρα — ξεκάθαρη βελτίωση από την πρώτη συνεδρία.", author: "Γιώτα Σ. · Βάρη" },
+    ],
+    ctaTitle: "Έτοιμοι για ταχύτερη αποκατάσταση;",
+    ctaLead: "Άμεση εκτίμηση του περιστατικού σας. Ραντεβού ίδια μέρα — διακριτικά στο σπίτι σας.",
+  },
 };
 
 const en: Record<string, AreaLander> = Object.fromEntries(
@@ -757,6 +883,114 @@ const en: Record<string, AreaLander> = Object.fromEntries(
         FAQ_PRICE_EN,
         FAQ_HOURS_EN,
       ],
+    },
+  
+    "deep-tissue-massage": {
+      meta: {
+        title: "Deep Tissue Massage at Home | Alimos, Glyfada, Voula, Vari | PhysioDanali",
+        description: "Therapeutic deep tissue massage by a physiotherapist & chiropractor with 20+ years of experience. Targeted relief from years of tension in the neck, shoulders, back and hips — at home in Alimos, Glyfada, Voula, Vouliagmeni & Vari.",
+      },
+      breadcrumb: "Services · Deep Tissue",
+      eyebrow: "Deep Tissue",
+      title: "Deep Tissue Massage at Home",
+      titleAccent: "at Home",
+      lead: "The tension you've carried for years — in your neck, shoulders, back and hips — treated with precision. 20 years of experience and deep anatomical knowledge mean I find exactly which muscle is driving your pain and know precisely how to release it. At your home, on your schedule.",
+      faq: [FAQ_PRICE_EN, FAQ_HOURS_EN],
+      heroQuote: { text: "Clear improvement from the very first session. I recommend him without reservation.", author: "Athanasia A." },
+      advantagesTitle: "Not just a relaxing rub",
+      advantagesIntro: "Therapeutic deep tissue massage by a physiotherapist & chiropractor — built to resolve the cause of your tension, not just soothe it for a while.",
+      advantages: [
+        { title: "Two decades of experience & deep anatomy knowledge", body: "I don't just press where it hurts. Twenty years of experience and specialised anatomical training let me pinpoint exactly which muscle is causing the problem and know precisely how to work it. That's the difference between temporary relief and real, lasting change." },
+        { title: "I treat the muscles most therapists skip", body: "The deep gluteal muscles (gluteus medius, piriformis) and the hip adductors are among the most common — and most under-treated — sources of low-back, hip and sciatic pain. I treat them thoroughly and professionally, because leaving them out is exactly why results don't last." },
+        { title: "At your home, on your schedule", body: "No studio, no rushing across town after work. I come to you with everything needed, daily until 23:00 — weekends and holidays included. Built around a genuinely full schedule." },
+      ],
+      conditionsTitle: "For the tension that builds up over the years",
+      conditionsIntro: "Targeted deep tissue work, adapted to your body and your specific points of tension",
+      conditions: [
+        { title: "Deep, targeted pressure where it's really needed", body: "Not a relaxing rub — therapeutic depth, applied exactly where the tension sits, guided by 20 years of anatomy." },
+        { title: "Relief from the very first session", body: "Most of my clients leave looser, taller and moving more freely after the first visit." },
+        { title: "Full-body or focused — your choice", body: "Whether it's years of neck and shoulder tension or one stubborn knot, the session is built around you." },
+      ],
+      practitionerHeading: "Konstantinos Danalis, PT",
+      practitionerRole: "Licensed Physiotherapist · Deep Tissue Massage & Manual Therapy · 20+ years experience",
+      credentials: [
+        "Massage with a physiotherapist's expertise — deep anatomical knowledge means I know exactly which muscle is causing your pain and how to release it.",
+        "20+ years of daily, hands-on experience with musculoskeletal pain and tension.",
+        "IFOMPT-certified & APTA International Affiliate — internationally recognised expertise.",
+        "Certified in Mulligan, Maitland and Shacklock neurodynamics techniques.",
+        "Member of the Panhellenic Association of Physiotherapists (PSF) · Graduate of the University of West Attica .",
+      ],
+      stepsTitle: "How it works",
+      stepsIntro: "From the first call to relief, in 4 simple steps.",
+      steps: [
+        { title: "Immediate assessment", body: "Call or WhatsApp me. You tell me where the tension is and what's been bothering you." },
+        { title: "Appointment at your home", body: "I come to you with all the equipment. Same or next day, until 23:00." },
+        { title: "Targeted deep tissue session", body: "I locate the muscles driving the problem and work them at the right depth and rhythm." },
+        { title: "Plan & guidance", body: "You leave with relief and simple advice, so the tension doesn't come back." },
+      ],
+      reviewsTitle: "What my clients say",
+      reviewsIntro: "100+ 5-star reviews on Google & Doctoranytime",
+      reviews: [
+        { text: "Costas was amazing. Professional, friendly and incredibly knowledgeable of human anatomy. Pressure was perfect. We have had many massages and his was the best!", author: "J. Thomas · Google" },
+        { text: "He immediately found the trigger points that were causing me incredible pain, and from the first session I already had a big difference. Excellently trained in the targeted exercise program too.", author: "Angela Kalafati · Google" },
+        { text: "Kostas always finds the spots that need the most work. I feel closer to healing with every massage. Looking forward to the next one!", author: "Lisa Miller · Google" },
+      ],
+      ctaTitle: "Let go of the tension you've carried for years",
+      ctaLead: "Immediate assessment by phone. Same-day appointment — at your home, on your schedule.",
+    },
+    "intensive-lymphatic-drainage": {
+      meta: {
+        title: "Brazilian Lymphatic Drainage Post-Liposuction at Home | PhysioDanali",
+        description: "In-home Brazilian Lymphatic Drainage for post-liposuction, tummy tuck and cosmetic surgery recovery. Reduce swelling, prevent fibrosis. 15+ years experience. Discreet, at your home.",
+      },
+      breadcrumb: "Services · Lymphatic Drainage",
+      eyebrow: "Brazilian Lymphatic",
+      title: "Brazilian Lymphatic Drainage — Post-Liposuction & Surgery Recovery at Home",
+      titleAccent: "Post-Liposuction",
+      lead: "Authentic Brazilian-technique lymphatic drainage for faster recovery after liposuction, tummy tuck, BBL or other cosmetic surgery. Reduce swelling, prevent fibrosis — at your home, discreetly.",
+      faq: [FAQ_PRICE_EN, FAQ_HOURS_EN],
+      heroQuote: { text: "I recommend him without reservation. Quality and effectiveness of the treatment.", author: "Athanasia A." },
+      advantagesTitle: "Why the Brazilian technique is different",
+      advantagesIntro: "More dynamic and more effective than classic European lymphatic drainage — especially after cosmetic surgery.",
+      advantages: [
+        { title: "Authentic Brazilian technique", body: "The Brazilian method is more dynamic and rhythmic than the traditional European (Vodder) method — designed specifically for post-surgery recovery. It activates the lymphatic system and moves trapped fluid out more effectively." },
+        { title: "Reduce swelling, prevent fibrosis", body: "Proper drainage in the first 4-6 weeks reduces edema, helps prevent seromas (fluid pockets), and lowers the risk of fibrosis (tissue hardening) — leading to a smoother, more even final contour." },
+        { title: "At your home — when you shouldn't be moving", body: "Recovery means rest. We come to you with the right pressure and technique — no taxis, no waiting rooms. Discreet, professional, on your schedule." },
+      ],
+      conditionsTitle: "Who it's for",
+      conditionsIntro: "Personalized drainage protocol based on your surgery or condition",
+      conditions: [
+        { title: "Post-surgery lymphatic drainage", body: "Suitable for liposuction and mastectomy." },
+        { title: "Fibrosis treatment", body: "Post-surgery fibrosis treated with lymphatic massage, RF and ultrasound machines." },
+        { title: "Bridal / special occasion", body: "Intensive lymphatic treatment to feel immediately slimmer in your clothes." },
+      ],
+      practitionerHeading: "Konstantinos Danalis, PT",
+      practitionerRole: "Licensed Physical Therapist & Brazilian Lymphatic Specialist · 15+ years experience",
+      credentials: [
+        "Specialized in Brazilian Lymphatic Drainage — authentic Brazilian method of lymphatic drainage",
+        "Licensed Physical Therapist — not just an aesthetician. Scientific knowledge of lymphatic system anatomy.",
+        "IFOMPT-certified & APTA International Affiliate",
+        "Member of the Panhellenic Association of Physiotherapists (PSF)",
+        "Graduate of the University of West Attica",
+        "Certified in Mulligan, Maitland and Shacklock techniques",
+      ],
+      stepsTitle: "How it works",
+      stepsIntro: "From the first contact to full recovery, in 4 clear steps.",
+      steps: [
+        { title: "Immediate assessment", body: "Call or WhatsApp us. We discuss your surgery, the date and your recovery goals." },
+        { title: "Appointment at your home", body: "Discreet visit — same or next day. You don't have to move." },
+        { title: "Brazilian session (60-90 min)", body: "Targeted drainage with the right pressure and rhythm for the recovery phase you're in." },
+        { title: "Recovery protocol", body: "Frequency tailored to your surgery type — typically 2-3 sessions/week for the first weeks." },
+      ],
+      reviewsTitle: "What our patients say",
+      reviewsIntro: "100+ 5-star reviews on Google & Doctoranytime",
+      reviews: [
+        { text: "Mr. Danalis is a true professional who gives the patient the attention they need. Most importantly: the quality and effectiveness of the treatment. I recommend him without reservation.", author: "Athanasia A. · Voula" },
+        { text: "He knows his field very well and engages personally with the patient. Positive attitude, has helped me a lot. I trust him and I recommend him.", author: "Erifyli S. · Glyfada" },
+        { text: "He spent a lot of time on my problem and earned my trust. I'll definitely recommend him — clear improvement from the very first session.", author: "Giota S. · Vari" },
+      ],
+      ctaTitle: "Ready for a faster recovery?",
+      ctaLead: "Immediate case assessment. Same-day appointment — discreetly at your home.",
     },
   }).map(([slug, v]) => [
     slug,
