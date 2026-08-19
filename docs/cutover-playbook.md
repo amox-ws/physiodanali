@@ -118,3 +118,42 @@ curl -sIL https://physiodanali.gr/el/index-gr.html | grep -E "HTTP|location"
 2. Θα τρέξω τους **5 ελέγχους** αμέσως μετά
 3. Θα στήσω **GSC + submit sitemaps** (θέλει ένα DNS TXT record)
 4. Θα βάλω το **`SITE_URL`** και θα κάνω redeploy
+
+---
+
+# ✅ ΤΟ CUTOVER ΕΓΙΝΕ — 29/07/2026
+
+Το DNS άλλαξε από τον πελάτη/aspx.gr χωρίς προειδοποίηση. Εντοπίστηκε
+κατά τη διάρκεια άλλου ελέγχου. Κατάσταση μετά τις διορθώσεις:
+
+| Έλεγχος | Αποτέλεσμα |
+|---|---|
+| `physiodanali.gr` | **200** — εδώ ζει το site |
+| `www.physiodanali.gr` | **308 → apex** (1 άλμα, χωρίς βρόχο) |
+| `X-Robots-Tag: noindex` | ✅ **δεν υπάρχει** |
+| Canonical | ✅ συμφωνεί με το apex σε όλες τις σελίδες |
+| **266/266** παλιά URLs | ✅ **200** |
+| `SITE_URL` | ✅ `https://physiodanali.gr` |
+| GA4 `G-R4DCHSJWE7` | ✅ φορτώνει + page_view σε route change |
+| Google Ads `AW-16494421065` | ✅ |
+
+## Τι διορθώθηκε
+
+1. **www ↔ apex ήταν ανάποδα.** Το DNS έβαλε το `www` ως κύριο, ενώ όλα
+   τα canonical/sitemap/hreflang δηλώνουν το apex — και τα **264 indexed
+   URLs** που ξέρει το Google είναι χωρίς `www`. Αντιστράφηκε μέσω Vercel
+   API, με σειρά που αποκλείει βρόχο (πρώτα αφαίρεση από apex, μετά
+   προσθήκη στο www).
+2. **`SITE_URL` έλειπε** — τα links ακύρωσης στα emails ραντεβού έπεφταν
+   σε fallback.
+3. **GA4 δεν υπήρχε καθόλου.** Μόνο το Ads tag φόρτωνε.
+4. **2 × 404** — `mortons-neuroma-treatment` (EL+EN), τα μόνα από τα 266.
+
+## Εκκρεμεί
+
+- [ ] **WhatsApp κουμπί** — μόνο το `/home-care` το έχει. Τα κείμενα
+      λένε «στείλτε WhatsApp» χωρίς κουμπί, **και** το Ads conversion
+      `whatsappclick` δεν πυροδοτείται ποτέ.
+- [ ] **Google Search Console** — verify + submit `sitemap.xml` και
+      `sitemap-legacy.xml` (επιταχύνει το recrawl των 266 από εβδομάδες
+      σε μέρες).
