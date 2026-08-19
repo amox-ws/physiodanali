@@ -12,6 +12,11 @@
 
 export const ADS_ID = "AW-16494421065";
 
+/** Google Analytics 4 — the client's existing property (same one his Tag
+ *  Manager container reports on). Loaded alongside the Ads tag so a single
+ *  gtag.js serves both: ADS_ID measures conversions, GA_ID measures traffic. */
+export const GA_ID = "G-R4DCHSJWE7";
+
 export const CONVERSION = {
   phoneClick: "AW-16494421065/bL6ECMXhsbUZEMnIk7k9",
   messageForm: "AW-16494421065/W946CICC4rUZEMnIk7k9",

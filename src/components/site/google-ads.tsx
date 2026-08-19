@@ -1,23 +1,44 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
-import { ADS_ID, CONVERSION, reportAdsConversion } from "@/lib/gtag";
+import { ADS_ID, GA_ID, CONVERSION, reportAdsConversion } from "@/lib/gtag";
 import { hasAnalyticsConsent } from "@/components/site/cookie-consent";
 
 /**
- * Google Ads base tag + click-level conversion tracking.
+ * Google tag — Ads conversions + GA4 traffic, from one gtag.js load.
  *
  * — Loads gtag.js once with Consent Mode v2: all storage starts "denied"
  *   and is upgraded to "granted" only after the visitor accepts the cookie
  *   banner (listens for the banner's `pd-consent-change` event). Under
  *   denied consent Google still receives cookieless conversion pings, so
  *   the client's ad reporting keeps working within GDPR.
+ * — GA4 (`GA_ID`) rides the same tag. The App Router navigates client-side,
+ *   so gtag's automatic page_view only fires on the first load; we send one
+ *   per route change ourselves, skipping the first to avoid a double count.
  * — A single document-level click listener converts every `tel:` and
  *   `wa.me` link on the site into the client's phoneclick / whatsappclick
  *   conversions — header, footer, landers and any future links included.
  */
 export function GoogleAds() {
+  const pathname = usePathname();
+  const firstView = useRef(true);
+
+  // GA4 page_view on client-side navigation. The initial view is already
+  // sent by gtag('config'), so the first run here is a no-op.
+  useEffect(() => {
+    if (firstView.current) {
+      firstView.current = false;
+      return;
+    }
+    window.gtag?.("event", "page_view", {
+      page_path: pathname,
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+  }, [pathname]);
+
   useEffect(() => {
     const grant = () => {
       window.gtag?.("consent", "update", {
@@ -70,6 +91,7 @@ export function GoogleAds() {
           });
           gtag('js', new Date());
           gtag('config', '${ADS_ID}');
+          gtag('config', '${GA_ID}');
         `}
       </Script>
     </>

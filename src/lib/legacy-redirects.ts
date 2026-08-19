@@ -158,6 +158,8 @@ export const legacyRedirects: { old: string; target: string }[] = [
   { old: "/el/patient-exercises-lumbar-gr.html", target: "/low-back-pain" },
   { old: "/el/patient-exercises-elbow-gr.html", target: "/articles/elbow-pain" },
   { old: "/el/patient-exercises-foot-gr.html", target: "/articles/foot-pain" },
+  { old: "/el/mortons-neuroma-treatment-gr.html", target: "/articles/foot-pain" },
+  { old: "/en/mortons-neuroma-treatment-eng.html", target: "/en/articles/foot-pain" },
   { old: "/el/patient-exercises-hand-gr.html", target: "/articles/hand-pain" },
   { old: "/el/patient-exercises-knee-gr.html", target: "/articles/knee-pain" },
   { old: "/el/patient-exercises-shoulder-gr.html", target: "/articles/shoulder-pain" },
