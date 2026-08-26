@@ -4,6 +4,7 @@ import { getLocale } from "@/lib/i18n-server";
 import { getPublishedArticles } from "@/lib/articles";
 import { ArticleGrid } from "@/components/site/article-grid";
 import { Reveal } from "@/components/motion/reveal";
+import { PreferredSourceCard } from "@/components/site/preferred-source";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -48,6 +49,10 @@ export default async function ArticlesPage() {
 
         {/* Grid */}
         <ArticleGrid posts={posts} />
+
+        <Reveal className="mt-16 max-w-[680px] lg:mt-20">
+          <PreferredSourceCard locale={locale} />
+        </Reveal>
       </div>
     </section>
   );

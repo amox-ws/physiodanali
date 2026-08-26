@@ -9,6 +9,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { useContent, useLocale } from "@/components/site/locale-provider";
 import { getNav, t } from "@/lib/translations";
 import { areaLinks } from "@/lib/area-landers";
+import { PreferredSourceLink } from "@/components/site/preferred-source";
 
 function InstagramIcon() {
   return (
@@ -265,6 +266,9 @@ export function Footer() {
           >
             {locale === "en" ? "Reviews" : "Αξιολογήσεις"}
           </Link>
+          <span className="-my-1 py-1">
+            <PreferredSourceLink locale={locale} />
+          </span>
         </div>
       </div>
 

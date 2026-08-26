@@ -13,6 +13,7 @@ import {
   getPublishedSlugs,
 } from "@/lib/articles";
 import { Reveal } from "@/components/motion/reveal";
+import { PreferredSourceCard } from "@/components/site/preferred-source";
 import { JsonLd } from "@/components/seo/json-ld";
 import { articleSchema, breadcrumbSchema } from "@/lib/seo";
 import { FinalCTA } from "@/components/site/page-primitives";
@@ -191,6 +192,9 @@ export default async function ArticlePage({
                 </a>
               </div>
             </div>
+          </Reveal>
+          <Reveal className="mt-4">
+            <PreferredSourceCard locale={locale} />
           </Reveal>
         </div>
       </section>
