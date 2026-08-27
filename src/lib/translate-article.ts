@@ -9,6 +9,16 @@ import { MODEL } from "@/lib/article-prompt";
  * draft is what gets translated, so the two languages can never drift. Re-runs
  * on every publish, so a corrected Greek article yields a corrected English one.
  *
+ * Two passes. The first asks for the whole article in one tool call — one
+ * round trip, and what almost every article needs. But on articles carrying
+ * markdown links the model intermittently emits `sections_en` as a *string*
+ * of JSON instead of an array, and that string has unescaped quotes inside
+ * the bodies, so it cannot be parsed back. Measured: every article with
+ * markdown links failed this way, repeatedly; every article without them
+ * passed. When that happens we fall back to translating one section at a
+ * time — each call then returns a plain string, which the model gets right
+ * (9/9 on the article that failed 4/4 in bulk).
+ *
  * Best-effort by design — a failure (no API credit, network, bad output) returns
  * null and is logged. Publishing must never break because a translation didn't
  * come back; the article then simply falls back to the Greek copy on /en, which
@@ -63,6 +73,118 @@ const SCHEMA = {
   },
 } as const;
 
+/** Schema for the per-section fallback: plain strings only, nothing nested. */
+const SECTION_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["body_en"],
+  properties: { heading_en: { type: "string" }, body_en: { type: "string" } },
+} as const;
+
+/** Metadata-only schema, used alongside the per-section pass. */
+const META_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["title_en", "excerpt_en", "category_en", "read_time_en"],
+  properties: {
+    title_en: { type: "string" },
+    excerpt_en: { type: "string" },
+    category_en: { type: "string" },
+    read_time_en: { type: "string" },
+  },
+} as const;
+
+function toolInput(res: Anthropic.Message): Record<string, unknown> | null {
+  const block = res.content.find((c) => c.type === "tool_use");
+  return block && block.type === "tool_use"
+    ? (block.input as Record<string, unknown>)
+    : null;
+}
+
+/**
+ * Fallback path: one call for the metadata, then one per section. Slower, but
+ * each response is a flat string the model reliably gets right.
+ */
+async function translateSectionwise(
+  client: Anthropic,
+  input: {
+    title: string;
+    excerpt: string | null;
+    category: string | null;
+    readTime: string | null;
+    sections: ArticleSection[];
+  },
+): Promise<TranslatedArticle | null> {
+  const meta = toolInput(
+    await client.messages.create({
+      model: MODEL,
+      max_tokens: 1000,
+      system: SYSTEM,
+      tools: [
+        {
+          name: "emit_meta",
+          description: "Return the English title, excerpt, category and read time.",
+          input_schema: META_SCHEMA as unknown as Anthropic.Tool["input_schema"],
+        },
+      ],
+      tool_choice: { type: "tool", name: "emit_meta" },
+      messages: [
+        {
+          role: "user",
+          content: `Translate these article fields to English.\n\ntitle: ${input.title}\nexcerpt: ${input.excerpt ?? ""}\ncategory: ${input.category ?? ""}\nread_time: ${input.readTime ?? ""}`,
+        },
+      ],
+    }),
+  );
+  if (typeof meta?.title_en !== "string") {
+    console.error("[translate] sectionwise: metadata call failed");
+    return null;
+  }
+
+  const sections_en: ArticleSection[] = [];
+  for (const section of input.sections) {
+    const out = toolInput(
+      await client.messages.create({
+        model: MODEL,
+        max_tokens: 8000,
+        system: SYSTEM,
+        tools: [
+          {
+            name: "emit_section",
+            description: "Return the English translation of one section.",
+            input_schema: SECTION_SCHEMA as unknown as Anthropic.Tool["input_schema"],
+          },
+        ],
+        tool_choice: { type: "tool", name: "emit_section" },
+        messages: [
+          {
+            role: "user",
+            content: `Heading: ${section.heading ?? ""}\n\nBody:\n${section.body}`,
+          },
+        ],
+      }),
+    );
+    if (typeof out?.body_en !== "string" || !out.body_en) {
+      console.error("[translate] sectionwise: a section came back empty");
+      return null;
+    }
+    sections_en.push({
+      ...(typeof out.heading_en === "string" && out.heading_en
+        ? { heading: out.heading_en }
+        : {}),
+      body: out.body_en,
+    });
+  }
+
+  return {
+    title_en: meta.title_en,
+    excerpt_en: String(meta.excerpt_en ?? ""),
+    category_en: String(meta.category_en ?? ""),
+    read_time_en: String(meta.read_time_en ?? ""),
+    sections_en,
+  };
+}
+
 export async function translateArticle(input: {
   title: string;
   excerpt: string | null;
@@ -109,17 +231,19 @@ export async function translateArticle(input: {
       ],
     });
 
-    const block = res.content.find((c) => c.type === "tool_use");
-    if (!block || block.type !== "tool_use") {
+    const out = toolInput(res) as TranslatedArticle | null;
+    if (!out) {
       console.error("[translate] model returned no tool_use block");
       return null;
     }
-    const out = block.input as TranslatedArticle;
-    if (!out?.title_en || !Array.isArray(out.sections_en)) {
-      console.error("[translate] malformed translation payload");
-      return null;
-    }
-    return out;
+    if (out.title_en && Array.isArray(out.sections_en)) return out;
+
+    // sections_en came back as a JSON string (or worse). It is not parseable —
+    // the bodies carry unescaped quotes — so retry one section at a time.
+    console.warn(
+      `[translate] bulk pass gave sections_en as ${typeof out.sections_en}; retrying section by section`,
+    );
+    return translateSectionwise(client, { ...input, sections });
   } catch (e) {
     console.error("[translate] failed", e);
     return null;

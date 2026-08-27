@@ -65,6 +65,69 @@ const SCHEMA = {
   },
 } as const;
 
+const SECTION_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["body_en"],
+  properties: { heading_en: { type: "string" }, body_en: { type: "string" } },
+} as const;
+
+const META_SCHEMA = {
+  type: "object",
+  additionalProperties: false,
+  required: ["title_en", "excerpt_en", "category_en", "read_time_en"],
+  properties: {
+    title_en: { type: "string" },
+    excerpt_en: { type: "string" },
+    category_en: { type: "string" },
+    read_time_en: { type: "string" },
+  },
+} as const;
+
+function toolInput(res: Anthropic.Message): Record<string, unknown> | null {
+  const b = res.content.find((c) => c.type === "tool_use");
+  return b && b.type === "tool_use" ? (b.input as Record<string, unknown>) : null;
+}
+
+// Same fallback as src/lib/translate-article.ts: articles with markdown links
+// make the model emit sections_en as an unparseable JSON string, so translate
+// one section at a time instead — each response is then a flat string.
+async function translateSectionwise(
+  client: Anthropic,
+  input: { title: string; excerpt: string | null; category: string | null; readTime: string | null; sections: Section[] },
+): Promise<Translated | null> {
+  const meta = toolInput(
+    await client.messages.create({
+      model: MODEL, max_tokens: 1000, system: SYSTEM,
+      tools: [{ name: "emit_meta", description: "Return the English title, excerpt, category and read time.", input_schema: META_SCHEMA as unknown as Anthropic.Tool["input_schema"] }],
+      tool_choice: { type: "tool", name: "emit_meta" },
+      messages: [{ role: "user", content: `Translate these article fields to English.\n\ntitle: ${input.title}\nexcerpt: ${input.excerpt ?? ""}\ncategory: ${input.category ?? ""}\nread_time: ${input.readTime ?? ""}` }],
+    }),
+  );
+  if (typeof meta?.title_en !== "string") return null;
+
+  const sections_en: Section[] = [];
+  for (const sec of input.sections) {
+    const out = toolInput(
+      await client.messages.create({
+        model: MODEL, max_tokens: 8000, system: SYSTEM,
+        tools: [{ name: "emit_section", description: "Return the English translation of one section.", input_schema: SECTION_SCHEMA as unknown as Anthropic.Tool["input_schema"] }],
+        tool_choice: { type: "tool", name: "emit_section" },
+        messages: [{ role: "user", content: `Heading: ${sec.heading ?? ""}\n\nBody:\n${sec.body}` }],
+      }),
+    );
+    if (typeof out?.body_en !== "string" || !out.body_en) return null;
+    sections_en.push({ ...(typeof out.heading_en === "string" && out.heading_en ? { heading: out.heading_en } : {}), body: out.body_en });
+  }
+  return {
+    title_en: meta.title_en,
+    excerpt_en: String(meta.excerpt_en ?? ""),
+    category_en: String(meta.category_en ?? ""),
+    read_time_en: String(meta.read_time_en ?? ""),
+    sections_en,
+  };
+}
+
 async function translate(input: {
   title: string;
   excerpt: string | null;
@@ -104,11 +167,11 @@ async function translate(input: {
       },
     ],
   });
-  const block = res.content.find((c) => c.type === "tool_use");
-  if (!block || block.type !== "tool_use") return null;
-  const out = block.input as Translated;
-  if (!out?.title_en || !Array.isArray(out.sections_en)) return null;
-  return out;
+  const out = toolInput(res) as Translated | null;
+  if (!out) return null;
+  if (out.title_en && Array.isArray(out.sections_en)) return out;
+  process.stdout.write("(ανά section) ");
+  return translateSectionwise(client, { ...input, sections });
 }
 
 async function main() {
@@ -143,14 +206,23 @@ async function main() {
     process.stdout.write(`  ${(r.slug as string).padEnd(42)} `);
     if (dry) { console.log("— θα μεταφραζόταν"); continue; }
     try {
-      const en = await translate({
-        title: r.title as string,
-        excerpt: r.excerpt as string | null,
-        category: r.category as string | null,
-        readTime: r.read_time as string | null,
-        sections: r.sections as Section[] | null,
-      });
-      if (!en) { console.log("❌ κενή απάντηση"); failed.push(r.slug as string); continue; }
+      // The model occasionally returns a malformed payload; a plain retry
+      // clears it. Three attempts, then give up and report the slug.
+      let en: Translated | null = null;
+      for (let attempt = 1; attempt <= 3 && !en; attempt++) {
+        if (attempt > 1) {
+          process.stdout.write(`(retry ${attempt}) `);
+          await new Promise((r) => setTimeout(r, 2000));
+        }
+        en = await translate({
+          title: r.title as string,
+          excerpt: r.excerpt as string | null,
+          category: r.category as string | null,
+          readTime: r.read_time as string | null,
+          sections: r.sections as Section[] | null,
+        });
+      }
+      if (!en) { console.log("❌ κενή απάντηση μετά από 3 προσπάθειες"); failed.push(r.slug as string); continue; }
       const { error: e } = await db
         .from("articles")
         .update({
