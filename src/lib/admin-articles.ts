@@ -21,6 +21,13 @@ export type AdminArticle = {
   meta_description: string | null;
   keywords: string[];
   faq: Faq[];
+  /** Auto-translated English, editable in the editor's English panel. Null
+   *  until the first successful translation. */
+  title_en: string | null;
+  excerpt_en: string | null;
+  category_en: string | null;
+  read_time_en: string | null;
+  sections_en: Section[] | null;
   status: "draft" | "published" | "archived";
   ai_generated: boolean;
   published_at: string | null;

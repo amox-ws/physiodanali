@@ -21,10 +21,16 @@ async function syncEnglish(id: string) {
   const supabase = createServiceClient();
   const { data } = await supabase
     .from("articles")
-    .select("title,excerpt,category,read_time,sections")
+    .select("title,excerpt,category,read_time,sections,english_edited")
     .eq("id", id)
     .maybeSingle();
   if (!data) return;
+  // Hand-corrected English is the practitioner's own wording — auto-translation
+  // must not quietly replace it. Cleared by an explicit "Ξαναμετάφρασε".
+  if (data.english_edited) {
+    console.log("[translate] english_edited — skipping auto-translation");
+    return;
+  }
   const en = await translateArticle({
     title: data.title as string,
     excerpt: data.excerpt as string | null,
@@ -174,4 +180,97 @@ export async function deleteArticle(id: string): Promise<void> {
   revalidateTag("articles", "max");
   revalidatePath("/articles");
   revalidatePath("/admin");
+}
+
+// ─── English panel ────────────────────────────────────────────────────────
+// The English copy is machine-translated at publish time and, until now, was
+// invisible: the practitioner could not read it, correct it, or tell whether
+// it existed at all. These two actions back the editor's English panel.
+
+export type EnglishInput = {
+  title_en: string;
+  excerpt_en: string;
+  category_en: string;
+  read_time_en: string;
+  sections_en: Section[];
+};
+
+/** Save hand-corrected English. Publishing does NOT re-run the translation
+ *  afterwards, so an edit here is not silently overwritten — see saveArticle. */
+export async function saveEnglish(
+  id: string,
+  input: EnglishInput,
+): Promise<void> {
+  const supabase = await requireAdmin();
+  const { data, error } = await supabase
+    .from("articles")
+    .update({
+      title_en: input.title_en.trim() || null,
+      excerpt_en: input.excerpt_en.trim() || null,
+      category_en: input.category_en.trim() || null,
+      read_time_en: input.read_time_en.trim() || null,
+      sections_en: input.sections_en.filter((s) => s.body.trim()),
+      english_edited: true,
+    })
+    .eq("id", id)
+    .select("slug,status")
+    .single();
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin");
+  if (data.status === "published") {
+    revalidateTag("articles", "max");
+    revalidatePath("/en/articles");
+    revalidatePath(`/en/articles/${data.slug}`);
+  }
+}
+
+/** Re-run the machine translation on demand and return the fresh English so
+ *  the editor can show it without a round trip to the database. */
+export async function retranslateArticle(id: string): Promise<EnglishInput> {
+  await requireAdmin();
+  // Service-role: the translation writes columns the editor session may not
+  // own, and this is the same path syncEnglish takes.
+  const supabase = createServiceClient();
+  const { data } = await supabase
+    .from("articles")
+    .select("title,excerpt,category,read_time,sections,slug,status")
+    .eq("id", id)
+    .maybeSingle();
+  if (!data) throw new Error("Το άρθρο δεν βρέθηκε.");
+
+  const en = await translateArticle({
+    title: data.title as string,
+    excerpt: data.excerpt as string | null,
+    category: data.category as string | null,
+    readTime: data.read_time as string | null,
+    sections: data.sections as Section[] | null,
+  });
+  if (!en) throw new Error("Η μετάφραση απέτυχε. Δοκιμάστε ξανά.");
+
+  const { error } = await supabase
+    .from("articles")
+    .update({
+      title_en: en.title_en,
+      excerpt_en: en.excerpt_en,
+      category_en: en.category_en,
+      read_time_en: en.read_time_en,
+      sections_en: en.sections_en,
+      english_edited: false,
+    })
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin");
+  if (data.status === "published") {
+    revalidateTag("articles", "max");
+    revalidatePath("/en/articles");
+    revalidatePath(`/en/articles/${data.slug}`);
+  }
+  return {
+    title_en: en.title_en,
+    excerpt_en: en.excerpt_en,
+    category_en: en.category_en,
+    read_time_en: en.read_time_en,
+    sections_en: en.sections_en,
+  };
 }

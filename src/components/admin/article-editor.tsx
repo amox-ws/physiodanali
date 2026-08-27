@@ -25,6 +25,7 @@ import {
   type ArticleInput,
 } from "@/lib/article-actions";
 import type { AdminArticle } from "@/lib/admin-articles";
+import { EnglishPanel } from "@/components/admin/english-panel";
 
 const EMPTY: ArticleInput = {
   slug: "",
@@ -424,6 +425,11 @@ export function ArticleEditor({ article }: { article: AdminArticle | null }) {
             </button>
           </div>
         </section>
+
+        {/* English — machine-translated on publish, editable here */}
+        {article && (
+          <EnglishPanel article={article} slug={form.slug} disabled={!id} />
+        )}
       </div>
 
       {/* Action bar */}
