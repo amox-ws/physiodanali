@@ -37,7 +37,7 @@ export async function generateMetadata({
   const locale = await getLocale();
   const { isEnabled: isDraft } = await draftMode();
   const post = isDraft
-    ? await getArticleBySlugPreview(slug)
+    ? await getArticleBySlugPreview(locale, slug)
     : await getArticleBySlug(locale, slug);
   if (!post) return { title: t(locale).articleMetaFallback };
   return {
@@ -61,7 +61,7 @@ export default async function ArticlePage({
   const tx = t(locale);
   const { isEnabled: isDraft } = await draftMode();
   const article = isDraft
-    ? await getArticleBySlugPreview(slug)
+    ? await getArticleBySlugPreview(locale, slug)
     : await getArticleBySlug(locale, slug);
   if (!article) notFound();
   const post = article;

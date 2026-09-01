@@ -113,8 +113,14 @@ export function EnglishPanel({
         </h2>
         <div className="flex gap-2">
           {!missing && (
+            // Draft mode for unpublished articles, plain URL once live — the
+            // preview route is admin-gated and lands on the English page.
             <a
-              href={`/en/articles/${slug}`}
+              href={
+                article.status === "published"
+                  ? `/en/articles/${slug}`
+                  : `/api/preview?locale=en&slug=${slug}`
+              }
               target="_blank"
               rel="noopener"
               className="inline-flex items-center gap-1.5 rounded-full border border-stone px-3.5 py-1.5 text-xs text-ink-muted transition-colors hover:border-cobalt hover:text-cobalt"
