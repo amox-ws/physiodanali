@@ -266,6 +266,16 @@ export function Footer() {
           >
             {locale === "en" ? "Reviews" : "Αξιολογήσεις"}
           </Link>
+          {/* Sitewide link to the full review archive on the brand's reviews
+              domain — gives that site a crawl path from every page here. */}
+          <a
+            href="https://www.physiodanalireviews.gr"
+            target="_blank"
+            rel="noopener"
+            className="-my-1 py-1 text-snow/60 transition-colors hover:text-gold"
+          >
+            {locale === "en" ? "All reviews" : "Όλες οι αξιολογήσεις"}
+          </a>
           <span className="-my-1 py-1">
             <PreferredSourceLink locale={locale} />
           </span>

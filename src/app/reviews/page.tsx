@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Star } from "lucide-react";
+import { ArrowUpRight, Star } from "lucide-react";
 import { getLocale } from "@/lib/i18n-server";
 import { localeHref } from "@/lib/i18n";
 import { PageHero, FinalCTA } from "@/components/site/page-primitives";
@@ -132,6 +132,31 @@ export default async function ReviewsPage() {
               </Reveal>
             ))}
           </div>
+
+          {/* Full review archive lives on the brand's reviews domain. This is
+              the one editorial link that lets physiodanali.gr's crawl budget
+              flow to it (SEO: the site was otherwise orphaned). */}
+          <Reveal className="mt-14 lg:mt-16">
+            <a
+              href="https://www.physiodanalireviews.gr"
+              target="_blank"
+              rel="noopener"
+              className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-base text-snow transition-colors duration-500 hover:bg-cobalt"
+            >
+              {en
+                ? "See all patient reviews"
+                : "Δείτε όλες τις αξιολογήσεις μας"}
+              <ArrowUpRight
+                className="size-5 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={1.5}
+              />
+            </a>
+            <p className="mt-4 max-w-[60ch] text-sm leading-relaxed text-ink-muted">
+              {en
+                ? "The complete archive — every review from Google, Doctoranytime and Facebook, in one place."
+                : "Το πλήρες αρχείο — όλες οι αξιολογήσεις από Google, Doctoranytime και Facebook, συγκεντρωμένες."}
+            </p>
+          </Reveal>
         </div>
       </section>
 
