@@ -78,13 +78,12 @@ export function Header() {
           <Image
             src="/logo-v2.png"
             alt="PhysioDanali"
-            width={1190}
-            height={190}
+            /* Rendered at h-11 → ~275px wide. At the source's 1190x190 Next
+               preloaded the 1200px variant for a logo four times smaller,
+               ahead of the hero. These are the intrinsic dimensions at 2x. */
+            width={560}
+            height={89}
             priority
-            /* Rendered at h-11 → ~275px wide. Without sizes, Next served the
-               1200px variant for a logo three times smaller than that, and
-               priority meant it was preloaded ahead of the hero. */
-            sizes="280px"
             className={cn(
               "w-auto transition-all duration-500",
               scrolled ? "h-9" : "h-11",
