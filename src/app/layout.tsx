@@ -15,13 +15,18 @@ import { Analytics } from "@vercel/analytics/next";
 const cormorant = Manrope({
   variable: "--font-cormorant",
   subsets: ["greek", "latin"],
+  // .display and .display-italic are the only users, both at 600.
+  weight: ["600"],
   display: "swap",
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["greek", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  // 400 is body copy, 500 is `font-medium` (47 uses), 600 is `font-semibold`
+  // (3). Nothing in src/ uses font-light or font-bold, so 300 and 700 were
+  // two weights downloaded for no glyph on screen.
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
