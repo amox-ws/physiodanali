@@ -231,3 +231,46 @@
 Αρχεία: `src/lib/translate-article.ts`, `src/lib/article-actions.ts`,
 `src/components/admin/english-panel.tsx`, `scripts/backfill-en.ts`,
 `supabase/migrations/0007_articles_english_edited.sql`
+
+---
+
+## 19. Απόδοση — PageSpeed (21/09)
+
+Ο πελάτης έστειλε PageSpeed: **desktop 68, mobile 77**.
+
+### CLS 0.918 → 0  (το κρίσιμο)
+
+Το όριο είναι 0.1· ήμασταν 9x πάνω. Μέτρηση με PerformanceObserver:
+**ένα** shift, στα 2014ms, με πηγή το `<footer>`.
+
+Το reveal του footer γινόταν με JS — useEffect μετρούσε το ύψος και
+πρόσθετε class που το έκανε `fixed`, με ισοδύναμο padding στο body.
+Και τα δύο μετά το πρώτο paint → στοιχείο 865px εμφανιζόταν σε ένα
+frame. Ο ResizeObserver το ξαναπυροδοτούσε σε κάθε εικόνα του footer.
+
+`position: sticky` δίνει το ίδιο εφέ χωρίς τίποτα από αυτά, και λύνει
+μόνο του την περίπτωση για την οποία υπήρχε το JS (footer ψηλότερο
+από το viewport δεν έχει πού να κολλήσει). **38 γραμμές JS λιγότερες.**
+
+### LCP
+
+| | πριν | μετά |
+|---|---|---|
+| desktop | 1.6s | **0.87s** |
+| mobile | **6.6s** | **1.15s** |
+
+Δύο αιτίες:
+1. Το `getImageProps` δεν εκπέμπει preload όπως το `<Image priority>`.
+   Το hero, που είναι το LCP element, δεν προφορτωνόταν καθόλου.
+   Λύση: `ReactDOM.preload` με media queries ανά crop.
+2. Το logo του header δηλωνόταν 1190x190 ενώ εμφανίζεται σε ~275px —
+   προφορτωνόταν η παραλλαγή των 1200px **πριν** από το hero.
+
+### Βάρος
+
+- 6 CSS backgrounds → WebP με `image-set()`: **445KB → 170KB**
+- `gtag.js` (194KB) → `lazyOnload`, χωρίς απώλεια conversions
+- 1.7MB αχρησιμοποίητων εικόνων σβήστηκαν
+
+Αρχεία: `globals.css`, `footer.tsx`, `hero.tsx`, `header.tsx`,
+`google-ads.tsx`, `booking-band.tsx`, `layout.tsx`
