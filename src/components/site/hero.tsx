@@ -51,6 +51,26 @@ export function Hero() {
           width and cut the practitioner's face in half. Two crops instead —
           a tall one framed on him for phones, the full frame for desktop.
           Both are cut from the same 768x512 source the client picked. */}
+      {/* getImageProps returns the srcSets but not the preload <link> that
+          <Image priority> would emit, and the hero is the LCP element on
+          every page view. React hoists these into <head>; the media queries
+          mirror the <source> order so exactly one ever matches. */}
+      <link
+        rel="preload"
+        as="image"
+        media="(min-width: 768px)"
+        imageSrcSet={heroDesktop}
+        imageSizes="100vw"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        media="(max-width: 767px)"
+        imageSrcSet={heroMobile}
+        imageSizes="100vw"
+        fetchPriority="high"
+      />
       <picture className="absolute inset-0 -z-30">
         <source media="(min-width: 768px)" srcSet={heroDesktop} />
         <source srcSet={heroMobile} />
@@ -59,6 +79,8 @@ export function Hero() {
           {...heroImg}
           alt=""
           aria-hidden
+          fetchPriority="high"
+          decoding="async"
           className="absolute inset-0 size-full object-cover object-center"
         />
       </picture>

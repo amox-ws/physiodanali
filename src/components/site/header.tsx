@@ -81,6 +81,10 @@ export function Header() {
             width={1190}
             height={190}
             priority
+            /* Rendered at h-11 → ~275px wide. Without sizes, Next served the
+               1200px variant for a logo three times smaller than that, and
+               priority meant it was preloaded ahead of the hero. */
+            sizes="280px"
             className={cn(
               "w-auto transition-all duration-500",
               scrolled ? "h-9" : "h-11",

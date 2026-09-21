@@ -4,7 +4,6 @@ import Image from "next/image";
 import { localeHref } from "@/lib/i18n";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
 import { Reveal } from "@/components/motion/reveal";
 import { useContent, useLocale } from "@/components/site/locale-provider";
 import { getNav, t } from "@/lib/translations";
@@ -73,53 +72,13 @@ function YouTubeIcon() {
 }
 
 export function Footer() {
-  const footerRef = useRef<HTMLElement>(null);
   const locale = useLocale();
   const { footer, site } = useContent();
   const nav = getNav(locale);
   const tx = t(locale);
 
-  // The stacked-footer reveal pins the footer to the bottom (position: fixed).
-  // That only works if the footer fits within the viewport — otherwise its
-  // top is clipped off-screen and unreachable. So we enable the reveal
-  // (`.peek-on`) only when the measured footer height fits; otherwise the
-  // footer stays in normal flow and is fully visible.
-  useEffect(() => {
-    const el = footerRef.current;
-    if (!el) return;
-    const root = document.documentElement;
-
-    const sync = () => {
-      // A fixed footer (left:0; right:0) keeps the same width — and thus the
-      // same height — as it has in normal flow, so we can measure directly
-      // without toggling the pin (which would risk a ResizeObserver loop).
-      const height = el.offsetHeight;
-      const fits = height <= window.innerHeight - 24;
-
-      if (fits) {
-        el.classList.add("peek-on");
-        root.style.setProperty("--footer-h", `${height}px`);
-      } else {
-        el.classList.remove("peek-on");
-        // Footer stays in normal flow — no reserved scroll space needed.
-        root.style.setProperty("--footer-h", "0px");
-      }
-    };
-
-    sync();
-    if (typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(sync);
-    ro.observe(el);
-    window.addEventListener("resize", sync);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", sync);
-    };
-  }, []);
-
   return (
     <footer
-      ref={footerRef}
       className="peek-footer isolate overflow-hidden bg-ink text-snow"
     >
       <div className="mx-auto max-w-[1400px] px-6 pb-8 pt-14 lg:px-10 lg:pb-10 lg:pt-20">
@@ -237,6 +196,8 @@ export function Footer() {
               width={1190}
               height={190}
               priority={false}
+              loading="lazy"
+              sizes="(max-width: 1400px) 100vw, 1400px"
               className="h-auto w-full select-none"
             />
           </motion.div>

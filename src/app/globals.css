@@ -37,9 +37,6 @@
 
 :root {
   color-scheme: light only;
-  /* Scroll space reserved for the fixed footer. Starts at 0 (footer in
-     normal flow) and is set by JS only when the footer fits the viewport. */
-  --footer-h: 0px;
 }
 
 html {
@@ -54,7 +51,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  padding-bottom: var(--footer-h);
 }
 
 /* Stacked-footer reveal:
@@ -75,23 +71,27 @@ body {
   background: var(--color-porcelain);
 }
 
-.peek-footer.peek-on {
-  position: fixed;
+/* The reveal used to be JS: measure the footer, and if it fit the viewport
+   add a class that made it `fixed` while the body grew an equal padding to
+   compensate. Both landed after the first paint, so an 865px element appeared
+   at the bottom of the screen in one frame — CLS 0.92, against a 0.1 budget,
+   and the single worst thing on the page for Core Web Vitals.
+
+   `sticky` gets the same effect with none of that. The footer never leaves
+   the flow, so it reserves its own space and nothing can shift. It also
+   self-solves the case the JS existed for: a footer taller than the viewport
+   has no room to stick and simply scrolls, exactly as the fallback did. */
+.peek-footer {
+  position: sticky;
   bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
   z-index: 0;
 }
 
 /* On reduced-motion, never pin — keep the footer in normal flow. */
 @media (prefers-reduced-motion: reduce) {
-  .peek-footer.peek-on {
+  .peek-footer {
     position: relative;
     z-index: auto;
-  }
-  body {
-    padding-bottom: 0;
   }
 }
 
