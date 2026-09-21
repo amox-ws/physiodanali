@@ -81,17 +81,25 @@ body {
    the flow, so it reserves its own space and nothing can shift. It also
    self-solves the case the JS existed for: a footer taller than the viewport
    has no room to stick and simply scrolls, exactly as the fallback did. */
-.peek-footer {
-  position: sticky;
-  bottom: 0;
-  z-index: 0;
-}
-
-/* On reduced-motion, never pin — keep the footer in normal flow. */
-@media (prefers-reduced-motion: reduce) {
+/* A stuck footer taller than the viewport has its top pushed off-screen and
+   unreachable — sticky has no "only if it fits" of its own. The old JS tested
+   that at runtime, which is what produced the CLS. The measured heights are
+   ~880px from lg up and ~1325px below it (the columns stack), so the test can
+   be written as a media query instead and applies from the first paint.
+   Anywhere it does not match, the footer stays in normal flow and scrolls. */
+@media (min-width: 1024px) and (min-height: 920px) {
   .peek-footer {
-    position: relative;
-    z-index: auto;
+    position: sticky;
+    bottom: 0;
+    z-index: 0;
+  }
+
+  /* On reduced-motion, never pin — keep the footer in normal flow. */
+  @media (prefers-reduced-motion: reduce) {
+    .peek-footer {
+      position: static;
+      z-index: auto;
+    }
   }
 }
 
