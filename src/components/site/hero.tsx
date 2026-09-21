@@ -30,14 +30,14 @@ export function Hero() {
   const { props: { srcSet: heroDesktop } } = getImageProps({
     ...heroCommon,
     src: "/herohome-desktop.jpg",
-    width: 1537,
-    height: 1023,
+    width: 768,
+    height: 512,
   });
   const { props: { srcSet: heroMobile, ...heroImg } } = getImageProps({
     ...heroCommon,
     src: "/herohome-mobile.jpg",
-    width: 575,
-    height: 1023,
+    width: 288,
+    height: 512,
   });
 
   return (
@@ -50,8 +50,7 @@ export function Hero() {
           full-height mobile viewport: object-cover had to crop ~69% of the
           width and cut the practitioner's face in half. Two crops instead —
           a tall one framed on him for phones, the full frame for desktop.
-          Both come from the 1537x1023 original; the old 768px file was being
-          upscaled 2.5x on every large screen. */}
+          Both are cut from the same 768x512 source the client picked. */}
       <picture className="absolute inset-0 -z-30">
         <source media="(min-width: 768px)" srcSet={heroDesktop} />
         <source srcSet={heroMobile} />
