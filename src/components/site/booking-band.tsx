@@ -23,7 +23,8 @@ export function BookingBand() {
       <div
         aria-hidden
         className="parallax-fixed absolute inset-0 -z-20"
-        style={{ backgroundImage: "url(/physiotest2.jpg)" }}
+        style={{ backgroundImage:
+            'image-set(url("/physiotest2.webp") type("image/webp"), url("/physiotest2.jpg") type("image/jpeg"))' }}
       />
       {/* Dark scrim so the white text stays legible over the photo */}
       <div

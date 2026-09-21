@@ -174,7 +174,8 @@ export default async function ChiropracticPage() {
         <div
           aria-hidden
           className="parallax-fixed absolute inset-0 -z-20"
-          style={{ backgroundImage: "url(/chiropractic2g.jpg)" }}
+          style={{ backgroundImage:
+            'image-set(url("/chiropractic2g.webp") type("image/webp"), url("/chiropractic2g.jpg") type("image/jpeg"))' }}
         />
         {/* Dark scrim for legibility */}
         <div

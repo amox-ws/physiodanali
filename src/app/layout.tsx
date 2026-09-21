@@ -7,6 +7,7 @@ import { LocaleProvider } from "@/components/site/locale-provider";
 import { getLocale } from "@/lib/i18n-server";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema, personSchema } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 // Manrope — minimal geometric sans for display headings, with full Greek
 // support. Keeps the --font-cormorant variable name so the design system
@@ -105,6 +106,9 @@ export default async function RootLayout({
         <LocaleProvider locale={locale}>
           <SiteChrome>{children}</SiteChrome>
         </LocaleProvider>
+        {/* Vercel Analytics — cookieless and privacy-first, so it sits outside
+            the cookie banner's consent gate (unlike gtag). ~1KB. */}
+        <Analytics />
       </body>
     </html>
   );

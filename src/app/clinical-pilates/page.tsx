@@ -88,7 +88,8 @@ export default async function ClinicalPilatesPage() {
         <div
           aria-hidden
           className="parallax-fixed absolute inset-0 -z-20"
-          style={{ backgroundImage: "url(/clinical2g.jpg)" }}
+          style={{ backgroundImage:
+            'image-set(url("/clinical2g.webp") type("image/webp"), url("/clinical2g.jpg") type("image/jpeg"))' }}
         />
         {/* Dark scrim for legibility */}
         <div

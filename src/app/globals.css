@@ -167,7 +167,10 @@ body {
 }
 
 .marquee {
-  animation: marquee 38s linear infinite;
+  /* 38s read as motionless: the strip is ~1820px, so a full loop moved only
+     24px/s and a logo took 4s to travel its own width. 18s is legible as
+     movement without being distracting. */
+  animation: marquee 18s linear infinite;
 }
 
 /* Scroll cue — small CSS bob, runs on compositor without JS RAF. */

@@ -102,7 +102,8 @@ export default async function TherapiesPage() {
         <div
           aria-hidden
           className="parallax-fixed absolute inset-0 -z-20"
-          style={{ backgroundImage: "url(/services2g.jpg)" }}
+          style={{ backgroundImage:
+            'image-set(url("/services2g.webp") type("image/webp"), url("/services2g.jpg") type("image/jpeg"))' }}
         />
         {/* Dark scrim for legibility */}
         <div

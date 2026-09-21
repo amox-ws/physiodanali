@@ -74,10 +74,16 @@ export function GoogleAds() {
 
   return (
     <>
+      {/* gtag.js is ~194KB — the single heaviest file on the page. It only
+          needs to be present before a conversion is *sent*, not before one is
+          *queued*: the inline snippet below defines gtag()/dataLayer straight
+          away, so clicks land in the queue and gtag.js drains it once it
+          arrives. Moving it to idle takes it off the critical path without
+          losing a single conversion or breaking Consent Mode. */}
       <Script
         id="gtag-base"
         src={`https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
       <Script id="gtag-init" strategy="afterInteractive">
         {`

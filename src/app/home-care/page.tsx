@@ -222,7 +222,8 @@ export default async function HomeCarePage() {
         <div
           aria-hidden
           className="parallax-fixed absolute inset-0 -z-20"
-          style={{ backgroundImage: "url(/eksoplismos.jpg)" }}
+          style={{ backgroundImage:
+            'image-set(url("/eksoplismos.webp") type("image/webp"), url("/eksoplismos.jpg") type("image/jpeg"))' }}
         />
         {/* Dark scrim for legibility */}
         <div

@@ -61,7 +61,8 @@ export default async function LymphaticPage() {
         <div
           aria-hidden
           className="parallax-fixed absolute inset-0 -z-20"
-          style={{ backgroundImage: "url(/brazilian2g.jpg)" }}
+          style={{ backgroundImage:
+            'image-set(url("/brazilian2g.webp") type("image/webp"), url("/brazilian2g.jpg") type("image/jpeg"))' }}
         />
         {/* Dark scrim for legibility */}
         <div

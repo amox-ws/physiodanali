@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 // useScroll + useTransform kept for hero text parallax only — single
@@ -26,24 +26,43 @@ export function Hero() {
   // Single transform on the text block — cheap, runs on compositor.
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "-12%"]);
 
+  const heroCommon = { alt: "", sizes: "100vw", priority: true };
+  const { props: { srcSet: heroDesktop } } = getImageProps({
+    ...heroCommon,
+    src: "/herohome-desktop.jpg",
+    width: 1537,
+    height: 1023,
+  });
+  const { props: { srcSet: heroMobile, ...heroImg } } = getImageProps({
+    ...heroCommon,
+    src: "/herohome-mobile.jpg",
+    width: 575,
+    height: 1023,
+  });
+
   return (
     <section
       ref={ref}
       id="top"
       className="relative isolate min-h-[100svh] overflow-hidden bg-porcelain"
     >
-      {/* Hero photo background. On mobile the tall crop cut the practitioner
-          (he stands in the left third of the photo) — anchor left there and
-          keep it centred from md up. */}
-      <Image
-        src="/herohome2.jpg"
-        alt=""
-        aria-hidden
-        fill
-        priority
-        sizes="100vw"
-        className="absolute inset-0 -z-30 object-cover object-left md:object-center"
-      />
+      {/* Hero photo, art-directed. One landscape source cannot serve a
+          full-height mobile viewport: object-cover had to crop ~69% of the
+          width and cut the practitioner's face in half. Two crops instead —
+          a tall one framed on him for phones, the full frame for desktop.
+          Both come from the 1537x1023 original; the old 768px file was being
+          upscaled 2.5x on every large screen. */}
+      <picture className="absolute inset-0 -z-30">
+        <source media="(min-width: 768px)" srcSet={heroDesktop} />
+        <source srcSet={heroMobile} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          {...heroImg}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 size-full object-cover object-center"
+        />
+      </picture>
       {/* Light readability scrim — only enough to keep the dark ink
           headline legible. Much weaker than before so the photo shows through. */}
       <div
