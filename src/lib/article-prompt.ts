@@ -28,7 +28,7 @@ export const ARTICLE_SCHEMA = {
     image_query: {
       type: "string",
       description:
-        "2-4 ΑΓΓΛΙΚΕΣ λέξεις για σχετική, επαγγελματική, μη-γραφική φωτογραφία (Unsplash). Π.χ. 'physiotherapy back treatment', 'senior balance exercise', 'office posture desk'. Χωρίς κείμενο/λογότυπα/αίμα.",
+        "3-5 ΑΓΓΛΙΚΕΣ λέξεις που περιγράφουν ΣΥΓΚΕΚΡΙΜΕΝΗ σκηνή για το θέμα του άρθρου (Unsplash): ποιος + μέρος σώματος/δραστηριότητα + πλαίσιο. Π.χ. 'runner holding knee on trail', 'woman stretching hip on yoga mat', 'senior walking with cane park'. ΟΧΙ γενικές λέξεις μόνες τους ('physiotherapy', 'therapy', 'pain', 'treatment') — βγάζουν την ίδια φωτογραφία σε κάθε άρθρο. Χωρίς κείμενο/λογότυπα/αίμα.",
     },
     sections: {
       type: "array",
@@ -95,7 +95,7 @@ SEO/GEO:
 - Έπειτα 5-9 ενότητες με heading + body.
 - Στο body: παράγραφοι χωρισμένες με κενή γραμμή. Για λίστες, κάθε γραμμή ξεκινά με «• ».
 - slug: αγγλικά kebab-case, σχετικό με το θέμα.
-- image_query: 2-4 αγγλικές λέξεις για σχετική, επαγγελματική, μη-γραφική φωτογραφία (όχι αίμα/χειρουργείο/κείμενο).
+- image_query: 3-5 αγγλικές λέξεις που περιγράφουν συγκεκριμένη σκηνή του θέματος (ποιος + μέρος σώματος/δραστηριότητα + πλαίσιο), ΟΧΙ γενικά «physiotherapy/therapy/pain/treatment»· επαγγελματική, μη-γραφική φωτογραφία (όχι αίμα/χειρουργείο/κείμενο).
 Επέστρεψε ΜΟΝΟ το δομημένο αντικείμενο.`;
 
 export type GeneratedArticle = {
@@ -140,34 +140,76 @@ ${titles || "  (κανένα ακόμα)"}`;
  * Returns the image URL (hot-linked CDN) or null. Never throws — if the key
  * is missing or the search fails, the draft simply has no cover (the client
  * can upload one in the editor). Plain fetch so it runs in Node (CI) + Next.
+ *
+ * Skips photos already used by another article (`usedIds`) and picks randomly
+ * among the top unused hits. Taking the #1 result every time gave the same
+ * photo to every article with a similar query (6 articles shared one cover).
  */
-export type UnsplashPick = { raw: string; downloadLocation: string | null };
+export type UnsplashPick = {
+  id: string;
+  raw: string;
+  downloadLocation: string | null;
+};
 
-export async function unsplashImage(query: string): Promise<UnsplashPick | null> {
+const TOP_UNUSED = 6; // random pick among this many top unused hits (relevance)
+
+export async function unsplashImage(
+  query: string,
+  usedIds: Set<string> = new Set(),
+): Promise<UnsplashPick | null> {
   const key = process.env.UNSPLASH_ACCESS_KEY;
   if (!key || !query?.trim()) return null;
   try {
-    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-      query,
-    )}&orientation=landscape&per_page=1&content_filter=high`;
-    const res = await fetch(url, {
-      headers: { Authorization: `Client-ID ${key}` },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as {
-      results?: {
-        urls?: { raw?: string; regular?: string };
-        links?: { download_location?: string };
-      }[];
-    };
-    const hit = data.results?.[0];
-    // `raw` is the Imgix base URL — accepts ?w=&q=&fm=webp for compression.
-    const raw = hit?.urls?.raw ?? hit?.urls?.regular;
-    if (!raw) return null;
-    return { raw, downloadLocation: hit?.links?.download_location ?? null };
+    for (const page of [1, 2]) {
+      const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+        query,
+      )}&orientation=landscape&per_page=30&page=${page}&content_filter=high`;
+      const res = await fetch(url, {
+        headers: { Authorization: `Client-ID ${key}` },
+      });
+      if (!res.ok) return null;
+      const data = (await res.json()) as {
+        results?: {
+          id?: string;
+          urls?: { raw?: string; regular?: string };
+          links?: { download_location?: string };
+        }[];
+      };
+      const unused = (data.results ?? []).filter(
+        (r) => r.id && !usedIds.has(r.id) && (r.urls?.raw ?? r.urls?.regular),
+      );
+      if (!unused.length) continue;
+      const hit = unused[Math.floor(Math.random() * Math.min(TOP_UNUSED, unused.length))];
+      // `raw` is the Imgix base URL — accepts ?w=&q=&fm=webp for compression.
+      return {
+        id: hit.id!,
+        raw: (hit.urls?.raw ?? hit.urls?.regular)!,
+        downloadLocation: hit.links?.download_location ?? null,
+      };
+    }
+    return null;
   } catch {
     return null;
   }
+}
+
+/**
+ * Storage path for a re-hosted cover. The Unsplash photo id is kept in the
+ * filename (slugs never contain "_", so "__" is an unambiguous separator) —
+ * that is how `usedUnsplashIds` knows which photos are already taken.
+ */
+export function coverPath(slug: string, unsplashId: string): string {
+  return `covers/${slug}__${unsplashId}.webp`;
+}
+
+/** Unsplash ids already used as covers, parsed from the articles' image URLs. */
+export function usedUnsplashIds(images: (string | null)[]): Set<string> {
+  const ids = new Set<string>();
+  for (const img of images) {
+    const m = img?.match(/\/covers\/[a-z0-9-]+__([A-Za-z0-9_-]+)\.webp/);
+    if (m) ids.add(m[1]);
+  }
+  return ids;
 }
 
 /** Slugify + de-duplicate against existing slugs. */

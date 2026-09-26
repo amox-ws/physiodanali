@@ -9,6 +9,8 @@ import {
   buildPrompt,
   uniqueSlug,
   unsplashImage,
+  coverPath,
+  usedUnsplashIds,
   type GeneratedArticle,
   type UnsplashPick,
 } from "@/lib/article-prompt";
@@ -45,9 +47,12 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
   const topic = topics?.[0] ?? null;
 
   // 2. Existing articles (dedup + internal-link targets).
-  const { data: existing } = await supabase.from("articles").select("slug, title");
+  const { data: existing } = await supabase.from("articles").select("slug, title, image");
   const existingList = (existing ?? []) as { slug: string; title: string }[];
   const existingSlugs = new Set(existingList.map((e) => e.slug));
+  const usedIds = usedUnsplashIds(
+    ((existing ?? []) as { image: string | null }[]).map((e) => e.image),
+  );
 
   // 3. Generate (structured output → exact DB shape).
   const client = new Anthropic();
@@ -77,7 +82,7 @@ export async function generateAndInsertArticle(): Promise<GenerateResult> {
   //    uploads one in the editor).
   const image = await storeCover(
     supabase,
-    await unsplashImage(article.image_query),
+    await unsplashImage(article.image_query, usedIds),
     candidate,
   );
 
@@ -147,7 +152,7 @@ async function storeCover(
     const res = await fetch(compressed, { signal: AbortSignal.timeout(15000) });
     if (!res.ok) return compressed;
     const bytes = new Uint8Array(await res.arrayBuffer());
-    const path = `covers/${slug}-${Date.now()}.webp`;
+    const path = coverPath(slug, pick.id);
     const { error } = await supabase.storage
       .from("article-images")
       .upload(path, bytes, { contentType: "image/webp", upsert: true });

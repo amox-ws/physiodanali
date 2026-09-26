@@ -16,6 +16,8 @@ import {
   buildPrompt,
   uniqueSlug,
   unsplashImage,
+  coverPath,
+  usedUnsplashIds,
   type GeneratedArticle,
   type UnsplashPick,
 } from "../src/lib/article-prompt";
@@ -61,7 +63,7 @@ async function main() {
       const res = await fetch(compressed, { signal: AbortSignal.timeout(15000) });
       if (!res.ok) return compressed;
       const bytes = new Uint8Array(await res.arrayBuffer());
-      const path = `covers/${slug}-${Date.now()}.webp`;
+      const path = coverPath(slug, pick.id);
       const { error } = await supabase.storage
         .from("article-images")
         .upload(path, bytes, { contentType: "image/webp", upsert: true });
@@ -87,9 +89,12 @@ async function main() {
   const topic = topics?.[0] ?? null;
 
   // 2. Existing articles (dedup + internal links).
-  const { data: existing } = await supabase.from("articles").select("slug, title");
+  const { data: existing } = await supabase.from("articles").select("slug, title, image");
   const existingList = (existing ?? []) as { slug: string; title: string }[];
   const existingSlugs = new Set(existingList.map((e) => e.slug));
+  const usedIds = usedUnsplashIds(
+    ((existing ?? []) as { image: string | null }[]).map((e) => e.image),
+  );
 
   if (dryRun) {
     console.log(
@@ -120,7 +125,7 @@ async function main() {
   const slug = uniqueSlug(article.slug, existingSlugs);
 
   // 5. Auto cover image (Unsplash; null if no key / no match → client uploads).
-  const image = await storeCover(await unsplashImage(article.image_query), slug);
+  const image = await storeCover(await unsplashImage(article.image_query, usedIds), slug);
   const { data: inserted, error } = await supabase
     .from("articles")
     .insert({
